@@ -1,0 +1,88 @@
+query MintList($slug: String!, $limit: Int, $after: String) {
+  mintList(slug: $slug, limit: $limit, after: $after)
+}
+query Mint($mint: String!, $sortBy: OrderSortBy, $limit: Int) {
+  mint(mint: $mint) {
+    slug
+    tswapOrders(sortBy: $sortBy, limit: $limit) {
+      address
+      ownerAddress
+      buyNowPrice
+      sellNowPrice # Pass this to tswapSellNftTx!
+      sellNowPriceNetFees
+      feeInfos {
+        bps
+        kind
+      }
+      nftsForSale {
+        onchainId
+      }
+    }
+    tensorBids(sortBy: $sortBy, limit: $limit) {
+      bidder
+      expiry
+      price
+    }
+    hswapOrders {
+      address
+      assetReceiver
+      baseSpotPrice
+      boxes {
+        mint {
+          onchainId
+        }
+      }
+      buyOrdersQuantity
+      createdAt
+      curveType
+      delta
+      feeBps
+      fundsSolOrTokenBalance
+      lastTransactedAt
+      mathCounter
+      pairType
+    }
+    activeListings {
+      mint {
+        onchainId
+      }
+      tx {
+        sellerId
+        grossAmount
+        grossAmountUnit
+      }
+    }
+  }
+}
+query Mints($tokenMints: [String!]!) {
+  mints(tokenMints: $tokenMints) {
+    slug
+  }
+}
+query CollectionMints(
+  $slug: String!
+  $sortBy: CollectionMintsSortBy!
+  $filters: CollectionMintsFilters
+  $cursor: String
+  $limit: Int
+) {
+  collectionMintsV2(
+    slug: $slug
+    sortBy: $sortBy
+    filters: $filters
+    cursor: $cursor
+    limit: $limit
+  ) {
+    mints {
+      mint {
+        onchainId
+        rarityRankHR # HowRare score
+        rarityRankTT # Tensor-computed rarity score (similar to HowRare)
+      }
+    }
+    page {
+      endCursor
+      hasMore
+    }
+  }
+}

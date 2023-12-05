@@ -1,0 +1,2212 @@
+type ActiveListingPrice {
+  owner: String
+  price: Decimal!
+  source: DataSource!
+  tx: LinkedTransactionTV2!
+  txAt: Timestamp!
+  unit: String!
+}
+
+input ActiveListingsCursorInputV2 {
+  """
+  stringified cursor. Could be object, array, number or string after parsing.
+  """
+  str: String!
+}
+
+type ActiveListingsCursorV2 {
+  """
+  stringified cursor. Could be object, array, number or string after parsing.gra
+  """
+  str: String!
+}
+
+input ActiveListingsFilters {
+  sources: [DataSource!]
+  prices: PriceFilter
+  rarities: RarityFilter
+  traits: [TraitFilter!]
+  traitCount: TraitCountFilter
+  nameFilter: String
+  ownerFilter: OwnerFilter
+  mintsFilter: [String!]
+}
+
+type ActiveListingsPageV2 {
+  endCursor: ActiveListingsCursorV2
+  hasMore: Boolean!
+}
+
+type ActiveListingsPricesV2 {
+  maxPrice: ActiveListingPrice
+  numListed: Int!
+  prices: [ActiveListingPrice!]!
+}
+
+enum ActiveListingsSortBy {
+  LastSaleAsc
+  LastSaleDesc
+  ListedDesc
+  PriceAsc
+  PriceDesc
+  RankHrttAsc
+  RankHrttDesc
+  RankStatAsc
+  RankStatDesc
+  RankTeamAsc
+  RankTeamDesc
+  RankTnAsc
+  RankTnDesc
+}
+
+type ActiveListingsV2 {
+  page: ActiveListingsPageV2!
+  sortBy: ActiveListingsSortBy!
+  txs: [LinkedTransactionTV2!]!
+}
+
+type AirdropBoxes {
+  nftBoxCommon: Int!
+  nftBoxEpic: Int!
+  nftBoxLegendary: Int!
+  nftBoxRare: Int!
+  nftBoxUncommon: Int!
+  tokenBoxCommon: Int!
+  tokenBoxEpic: Int!
+  tokenBoxLegendary: Int!
+  tokenBoxRare: Int!
+  tokenBoxUncommon: Int!
+}
+
+type AirdropOne {
+  """null if not (yet) claimed"""
+  claimedBoxes: AirdropBoxes
+  completedAirdrop: Boolean!
+  completedBid: Boolean!
+  completedListing: Boolean!
+  eligibleSpecialBoxes: Boolean!
+  totalTensorPoints: Int!
+  volume: Int!
+}
+
+type AirdropThreeProfileStats {
+  """
+  This differs from loyaltyLevel on UserProfile in that it's updated async
+  """
+  loyalty: Int!
+  rank7d: Int!
+  rankTotal: Int!
+  wallet: String!
+}
+
+enum AirdropThreeSortBy {
+  By7d
+  ByTotal
+}
+
+type AirdropTwo {
+  """null if not (yet) claimed"""
+  claimedBoxes: AirdropBoxes
+}
+
+type AirdropTwoProfileStats {
+  """
+  This differs from loyaltyLevel on UserProfile in that it's updated async
+  """
+  loyalty: Int!
+  pts24h: Int!
+  ptsTotal: Int!
+  rank24h: Int!
+  rankTotal: Int!
+  wallet: String!
+}
+
+type AirdropTwoShardRewards {
+  """null if not (yet) claimed"""
+  claimedShards: ShardRewards
+}
+
+type AllCollections {
+  collections: [InstrumentTV2!]!
+  page: Int!
+  total: Int!
+}
+
+"""Whether you want to attach or detach margin"""
+enum AttachDetachAction {
+  ATTACH
+  DETACH
+}
+
+type Attribute {
+  trait_type: String!
+  value: String!
+}
+
+input AttributeInput {
+  trait_type: String!
+  value: String!
+}
+
+input BidsCursorInputV2 {
+  """
+  Stringified cursor. Could be object, array, number or string after parsing.
+  """
+  str: String!
+}
+
+type BidsCursorV2 {
+  """
+  Stringified cursor. Could be object, array, number or string after parsing.
+  """
+  str: String!
+}
+
+type BidsPage {
+  endCursor: BidsCursorV2
+  hasMore: Boolean!
+}
+
+enum BidsSortBy {
+  PriceAsc
+  PriceDesc
+}
+
+"""
+The `BigInt` scalar type represents non-fractional signed whole numeric values.
+"""
+scalar BigInt
+
+"""The `Byte` scalar type represents byte value as a Buffer"""
+scalar Byte
+
+type CaptchaStatus {
+  response: CaptchaWallet!
+  valid: Boolean!
+}
+
+type CaptchaWallet {
+  overrideChecks: Boolean!
+  score: Float!
+  verifiedAt: Timestamp!
+  version: Int!
+  wallet: String!
+}
+
+type CollInfo {
+  floorPrice: Decimal
+  name: String!
+  numMints: Int
+  slug: String!
+}
+
+type CollectionFavorite {
+  favList: Int!
+  profileId: String!
+  slug: String!
+}
+
+type CollectionHolder {
+  numListed: Int!
+  numOwned: Int!
+  wallet: String!
+}
+
+type CollectionHolderStats {
+  topHolders: [CollectionHolder!]!
+  uniqueHolders: Int!
+  updatedAt: Timestamp!
+}
+
+input CollectionMintsFilters {
+  rarities: RarityFilter
+  traits: [TraitFilter!]
+  traitCount: TraitCountFilter
+  nameFilter: String
+
+  """filter for only NFTs that are listed for sale"""
+  onlyListings: Boolean
+
+  """filter for only NFTs that are NOT listed"""
+  onlyNonListings: Boolean
+
+  """filter for listings from specific data sources"""
+  listingSources: [DataSource!]
+  listingPrices: PriceFilter
+
+  """TODO: doesn't work for unlisted regular NFTs"""
+  ownerFilter: OwnerFilter
+  mintsFilter: [String!]
+}
+
+enum CollectionMintsSortBy {
+  LastSaleAsc
+  LastSaleDesc
+  ListedTimeDesc
+  ListingPriceAsc
+  ListingPriceDesc
+  RankHrttAsc
+  RankHrttDesc
+  RankStatAsc
+  RankStatDesc
+  RankTeamAsc
+  RankTeamDesc
+  RankTnAsc
+  RankTnDesc
+}
+
+type CollectionMintsV2 {
+  mints: [MintWithTx!]!
+  page: CollectionMintsV2Page!
+}
+
+type CollectionMintsV2Page {
+  endCursor: String
+  hasMore: Boolean!
+}
+
+type CollectionStatsV2 {
+  """null means no listings"""
+  buyNowPrice: Decimal
+
+  """includes fees and royalties"""
+  buyNowPriceNetFees: Decimal
+  currency: String
+  floor1h: Float
+  floor24h: Float
+  floor7d: Float
+  marketCap: Decimal
+  numBids: Int!
+  numListed: Int!
+  numListed1h: Float
+  numListed24h: Float
+  numListed7d: Float
+  numMints: Int!
+  pctListed: Float
+  sales1h: Int!
+  sales24h: Int!
+  sales7d: Int!
+  salesAll: Int!
+
+  """null means no bids"""
+  sellNowPrice: Decimal
+
+  """includes fees and royalties"""
+  sellNowPriceNetFees: Decimal
+  volume1h: Decimal!
+  volume24h: Decimal!
+  volume7d: Decimal!
+  volumeAll: Decimal!
+}
+
+type CollectionThresholds {
+  favLists: [Int!]!
+  img: String
+  name: String
+  notifFloorChangePct: Int
+  notifListedPct: Int
+  notifListingsChangePct: Int
+  slug: String!
+  stats: CollectionStatsV2
+}
+
+type CollectionTraitsRarities {
+  numMints: Int!
+  raritySystems: [RaritySystem!]!
+  traitActive: JSON
+  traitMeta: JSON!
+}
+
+type ConfirmMeAuthResponse {
+  exp: Float!
+  id: String!
+  token: String!
+}
+
+type Creator {
+  bannerUri: String
+  description: String
+  discord: String
+  groups: [CreatorCollectionGroup!]!
+  hidden: Boolean!
+  id: String!
+  name: String!
+  slug: String!
+  twitter: String
+  website: String
+}
+
+type CreatorCollectionGroup {
+  group: String!
+  instruments: [InstrumentTV2!]!
+}
+
+type CreatorPage {
+  bannerUri: String
+  name: String
+  slug: String
+}
+
+"""The currency of the associated price amount(s)"""
+enum Currency {
+  ETH_WEI
+  SOL_LAMPORT
+}
+
+enum CurveType {
+  EXPONENTIAL
+  LINEAR
+  XYK
+}
+
+enum DataSource {
+  ALPHA
+  AUCTION_HOUSE
+  BUBBLEGUM
+  DIGITALEYEZ
+  DIGITALEYEZ_V2
+  ELIXIR
+  ELIXIR_COMPOSED
+  HADESWAP
+  HYPERSPACE
+  MAGICEDEN
+  MAGICEDEN_AUCTION
+  MAGICEDEN_V2
+  ONCHAIN
+  SMB
+  SMB_V2
+  SOLANART
+  SOLSEA
+  SWAPSORIAN
+  TCOMP
+  TENSORBID
+  TENSORSWAP
+  TOKEN_METADATA
+  TROLL
+  TSTAKE
+  YAWWW
+}
+
+"""
+GraphQL Scalar representing the Prisma.Decimal type, based on Decimal.js library.
+"""
+scalar Decimal
+
+"""Whether you want to deposit or withdraw NFT or SOL"""
+enum DepositWithdrawAction {
+  DEPOSIT
+  WITHDRAW
+}
+
+type FavMintsAllSlugs {
+  mints: [MintWithColl!]!
+  page: FavMintsAllSlugsPage!
+}
+
+type FavMintsAllSlugsPage {
+  endCursor: String
+  hasMore: Boolean!
+  total: Int
+}
+
+type FeaturedCollection {
+  banner: String!
+  dateExpires: Timestamp
+  dateLaunches: Timestamp!
+  discord: String
+  hidden: Boolean!
+  id: String!
+  launchpadUrl: String
+  multiplier: Decimal!
+  name: String!
+  ordinal: Int!
+  parsed: InstrumentTV2
+  readyToTrade: Boolean!
+  slug: String!
+  subtitle: String!
+  twitter: String
+  website: String
+}
+
+type FeeInfo {
+  bps: Int!
+  kind: String!
+}
+
+enum HSwapCurveType {
+  Exponential
+  Linear
+  XYK
+}
+
+input HSwapModifyPairConfig {
+  spotPrice: Decimal!
+  delta: Decimal!
+  feeBps: Int
+}
+
+type HSwapNftBox {
+  address: String!
+  mint: LinkedTxMintTV2!
+  pair: String!
+  vaultTokenAccount: String!
+}
+
+input HSwapPairConfig {
+  spotPrice: Decimal!
+  delta: Decimal!
+  feeBps: Int
+  pairType: HSwapPairType!
+  curveType: HSwapCurveType!
+}
+
+enum HSwapPairType {
+  LiquidityProvision
+  NftForToken
+  TokenForNFT
+}
+
+type HSwapPool {
+  address: String!
+  assetReceiver: String!
+  baseSpotPrice: BigInt!
+  boxes: [HSwapNftBox!]!
+  buyOrdersQuantity: Int!
+
+  """only an approx: first time this PDA was ingested"""
+  createdAt: Timestamp!
+  curveType: CurveType!
+  delta: BigInt!
+
+  """in lamports"""
+  feeBalance: Decimal
+  feeBps: Int!
+  fundsSolOrTokenBalance: BigInt!
+  lastTransactedAt: Timestamp!
+  mathCounter: Int!
+  pairType: PoolType!
+}
+
+type HSwapPoolUpdate {
+  address: String!
+
+  """null -> pool is inactive"""
+  pool: HSwapPool
+}
+
+type HSwapPoolUpdateAll {
+  address: String!
+
+  """null -> pool is inactive"""
+  pool: HSwapPool
+  slug: String!
+}
+
+type HSwapPoolWithColl {
+  collName: String!
+  floorPrice: Decimal
+  numMints: Int
+  pool: HSwapPool!
+  slug: String!
+}
+
+type HistoryPage {
+  endCursor: String
+  hasMore: Boolean!
+}
+
+type InitEditPoolTxResponse {
+  pool: String!
+  txs: [OnchainTx!]!
+}
+
+type InitPairTxResponse {
+  authAdapter: String!
+  pair: String!
+  txs: [OnchainTx!]!
+}
+
+type InstrumentForPortfolio {
+  bidCount: Int!
+  compressed: Boolean!
+  createdAt: Timestamp!
+  creator: String
+  creatorPage: CreatorPage
+  description: String
+  discord: String
+  favCount: Int!
+  firstListDate: Timestamp
+  flagReason: String
+  hidden: Boolean!
+
+  """if hadeswap supports this collection"""
+  hswapWhitelisted: Boolean!
+  id: String!
+  imageUri: String
+  listedCount: Int!
+  mintCount: Int!
+  name: String!
+  sellRoyaltyFeeBPS: Int
+  slug: String!
+  slugDisplay: String
+  slugMe: String
+  statsV2: CollectionStatsV2
+  symbol: String
+  teamId: String
+
+  """unsupported on all Tensor protocols (eg OCP/creator disabled)"""
+  tensorUnsupported: Boolean
+  tensorVerified: Boolean!
+
+  """
+  if we have whitelisted this collection already for collection-wide bids + pools
+  """
+  tensorWhitelisted: Boolean!
+  tokenStandard: TokenStandard
+  traits: CollectionTraitsRarities
+  twitter: String
+  website: String
+}
+
+type InstrumentTV2 {
+  compressed: Boolean!
+  createdAt: Timestamp!
+  creator: String
+  creatorPage: CreatorPage
+  description: String
+  discord: String
+  firstListDate: Timestamp
+  flagReason: String
+  hidden: Boolean!
+
+  """if hadeswap supports this collection"""
+  hswapWhitelisted: Boolean!
+  id: String!
+  imageUri: String
+  name: String!
+  sellRoyaltyFeeBPS: Int
+  slug: String!
+  slugDisplay: String
+  slugMe: String
+  statsV2: CollectionStatsV2
+  symbol: String
+  teamId: String
+
+  """unsupported on all Tensor protocols (eg OCP/creator disabled)"""
+  tensorUnsupported: Boolean
+  tensorVerified: Boolean!
+
+  """
+  if we have whitelisted this collection already for collection-wide bids + pools
+  """
+  tensorWhitelisted: Boolean!
+  tokenStandard: TokenStandard
+  traits: CollectionTraitsRarities
+  twitter: String
+  website: String
+}
+
+type InstrumentWithMints {
+  compressed: Boolean!
+  createdAt: Timestamp!
+  creator: String
+  creatorPage: CreatorPage
+  description: String
+  discord: String
+  firstListDate: Timestamp
+  flagReason: String
+  hidden: Boolean!
+
+  """if hadeswap supports this collection"""
+  hswapWhitelisted: Boolean!
+  id: String!
+  imageUri: String
+  mintCount: Int!
+  mints: [MintWithColl!]
+  name: String!
+  sellRoyaltyFeeBPS: Int
+  slug: String!
+  slugDisplay: String
+  slugMe: String
+  statsV2: CollectionStatsV2
+  symbol: String
+  teamId: String
+
+  """unsupported on all Tensor protocols (eg OCP/creator disabled)"""
+  tensorUnsupported: Boolean
+  tensorVerified: Boolean!
+
+  """
+  if we have whitelisted this collection already for collection-wide bids + pools
+  """
+  tensorWhitelisted: Boolean!
+  tokenStandard: TokenStandard
+  traits: CollectionTraitsRarities
+  twitter: String
+  website: String
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LastSale implements TLastSale {
+  price: Decimal!
+  priceUnit: Currency!
+  txAt: Timestamp!
+}
+
+type LinkedTransactionMintWithColl {
+  mint: MintWithColl!
+  tx: ParsedTransaction!
+}
+
+type LinkedTransactionTV2 {
+  mint: LinkedTxMintTV2!
+  tx: ParsedTransaction!
+}
+
+type LinkedTxMintTV2 implements TLinkedTxMintTV2 {
+  accState: String
+  animationUri: String
+  attributes: [Attribute!]
+  compressed: Boolean!
+  hidden: Boolean!
+  imageUri: String
+  lastSale: LastSale
+  metadataFetchedAt: Timestamp
+  metadataUri: String
+  name: String
+  onchainId: String!
+  owner: String
+  rarityRankHR: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankHrtt: Int
+  rarityRankStat: Int
+  rarityRankTN: Int @deprecated(reason: "Use rarityRankTn")
+  rarityRankTT: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTCustom: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTStat: Int @deprecated(reason: "Use rarityRankStat")
+  rarityRankTeam: Int
+  rarityRankTn: Int
+  sellRoyaltyFeeBPS: Int
+  staked: StakeDetails
+  tokenEdition: Int
+  tokenStandard: TokenStandard
+  verifiedCollection: String
+}
+
+type MEWalletProfile {
+  meVerified: Boolean!
+  wallet: String!
+}
+
+type MadBox {
+  entries: Int!
+  from: Timestamp!
+  to: Timestamp!
+  week: Int!
+
+  """if null, means winners havent't been chosen yet"""
+  winner: Boolean
+}
+
+type MintBid {
+  bidder: String
+  expiry: Timestamp
+
+  """is the bid currently the top bid for this NFT"""
+  isTopBid: Boolean
+  margin: String
+  mint: MintWithColl!
+  mp: SupportedMarketplace!
+  price: Decimal!
+  reaction: OfferReaction
+  validFrom: Timestamp
+}
+
+type MintFavorite {
+  favList: Int!
+  mint: String!
+  profileId: String!
+}
+
+type MintV2 {
+  accState: String
+  animationUri: String
+  attributes: [Attribute!]
+  compressed: Boolean!
+  hidden: Boolean!
+  imageUri: String
+  lastSale: LastSale
+  metadataFetchedAt: Timestamp
+  metadataUri: String
+  name: String
+  onchainId: String!
+  owner: String
+  rarityRankHR: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankHrtt: Int
+  rarityRankStat: Int
+  rarityRankTN: Int @deprecated(reason: "Use rarityRankTn")
+  rarityRankTT: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTCustom: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTStat: Int @deprecated(reason: "Use rarityRankStat")
+  rarityRankTeam: Int
+  rarityRankTn: Int
+  sellRoyaltyFeeBPS: Int
+  tokenEdition: Int
+  tokenStandard: TokenStandard
+  verifiedCollection: String
+}
+
+type MintWithColl implements TLinkedTxMintTV2 {
+  accState: String
+  activeListings: [LinkedTransactionTV2!]!
+  animationUri: String
+  attributes: [Attribute!]
+  collId: String!
+  collName: String!
+  collection: InstrumentTV2
+  compressed: Boolean!
+  hidden: Boolean!
+  hswapOrders: [HSwapPool!]!
+  imageUri: String
+  lastSale: LastSale
+  metadataFetchedAt: Timestamp
+  metadataUri: String
+  name: String
+  numMints: Int
+  onchainId: String!
+  owner: String
+  rarityRankHR: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankHrtt: Int
+  rarityRankStat: Int
+  rarityRankTN: Int @deprecated(reason: "Use rarityRankTn")
+  rarityRankTT: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTCustom: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTStat: Int @deprecated(reason: "Use rarityRankStat")
+  rarityRankTeam: Int
+  rarityRankTn: Int
+  sellRoyaltyFeeBPS: Int
+  slug: String!
+  slugDisplay: String
+  staked: StakeDetails
+  tcompBids: [TCompBid!]!
+  tensorBids(bestSellNowOnly: Boolean, filterFunded: Boolean, limit: Int, sortBy: OrderSortBy): [MintBid!]
+  tokenEdition: Int
+  tokenStandard: TokenStandard
+  tswapOrders(limit: Int, sortBy: OrderSortBy): [TSwapPool!]!
+  verifiedCollection: String
+}
+
+type MintWithTx {
+  mint: MintV2!
+  tx: ParsedTransaction
+}
+
+type MintedFaction {
+  oneofone: Int!
+  total: Int!
+}
+
+type MintedTensorians {
+  Android: MintedFaction!
+  Mage: MintedFaction!
+  Raider: MintedFaction!
+  Reaper: MintedFaction!
+}
+
+type MpFees {
+  makerFeeBps: Float!
+  mp: SupportedMarketplace!
+  takerFeeBps: Float!
+  takerRoyalties: Boolean!
+}
+
+type Mutation {
+  addFavCollection(favList: Int, jwt: String!, slug: String!): String!
+  addFavMint(favList: Int, jwt: String!, mint: String!): String!
+  addFavWallet(favList: Int, jwt: String!, wallet: String!): String!
+  claimAirdropOne(jwt: String!): UserProfile!
+  claimAirdropTwo(jwt: String!): UserProfile!
+  claimReferralCode(jwt: String!, referralCode: String!): String
+  discordAuthenticate(code: String!, jwt: String!, state: String!): UserProfile!
+  discordVerifyJoin(jwt: String!): UserProfile
+  emailVerifyBegin(domain: String!, email: String!, jwt: String!): UserProfile!
+  emailVerifyComplete(code: String!, jwt: String!): UserProfile!
+  generateReferralCode(jwt: String!): String!
+  linkUserProfileV2(
+    """jwt related to the PARENT profile"""
+    jwt: String!
+
+    """goes together with the memo tx"""
+    lastValidBlockHeight: Int
+
+    """memo tx signed by the CHILD wallet (use for ledger)"""
+    memoTx: [Int!]
+
+    """signature by the CHILD wallet"""
+    signatureBase58: String
+
+    """CHILD wallet"""
+    wallet: String!
+  ): UserProfile
+  openNftBoxes(jwt: String!): UserProfile!
+  recordReaction(
+    """amount countered or amount rejected"""
+    amount: Decimal!
+    jwt: String!
+    mint: String!
+    reaction: Reaction!
+    wallet: String!
+  ): OfferReaction!
+
+  """refetches an NFTs"""
+  refetchMintMetadata(mint: String!): MintWithColl
+
+  """refreshes rarities for a collection (3600s cooldown)"""
+  refreshRarities(slug: String!): Boolean!
+  removeFavCollection(favList: Int, jwt: String!, slug: String!): String!
+  removeFavMint(favList: Int, jwt: String!, mint: String!): String!
+  removeFavWallet(favList: Int, jwt: String!, wallet: String!): String!
+  sendUserTransaction(action: String!, amounts: [Decimal!], lastValidBlockHeight: Int, mints: [String!], mp: SupportedMarketplace!, poolAddresses: [String!], serializedTx: [Int!]!, txMpMetadata: JSON, txVersion: Int, wallet: String!): String!
+  setBidNotifMinPctFloor(jwt: String!, minPctFloor: Int!): Int!
+  setCollectionNotifThresholds(
+    floorChangePct: Int
+    jwt: String!
+    listedPct: Int
+    listingsChangePct: Int
+
+    """if not passed, then all currently favored slugs are updated"""
+    slug: String
+  ): String
+  twitterApiV1Authenticate(jwt: String!, oauth_token: String!, oauth_verifier: String!): UserProfile!
+  twitterApiV1VerifyFollow(jwt: String!): UserProfile
+  twitterApiV2Authenticate(code: String!, jwt: String!, state: String!): UserProfile!
+  unlinkUserProfileV2(jwt: String!, wallet: String!): UserProfile
+  updateUserProfile(jwt: String!, username: String, wallet: String!): UserProfile!
+  verifyCaptcha(signatureBase58: String!, wallet: String!): CaptchaStatus!
+  verifyCreateUserProfileV2(
+    """goes together with the memo tx"""
+    lastValidBlockHeight: Int
+
+    """memo tx signed by the wallet (use for ledger)"""
+    memoTx: [Int!]
+
+    """signature by the wallet"""
+    signatureBase58: String
+    wallet: String!
+  ): UserProfileWithJwtV2!
+}
+
+type OfferReaction {
+  amount: Decimal!
+  createdAt: Timestamp!
+  mintOnchainId: String!
+  owner: String!
+  reaction: Reaction!
+}
+
+type OnchainTx {
+  lastValidBlockHeight: Int
+  metadata: JSON
+
+  """only present if fits into size"""
+  tx: Byte
+  txV0: Byte!
+}
+
+enum OrderSortBy {
+  SellNowPriceDesc
+}
+
+type OtcOffer {
+  expiry: BigInt!
+  maker: String!
+  makerNfts: [LinkedTxMintTV2!]!
+  makerNftsDeposited: Int!
+  makerSol: Decimal!
+  offerId: String!
+  placedSlot: BigInt!
+  sellerFeeBasisPoints: Int!
+  taken: Boolean!
+  taker: String!
+  takerNfts: [LinkedTxMintTV2!]!
+  takerNftsDeposited: Int!
+  takerSol: Decimal!
+}
+
+input OwnerFilter {
+  include: [String!]
+  exclude: [String!]
+}
+
+type PaginatedTRollHistory {
+  events: [TRollHistoryEvent!]!
+  page: HistoryPage!
+}
+
+type PaginatedTransactions {
+  page: TransactionsPage!
+  txs: [LinkedTransactionTV2!]!
+}
+
+type PaginatedTransactionsWithColl {
+  page: TransactionsPage!
+  txs: [LinkedTransactionMintWithColl!]!
+}
+
+type PaginatedUserTransactions {
+  page: TransactionsPage!
+  txs: [UserTransaction!]!
+}
+
+type ParsedTransaction {
+  blockNumber: BigInt!
+  buyerId: String
+  grossAmount: Decimal
+  grossAmountUnit: String
+  keyVersion: Int!
+  listingEnd: Timestamp
+  mintOnchainId: String!
+  poolOnchainId: String
+  sellerId: String
+  source: DataSource!
+  txAt: Timestamp!
+  txId: String!
+  txKey: String!
+  txMetadata: TxMetadata
+  txType: TransactionType!
+}
+
+type PartnerReward {
+  claimLink: String
+  img: String!
+  name: String!
+  sent: Boolean
+  tooltip: String
+  wallet: String!
+}
+
+input PoolConfig {
+  poolType: PoolType!
+  curveType: CurveType!
+  startingPrice: Decimal!
+  delta: Decimal!
+  mmCompoundFees: Boolean
+  mmFeeBps: Int
+}
+
+enum PoolType {
+  NFT
+  TOKEN
+  TRADE
+}
+
+input PriceFilter {
+  min: Decimal
+  max: Decimal
+}
+
+"""The time period to scan for profile points."""
+enum ProfilePointsPeriod {
+  AllTime
+  LastDay
+  LastWeek
+}
+
+type Query {
+  """
+  Returns the lowest priced active listing for each mint in the collection. `filters.source` is ignored.
+  """
+  activeListingsPricesV2(filters: ActiveListingsFilters, slug: String!): ActiveListingsPricesV2!
+  activeListingsV2(cursor: ActiveListingsCursorInputV2, filters: ActiveListingsFilters, limit: Int = 250, slug: String!, sortBy: ActiveListingsSortBy!): ActiveListingsV2!
+  airdropThreeLeaderboard(sortBy: AirdropThreeSortBy!): [AirdropThreeProfileStats!]!
+
+  """Only available in API mode!"""
+  allCollections(hasCreator: Boolean, ids: [String!], limit: Int = 100, page: Int = 1, slugs: [String!], slugsDisplay: [String!], slugsMe: [String!], sortBy: String = "statsOverall.volume24h:desc"): AllCollections!
+  allMeBids(wallet: String!): [MintBid!]!
+
+  """Fetches all NFT transactions for wallet, listing AND swap."""
+  allUserTransactionsV2(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, slug: String, wallets: [String!]!): PaginatedTransactionsWithColl!
+  bidTx(bidder: String!, expireIn: Float, marginNr: Float, mint: String!, price: Decimal!): TBidTxResponse!
+  cancelBidTx(bidder: String!, mint: String!): TBidTxResponse!
+  captchaStatus(wallet: String!): CaptchaStatus
+  collectionHolderStats(slug: String!): CollectionHolderStats
+  collectionMintsV2(cursor: String, filters: CollectionMintsFilters, limit: Int = 250, slug: String!, sortBy: CollectionMintsSortBy!): CollectionMintsV2!
+  creator(slug: String!): Creator
+  discordRedirectUrl(callbackUrl: String!, jwt: String!): String!
+  favMintsAllSlugs(cursor: String, favList: Int = 1, jwt: String!, limit: Int = 100): FavMintsAllSlugs!
+  favMintsBySlug(favList: Int, jwt: String!, slug: String!): [MintFavorite!]!
+  featuredCollections: [FeaturedCollection!]!
+  getBidderMintReaction(bidder: String!, mints: [String!]!): [OfferReaction!]
+  getCollectionNotifThresholds(jwt: String!): [CollectionThresholds!]!
+  getMeAuth(wallet: String!): ConfirmMeAuthResponse
+  getMemoTxToSign(wallet: String!): TxResponse!
+  getMessageToSign(msgType: SignMsgType!, wallet: String!): String!
+  getOwnerMintReaction(jwt: String!, mint: String!, owner: String!): OfferReaction
+  getRefereePointContributionsForPeriod(jwt: String!, period: ProfilePointsPeriod!): [RefereePointContribution!]!
+  globalVol: String
+  hswapBuyNftTx(buyer: String!, mathCounter: Float, maxPriceLamports: Decimal!, mint: String!, pair: String!): TxResponse!
+  hswapClosePairTx(pair: String!): TxResponse!
+  hswapDepositWithdrawBalancedLiquidityTx(
+    action: DepositWithdrawAction!
+
+    """If not provided, will look up in index for pair."""
+    authAdapter: String
+    mint: String!
+    owner: String!
+    pair: String!
+  ): TxResponse! @deprecated(reason: "see hswapDepositWithdrawBuyOrdersTx and hswapDepositWithdrawSellOrdersTx")
+  hswapDepositWithdrawBuyOrdersTx(
+    action: DepositWithdrawAction!
+
+    """If not provided, will look up in index for pair."""
+    authAdapter: String
+    buyOrders: Int!
+    owner: String!
+    pair: String!
+  ): TxResponse!
+  hswapDepositWithdrawNftTx(
+    action: DepositWithdrawAction!
+
+    """If not provided, will look up in index for pair."""
+    authAdapter: String
+    mint: String!
+    owner: String!
+    pair: String!
+  ): TxResponse!
+  hswapDepositWithdrawSellOrderTx(
+    action: DepositWithdrawAction!
+
+    """If not provided, will look up in index for pair."""
+    authAdapter: String
+    mint: String!
+    owner: String!
+    pair: String!
+  ): TxResponse!
+  hswapDepositWithdrawSolTx(
+    action: DepositWithdrawAction!
+
+    """If not provided, will look up in index for pair."""
+    authAdapter: String
+    buyOrdersQuantity: Int!
+    owner: String!
+    pair: String!
+  ): TxResponse!
+  hswapExchangeNftTx(
+    """max price for the buy tx (should the current sell price)"""
+    maxPriceLamports: Decimal!
+
+    """min price for the sell tx (should the current sell price - 2x MM fee)"""
+    minPriceLamports: Decimal!
+    mintToBuy: String!
+    mintToSell: String!
+    pair: String!
+    taker: String!
+  ): TxResponse!
+  hswapInitPairTx(authKpSecretBase64: String, config: HSwapPairConfig!, owner: String!, pairKpSecretBase64: String, slug: String!): InitPairTxResponse!
+  hswapModifyPairTx(config: HSwapModifyPairConfig!, pair: String!): TxResponse!
+  hswapOrderTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
+  hswapOrders(
+    """If owner is specified, also returns the empty pools of the owner"""
+    owner: String
+    slug: String!
+  ): [HSwapPool!]!
+  hswapSellNftTx(mathCounter: Float, minPriceLamports: Decimal!, mint: String!, pair: String!, seller: String!): TxResponse!
+
+  """This withdraws 2 buy orders worth of SOL at a time from an LP pair."""
+  hswapWithdrawBuyLiquidityTx(pair: String!): TxResponse! @deprecated(reason: "see hswapDepositWithdrawBuyOrdersTx")
+  hswapWithdrawFeesTx(pair: String!): TxResponse!
+
+  """This withdraws 2 NFTs at a time from an LP pair."""
+  hswapWithdrawSellLiquidityTx(mint1: String!, mint2: String!, pair: String!): TxResponse! @deprecated(reason: "see hswapDepositWithdrawSellOrdersTx")
+  hyperspaceBuyNftTx(buyer: String!, mint: String!, optionalRoyaltyBps: Int, priceLamports: Decimal!, seller: String): TxResponse!
+  instrumentTV2(slug: String!): InstrumentTV2
+
+  """
+  returns inventory info (unverified mints will be under the catch-all UNVERIFIED collection)
+  """
+  inventoryBySlug(
+    includeCompressed: Boolean = true
+    includeFrozen: Boolean
+    includeUnverified: Boolean
+    owner: String!
+
+    """
+    Which slugs to also retrieve actual mints for: if set to null, retrieves all mints.
+    """
+    slugsToInflate: [String!]
+  ): [InstrumentWithMints!]!
+  meAuthEnabled: Boolean!
+  meBids(slug: String!, wallet: String!): [MintBid!]!
+  meBuyNftTx(buyer: String!, mint: String!, optionalRoyaltyPct: Int, priceLamports: Decimal!, seller: String): TxResponse!
+  meDelistNftTx(mint: String!, priceLamports: Decimal!, seller: String!): TxResponse!
+
+  """
+  returns mint with collection details (unverified and verified collections included)
+  """
+  mint(mint: String!): MintWithColl
+  mintList(after: String, limit: Int = 10000, slug: String!): [String!]!
+  mintListTSwap(slug: String!): [String!]! @deprecated(reason: "Use mintList instead.")
+  mintSingleBidTransactions(cursor: TransactionsCursorInput, limit: Int = 100, mint: String!): PaginatedTransactions!
+  mintTensorBids(filterFunded: Boolean, maxCount: Float, mint: String!): [MintBid!]!
+  mintTransactions(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, mint: String!): PaginatedTransactions!
+
+  """
+  returns all mints with collection details (unverified and verified collections included)
+  """
+  mints(tokenMints: [String!]!): [MintWithColl!]!
+  mpFees(owner: String): [MpFees!]!
+  otcBundledMakeOffer(expireInSec: BigInt, maker: String!, makerNfts: [String!]!, makerSol: Decimal, offerId: String, sellerFeeBasisPoints: Float!, taker: String!, takerNfts: [String!]!, takerSol: Decimal): TxResponse!
+  otcBundledMakerWithdraw(
+    maker: String!
+
+    """if not taken, maker withdraws their own nfts"""
+    makerNfts: [String!]!
+    offerId: String!
+    taken: Boolean!
+
+    """if taken, maker withdraws taker's nfts"""
+    takerNfts: [String!]!
+    takerOrMaker: String!
+  ): TxResponse!
+  otcBundledTakeOffer(
+    creatorShares: [Float!]!
+    creators: [String!]!
+    maker: String!
+    offerId: String!
+    placedSlot: BigInt!
+    taker: String!
+
+    """nfts taker deposits"""
+    takerNfts: [String!]!
+  ): TxResponse!
+  otcBundledTakerWithdraw(makerNfts: [String!]!, offerId: String!, taker: String!): TxResponse!
+  otcCloseOffer(
+    """
+    Either taker or maker can sign to close the offer. Taker can only sign if offer has been accepted.
+    """
+    closer: String!
+    maker: String!
+    offerId: String!
+  ): TxResponse!
+  otcDepositNft(compressed: Boolean!, mint: String!, offerId: String!, owner: String!, side: SwapSide!, sourceAta: String): TxResponse!
+  otcMakeOffer(expireInSec: BigInt, maker: String!, makerNfts: [String!]!, makerSol: Decimal, offerId: String, sellerFeeBasisPoints: Float!, taker: String!, takerNfts: [String!]!, takerSol: Decimal): TxResponse!
+  otcOffers(owner: String!, side: SwapSide!): [OtcOffer!]!
+  otcTakeOffer(creatorShares: [Float!]!, creators: [String!]!, maker: String!, offerId: String!, placedSlot: BigInt!, taker: String!): TxResponse!
+  otcWithdrawNft(
+    compressed: Boolean!
+    destAta: String
+    mint: String!
+    offerId: String!
+    owner: String!
+    side: SwapSide!
+
+    """
+    Either taker or maker can sign to withdraw the nft. Taker can only withdraw maker's nfts (to maker's account) if offer has been accepted.
+    """
+    takerOrMaker: String!
+  ): TxResponse!
+  recentTransactions(
+    cursor: TransactionsCursorInput
+    filters: TransactionsFilters
+
+    """
+    Shows only the latest listing/delist for a given NFT mint in the txs feed
+    """
+    keepLatestListDelistOnly: Boolean = false
+    limit: Int = 100
+    slug: String!
+  ): PaginatedTransactions!
+  serviceStatuses: [ServiceStatus!]!
+  solanaTps: Int!
+  solanartBuyNftTx(buyer: String!, mint: String!, priceLamports: Decimal!, seller: String!): TxResponse!
+  stakedTensorians(owner: String!): [MintWithColl!]!
+  takeBidTx(bidder: String!, mint: String!, optionalRoyaltyPct: Int, price: Decimal!, seller: String!): TBidTxResponse!
+  tcompBidTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
+  tcompBidTx(
+    attributes: [AttributeInput!]
+    computeUnits: Int
+    depositLamports: Decimal
+    expireIn: Float
+    field: TCompField
+    fieldId: String
+    marginNr: Float
+    owner: String!
+    price: Decimal!
+    priorityMicroLamports: Int
+    privateTaker: String
+    quantity: Float!
+
+    """
+    eithr target + targetId must be passed or slug. If slug is passed, it takes precedence
+    """
+    slug: String
+    target: TCompTarget
+
+    """token mint or whitelist"""
+    targetId: String
+
+    """tops up margin with missing amount so it has enough to fill the bid"""
+    topUpMarginWhenBidding: Boolean = true
+  ): TCompBidTxResponse!
+  tcompBids(
+    filters: TCompBidsFilters
+
+    """If owner is specified, also returns the empty bids of the owner"""
+    owner: String
+    slug: String!
+  ): [TCompBid!]!
+  tcompBuyTx(buyer: String!, maxPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, owner: String!, payer: String): TxResponse!
+  tcompCancelBidTx(mint: String!, owner: String!): TCompBidTxResponse!
+  tcompCancelCollBidTx(bidStateAddress: String!): TCompBidTxResponse!
+  tcompDelistTx(mint: String!, owner: String!): TxResponse!
+  tcompEditBidTx(attachDetachMargin: AttachDetachAction, bidStateAddress: String!, expireIn: Float, marginNr: Float, price: Decimal, privateTaker: String, quantity: Float): TCompBidTxResponse!
+  tcompEditTx(expireIn: Float, mint: String!, owner: String!, price: Decimal!, privateTaker: String): TxResponse!
+  tcompListTx(delegateSigner: Boolean, expireIn: Float, mint: String!, owner: String!, payer: String, price: Decimal!, privateTaker: String): TxResponse!
+  tcompTakeBidTx(bidStateAddress: String, buyer: String, delegateSigner: Boolean, minPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, seller: String!): TCompBidTxResponse!
+  tcompTransferTx(from: String!, mint: String!, to: String!): TxResponse!
+  tensoriansCounts: MintedTensorians!
+  traits(slug: String!): CollectionTraitsRarities
+  trollCommitTx(
+    optionalRoyaltyPct: Int
+    requestedRewards: [TRollRequestedReward!]!
+    user: String!
+
+    """32-length byte array, if not passed in we'll generate one for you"""
+    userNonce: [Int!]
+    wagerRebateAmount: Decimal = "0"
+  ): TxResponse!
+  trollHistory(cursor: String, limit: Int, wallet: String!): PaginatedTRollHistory!
+  trollRewardStatus(commitSig: String!): TRollRewardStatus
+  trollRoller(wallet: String!): TRollRoller
+  trollTensorPoints(wallet: String!): Int
+  tstakeTx(action: TStakeAction!, mints: [String!]!, owner: String!): TxResponse!
+  tswapAttachPoolMarginAccountTx(config: PoolConfig!, marginNr: Float!, owner: String!, whitelist: String!): TxResponse!
+  tswapBuyNftTx(buyer: String!, maxPriceLamports: Decimal!, mint: String!, optionalRoyaltyPct: Int, pool: String!): TxResponse!
+  tswapBuySingleListingTx(buyer: String!, maxPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, owner: String!): TxResponse!
+  tswapCloseMarginAccountTx(marginNr: Float!, owner: String!): TxResponse!
+  tswapClosePoolTx(pool: String!): TxResponse!
+  tswapDelistNftTx(mint: String!, owner: String!, payer: String): TxResponse!
+  tswapDepositWithdrawMarginAccountTx(action: DepositWithdrawAction!, lamports: Decimal!, marginNr: Float!, owner: String!): TxResponse!
+
+  """
+  This differs from the non-Raw version by not requiring our backend to have indexed the pool address
+  """
+  tswapDepositWithdrawNftRawTx(
+    action: DepositWithdrawAction!
+    config: PoolConfig!
+
+    """
+    A tswap deposit consists of (1) proof ix and (2) deposit ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
+    """
+    includeProof: Boolean = true
+    mint: String!
+    owner: String!
+    whitelist: String!
+  ): TxResponse!
+  tswapDepositWithdrawNftTx(
+    action: DepositWithdrawAction!
+
+    """
+    A tswap deposit consists of (1) proof ix and (2) deposit ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
+    """
+    includeProof: Boolean = true
+    mint: String!
+    pool: String!
+  ): TxResponse!
+
+  """
+  This differs from the non-Raw version by not requiring our backend to have indexed the pool address
+  """
+  tswapDepositWithdrawSolRawTx(action: DepositWithdrawAction!, config: PoolConfig!, lamports: Decimal!, owner: String!, whitelist: String!): TxResponse!
+  tswapDepositWithdrawSolTx(action: DepositWithdrawAction!, lamports: Decimal!, pool: String!): TxResponse!
+  tswapDetachPoolMarginAccountTx(config: PoolConfig!, marginNr: Float!, owner: String!, whitelist: String!): TxResponse!
+  tswapEditPoolTx(attachDetachMargin: AttachDetachAction, marginNr: Float, maxTakerSellCount: Float, newConfig: PoolConfig, pool: String!): InitEditPoolTxResponse!
+  tswapEditSingleListingTx(mint: String!, owner: String!, price: Decimal!): TxResponse!
+  tswapExchangeNftTx(
+    """
+    A tswap sell consists of (1) proof ix and (2) sell ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
+    """
+    includeProof: Boolean = true
+
+    """max price for the buy tx"""
+    maxPriceLamports: Decimal!
+
+    """min price for the sell tx"""
+    minPriceLamports: Decimal!
+    mintToBuy: String!
+    mintToSell: String!
+    pool: String!
+    taker: String!
+  ): TxResponse!
+  tswapInitMarginAccountTx(desiredNr: Float, name: String!, owner: String!): TxResponse!
+  tswapInitPoolTx(
+    config: PoolConfig!
+    depositLamports: Decimal
+    marginNr: Float
+    maxTakerSellCount: Float
+
+    """
+    optional mint for which to init/update proof. Useful when creating a LIST pool with a single mint, to combine 2 txs (init pool & init proof) into one.
+    """
+    mintForProof: String
+    owner: String!
+    slug: String!
+
+    """tops up margin with missing amount so it has enough to fill the bid"""
+    topUpMarginWhenBidding: Boolean = true
+  ): InitEditPoolTxResponse!
+  tswapInitUpdateProofTx(mint: String!, payer: String!, whitelist: String!): TxResponse!
+  tswapListNftTx(mint: String!, owner: String!, ownerTokenAccount: String, payer: String, price: Decimal!): TxResponse!
+  tswapMarginAccounts(owner: String!): [TSwapMarginAccount!]!
+  tswapMintProofs(mints: [String!]!, whitelist: String!): [TSwapMintProof!]!
+  tswapOrderTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
+  tswapOrders(
+    """If owner is specified, also returns the empty pools of the owner"""
+    owner: String
+    slug: String!
+  ): [TSwapPool!]!
+  tswapSellNftTx(
+    """
+    A tswap sell consists of (1) proof ix and (2) sell ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
+    """
+    includeProof: Boolean = true
+    minPriceLamports: Decimal!
+    mint: String!
+    optionalRoyaltyPct: Int
+    pool: String!
+    seller: String!
+
+    """
+    If provided, will generate ix withdrawing NFT from this account vs the current token account
+    """
+    sellerTokenAccount: String
+  ): TxResponse!
+  tswapWhitelist(slug: String!): TSwapWhitelist
+  tswapWithdrawMmFeeTx(lamports: Decimal!, pool: String!): TxResponse!
+  twitterApiV1RedirectUrl(callbackUrl: String!, jwt: String!): String!
+  twitterApiV2RedirectUrl(callbackUrl: String!, jwt: String!): String!
+  userActiveListingsV2(cursor: ActiveListingsCursorInputV2, includeCompressed: Boolean = true, limit: Int = 10000, slug: String, sortBy: ActiveListingsSortBy!, wallets: [String!]!): UserActiveListingsV2!
+  userEscrowedBidCount(wallet: String!): Float!
+  userHswapOrders(owner: String!): [HSwapPoolWithColl!]!
+  userPortfolioBids(filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): [MintBid!]!
+  userPortfolioBidsCount(filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): Float!
+  userPortfolioCollections(includeCompressed: Boolean = true, includeUnverified: Boolean, wallets: [String!]!): [InstrumentForPortfolio!]!
+  userProfileV2(jwt: String!, wallet: String!): UserProfile
+  userSentTransactionStats(wallets: [String!]!): UserSentTransactionStats!
+
+  """Fetches transactions for wallet that were sent through Tensor."""
+  userSentTransactions(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, slug: String, wallets: [String!]!): PaginatedUserTransactions!
+  userShards(wallet: String!): [UserShard!]!
+  userTcompBids(filters: TCompBidsFilters, owner: String!): [TCompBidWithColl!]!
+  userTensorBids(filterFunded: Boolean, slug: String, wallet: String!): [MintBid!]! @deprecated(reason: "use `userTensorBidsV2` instead")
+  userTensorBidsV2(
+    cursor: BidsCursorInputV2
+    filterFunded: Boolean!
+
+    """if true, will return whether the bid is currently the highest"""
+    includeHighestBidStatus: Boolean
+
+    """if true, will return the most recent reaction, if any"""
+    includeReaction: Boolean
+    limit: Int = 500
+    nameFilter: String
+    slug: String
+    sortBy: BidsSortBy!
+    wallet: String!
+  ): TensorBidsV2!
+  userTswapOrders(owner: String!): [TSwapPoolWithColl!]!
+  walletProfile(wallet: String!): MEWalletProfile
+}
+
+input RarityFilter {
+  min: Int
+  max: Int
+  system: RaritySystem!
+}
+
+enum RaritySystem {
+  Hrtt
+  Stat
+  Team
+  Tn
+}
+
+enum Reaction {
+  COUNTER
+  REJECT
+}
+
+type Referee {
+  rank7d: Int
+  rankTotal: Int
+  wallet: String!
+}
+
+type RefereePointContribution {
+  refereeId: String!
+  referralPoints: Int!
+  referralTakerFees: Decimal!
+}
+
+type SentTransactionStats {
+  failed: Int!
+  pending: Int!
+  success: Int!
+}
+
+type ServiceStatus {
+  numConsecutive: Int!
+  service: String!
+  status: String!
+  updatedAt: Timestamp!
+}
+
+type ShardRewards {
+  ember: Int!
+  obsidian: Int!
+  silicon: Int!
+  terra: Int!
+}
+
+"""What type of msg to sign for wallet verification"""
+enum SignMsgType {
+  LINK
+  VERIFY
+}
+
+type StakeDetails {
+  """Date the Tensorian completed warmup"""
+  activatedAt: Timestamp!
+
+  """Date the Tensorian is staked"""
+  stakedAt: Timestamp!
+  stakedByOwner: String!
+}
+
+type StakedTensorians {
+  activatedLevel: Int!
+  nftsForNextLevel: Int
+  pfp: String
+  stakedLevel: Int!
+  stakedNfts: [MintWithColl!]!
+  stakedSupply: Float
+  totalSupply: Float
+}
+
+type Subscription {
+  hswapOrderUpdate(slug: String!): HSwapPoolUpdate
+  hswapOrderUpdateAll: HSwapPoolUpdateAll
+  newTransactionTV2(slug: String!): LinkedTransactionTV2
+  newUserTransaction(limit: Int, wallet: String!): UserTransaction
+  tcompBidUpdate(slug: String!): TCompBidUpdate
+  tcompBidUpdateAll: TCompBidUpdateAll
+  trollRewardStatusUpdate(wallet: String!): TRollRewardStatus
+  tswapMarginUpdate(owner: String!): TSwapMarginUpdate
+  tswapOrderUpdate(slug: String!): TSwapPoolUpdate
+  tswapOrderUpdateAll: TSwapPoolUpdateAll
+}
+
+enum SupportedMarketplace {
+  CoralCube
+  Elixir
+  Fractal
+  HadeSwap
+  HyperSpace
+  MagicEden
+  OpenSea
+  Solanart
+  SolanartAH
+  Swapsorian
+  TComp
+  TensorSwap
+  Yawww
+}
+
+enum SwapSide {
+  Maker
+  Taker
+}
+
+type TBidTxResponse {
+  bidState: String!
+  txs: [OnchainTx!]!
+}
+
+type TCompBid {
+  address: String!
+  amount: Decimal!
+  attributes: [Attribute!]
+
+  """only an approx: first time this PDA was ingested"""
+  createdAt: Timestamp!
+  field: TCompField
+  fieldId: String
+  filledQuantity: Int!
+  margin: String
+  marginNr: Float
+  ownerAddress: String!
+  quantity: Int!
+  solBalance: Decimal!
+  target: TCompTarget!
+  targetId: String!
+}
+
+input TCompBidFieldFilter {
+  field: TCompField!
+  fieldIds: [String!]!
+}
+
+type TCompBidTxResponse {
+  bidState: String!
+  txs: [OnchainTx!]!
+}
+
+type TCompBidUpdate {
+  address: String!
+  bid: TCompBid
+}
+
+type TCompBidUpdateAll {
+  address: String!
+
+  """"""
+  bid: TCompBid
+  slug: String!
+}
+
+type TCompBidWithColl {
+  bid: TCompBid!
+  collInfo: CollInfo
+  marginNr: Float
+}
+
+input TCompBidsFilters {
+  fields: [TCompBidFieldFilter!]
+
+  """
+  If true, excludes any bids that specify a field. Ignores `fields` if true.
+  """
+  noFields: Boolean
+}
+
+enum TCompField {
+  NAME
+}
+
+enum TCompTarget {
+  ASSET_ID
+  WHITELIST
+}
+
+interface TLastSale {
+  price: Decimal!
+  priceUnit: Currency!
+  txAt: Timestamp!
+}
+
+interface TLinkedTxMintTV2 {
+  accState: String
+  animationUri: String
+  attributes: [Attribute!]
+  compressed: Boolean!
+  hidden: Boolean!
+  imageUri: String
+  lastSale: LastSale
+  metadataFetchedAt: Timestamp
+  metadataUri: String
+  name: String
+  onchainId: String!
+  owner: String
+  rarityRankHR: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankHrtt: Int
+  rarityRankStat: Int
+  rarityRankTN: Int @deprecated(reason: "Use rarityRankTn")
+  rarityRankTT: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTCustom: Int @deprecated(reason: "Use rarityRankHrtt")
+  rarityRankTTStat: Int @deprecated(reason: "Use rarityRankStat")
+  rarityRankTeam: Int
+  rarityRankTn: Int
+  sellRoyaltyFeeBPS: Int
+  staked: StakeDetails
+  tokenEdition: Int
+  tokenStandard: TokenStandard
+  verifiedCollection: String
+}
+
+type TRollHistoryEvent {
+  commitSig: String!
+  createdAt: Timestamp!
+  failedFulfillSolSig: String
+  failedFulfillSolStatus: TRollTransactionStatus
+  fallbackRewardAmount: Decimal
+  fulfillSig: String!
+  fulfillStatus: TRollTransactionStatus!
+  nft: MintWithColl
+  rewardPostMarketFeesAmount: Decimal
+  rewardType: TRollRewardType
+  rollState: String!
+  tensorPointsIfLose: Int!
+  wager: Decimal!
+}
+
+input TRollRequestedReward {
+  oddsBps: Int!
+  type: String!
+  details: TRollRewardDetails
+}
+
+input TRollRewardDetails {
+  address: String!
+  mint: String!
+  owner: String!
+  paymentMint: String
+  tokenStandard: Int
+  paymentBaseAmount: Decimal!
+  royaltyBps: Int!
+}
+
+type TRollRewardStatus {
+  calculatedReward: JSON!
+  calculatedRollBps: Int!
+  commitSig: String!
+  commitSlot: BigInt!
+  createdAt: Timestamp!
+  creatorFee: Decimal
+  failedFulfillSlot: BigInt
+  failedFulfillSolLastValidBlockHeight: BigInt
+  failedFulfillSolSig: String
+  failedFulfillSolStatus: TRollTransactionStatus
+  fallbackReason: Int
+  fallbackRewardAmount: Decimal
+  fallbackRewardMint: String
+  fulfillLastValidBlockHeight: BigInt!
+  fulfillSig: String!
+  fulfillSlot: BigInt
+  fulfillStatus: TRollTransactionStatus!
+  listerFee: Decimal
+  paymentBaseAmount: Decimal
+  paymentMint: String
+  requestedRewards: JSON!
+  rewardAmount: Decimal
+  rewardMint: String
+  rewardPostMarketFeesAmount: Decimal
+  rewardType: TRollRewardType
+  rollBps: Int
+  rollCount: BigInt!
+  rollState: String!
+  secretBase64: String!
+  secretHashBase64: String!
+  tensorFee: Decimal
+  tensorPointsIfLose: Int!
+  updatedAt: Timestamp!
+  user: String!
+  userNonce: Byte!
+  wager: Decimal!
+}
+
+enum TRollRewardType {
+  NONE
+  TCOMP_LISTING
+  TSWAP_LISTING
+  TSWAP_POOL
+}
+
+type TRollRoller {
+  address: String!
+  createdAt: Timestamp!
+  currentActive: Boolean!
+  histWagered: Decimal!
+  lastPlayedDate: Timestamp!
+  lastPlayedSlot: BigInt!
+  pendingActive: Boolean!
+  rebate: Decimal!
+  rollCount: BigInt!
+  slot: BigInt!
+  updatedAt: Timestamp!
+  user: String!
+  version: Int!
+  winStreak: Int!
+}
+
+enum TRollTransactionStatus {
+  CONFIRMED
+  FAILED
+  PENDING
+  STALE
+}
+
+"""Stake or unstake action."""
+enum TStakeAction {
+  STAKE
+  UNSTAKE
+}
+
+type TSwapMarginAccount {
+  address: String!
+  balance: BigInt!
+  createdAt: Timestamp!
+  currentActive: Boolean!
+  name: String!
+  nr: Int!
+  owner: String!
+  pendingActive: Boolean!
+  poolsAttached: Int!
+  slot: BigInt!
+  updatedAt: Timestamp!
+}
+
+type TSwapMarginUpdate {
+  address: String!
+  margin: TSwapMarginAccount
+}
+
+type TSwapMintProof {
+  address: String!
+  createdAt: Timestamp!
+  proof: [Byte!]!
+  rootHash: Byte!
+  slug: String!
+  updatedAt: Timestamp!
+}
+
+type TSwapPool {
+  address: String!
+  balance: BigInt!
+  buyNowPrice: Decimal
+  createdAt: Timestamp!
+  createdUnix: Timestamp!
+  currentActive: Boolean!
+  curveType: CurveType!
+  delta: BigInt!
+
+  """Only present when queried with tswapOrders for MintWithColl"""
+  feeInfos: [FeeInfo!]
+  frozenAmount: BigInt
+  frozenTime: Timestamp
+  isCosigned: Boolean!
+  lastTransactedAt: Timestamp
+  margin: String
+  marginNr: Float
+  maxTakerSellCount: Int!
+  mmCompoundFees: Boolean!
+  mmFeeBalance: BigInt!
+  mmFeeBps: Int
+  nftAuthorityAddress: String!
+  nftsForSale: [LinkedTxMintTV2!]!
+  nftsHeld: Int!
+  orderType: Int!
+  ownerAddress: String!
+  pendingActive: Boolean!
+  poolType: PoolType!
+  sellNowPrice: Decimal
+
+  """Only present when queried with tswapOrders for MintWithColl"""
+  sellNowPriceNetFees: Decimal
+  slot: BigInt!
+  solBalance: BigInt!
+  solEscrowAddress: String!
+  startingPrice: BigInt!
+  statsAccumulatedMmProfit: BigInt!
+  statsTakerBuyCount: Int!
+  statsTakerSellCount: Int!
+  takerBuyCount: Int!
+  takerSellCount: Int!
+  updatedAt: Timestamp!
+  version: Int!
+  whitelistAddress: String!
+}
+
+type TSwapPoolUpdate {
+  address: String!
+
+  """null -> pool is inactive"""
+  pool: TSwapPool
+}
+
+type TSwapPoolUpdateAll {
+  address: String!
+
+  """null -> pool is inactive"""
+  pool: TSwapPoolWithSlug
+  slug: String!
+}
+
+type TSwapPoolWithColl {
+  collName: String!
+  floorPrice: Decimal
+  marginNr: Float
+  numMints: Int
+  pool: TSwapPool!
+  slug: String!
+}
+
+type TSwapPoolWithSlug {
+  address: String!
+  balance: BigInt!
+  buyNowPrice: Decimal
+  createdAt: Timestamp!
+  createdUnix: Timestamp!
+  currentActive: Boolean!
+  curveType: CurveType!
+  delta: BigInt!
+
+  """Only present when queried with tswapOrders for MintWithColl"""
+  feeInfos: [FeeInfo!]
+  frozenAmount: BigInt
+  frozenTime: Timestamp
+  isCosigned: Boolean!
+  lastTransactedAt: Timestamp
+  margin: String
+  marginNr: Float
+  maxTakerSellCount: Int!
+  mmCompoundFees: Boolean!
+  mmFeeBalance: BigInt!
+  mmFeeBps: Int
+  nftAuthorityAddress: String!
+  nftsForSale: [LinkedTxMintTV2!]!
+  nftsHeld: Int!
+  orderType: Int!
+  ownerAddress: String!
+  pendingActive: Boolean!
+  poolType: PoolType!
+  sellNowPrice: Decimal
+
+  """Only present when queried with tswapOrders for MintWithColl"""
+  sellNowPriceNetFees: Decimal
+  slot: BigInt!
+  slug: String!
+  solBalance: BigInt!
+  solEscrowAddress: String!
+  startingPrice: BigInt!
+  statsAccumulatedMmProfit: BigInt!
+  statsTakerBuyCount: Int!
+  statsTakerSellCount: Int!
+  takerBuyCount: Int!
+  takerSellCount: Int!
+  updatedAt: Timestamp!
+  version: Int!
+  whitelistAddress: String!
+}
+
+type TSwapWhitelist {
+  address: String!
+  createdAt: Timestamp!
+  frozen: Boolean!
+  fvc: String
+  name: String!
+  rootHash: Byte!
+  slot: BigInt!
+  updatedAt: Timestamp!
+  uuid: String!
+  verified: Boolean!
+  version: Int!
+  voc: String
+}
+
+type TensorBidsV2 {
+  bids: [MintBid!]!
+  page: BidsPage!
+  sortBy: BidsSortBy!
+}
+
+"""
+The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+enum TokenStandard {
+  FUNGIBLE
+  FUNGIBLE_ASSET
+  NON_FUNGIBLE
+  NON_FUNGIBLE_EDITION
+  PROGRAMMABLE_NON_FUNGIBLE
+  PROGRAMMABLE_NON_FUNGIBLE_EDITION
+}
+
+enum TradeAction {
+  ACCEPT
+  BID
+  BUY
+  CANCEL
+  DELIST
+  DEPOSIT
+  ELIXIR_APPRAISE
+  INIT_UPDATE_MINT_PROOF
+  LIST
+  MARGIN_ATTACH
+  MARGIN_CLOSE
+  MARGIN_DEPOSIT
+  MARGIN_DETACH
+  MARGIN_INIT
+  MARGIN_WITHDRAW
+  OTC_BUNDLED_MAKER_WITHDRAW
+  OTC_BUNDLED_MAKE_OFFER
+  OTC_BUNDLED_TAKER_WITHDRAW
+  OTC_BUNDLED_TAKE_OFFER
+  STAKE
+  SWAP_BUY_NFT
+  SWAP_BUY_SINGLE_LISTING
+  SWAP_CLOSE_POOL
+  SWAP_DELIST
+  SWAP_DEPOSIT_LIQ
+  SWAP_DEPOSIT_NFT
+  SWAP_DEPOSIT_SOL
+  SWAP_EDIT_POOL
+  SWAP_EDIT_SINGLE_LISTING
+  SWAP_EXCHANGE_NFT
+  SWAP_INIT_POOL
+  SWAP_LIST
+  SWAP_SELL_NFT
+  SWAP_WITHDRAW_LIQ
+  SWAP_WITHDRAW_MM_FEE
+  SWAP_WITHDRAW_NFT
+  SWAP_WITHDRAW_SOL
+  UNSTAKE
+  WITHDRAW
+}
+
+input TraitCountFilter {
+  min: Int
+  max: Int
+}
+
+input TraitFilter {
+  traitType: String!
+  values: [String!]!
+}
+
+enum TransactionType {
+  ADJUST_PRICE
+  AUCTION_CANCEL
+  AUCTION_CREATE
+  AUCTION_PLACE_BID
+  AUCTION_SETTLE
+  CANCEL_BID
+  CREATE_MINT
+  DELIST
+  ELIXIR_APPRAISE
+  ELIXIR_BUY_PNFT
+  ELIXIR_COMPOSED_BUY_NFT
+  ELIXIR_COMPOSED_SELL_NFT
+  ELIXIR_FRACTIONALIZE
+  ELIXIR_FUSE
+  ELIXIR_POOL_DEPOSIT_FNFT
+  ELIXIR_POOL_EXCHANGE_FNFT
+  ELIXIR_POOL_WITHDRAW_FNFT
+  ELIXIR_SELL_PNFT
+  FAILED
+  LIST
+  MARGIN_ATTACH
+  MARGIN_CLOSE
+  MARGIN_DEPOSIT
+  MARGIN_DETACH
+  MARGIN_INIT
+  MARGIN_WITHDRAW
+  OTC_BUNDLED_MAKER_WITHDRAW
+  OTC_BUNDLED_MAKE_OFFER
+  OTC_BUNDLED_TAKER_WITHDRAW
+  OTC_BUNDLED_TAKE_OFFER
+  OTHER
+  PLACE_BID
+  ROLL_COMMIT
+  ROLL_FULFILL_NONE
+  ROLL_FULFILL_REWARD
+  ROLL_FULFILL_SOL
+  SALE_ACCEPT_BID
+  SALE_BUY_NOW
+  STAKE
+  SWAP_BUY_NFT
+  SWAP_BUY_SINGLE_LISTING
+  SWAP_CLOSE_POOL
+  SWAP_DELIST
+  SWAP_DEPOSIT_LIQ
+  SWAP_DEPOSIT_NFT
+  SWAP_DEPOSIT_SOL
+  SWAP_EDIT_POOL
+  SWAP_EDIT_SINGLE_LISTING
+  SWAP_INIT_POOL
+  SWAP_LIST
+  SWAP_SELL_NFT
+  SWAP_WITHDRAW_LIQ
+  SWAP_WITHDRAW_MM_FEE
+  SWAP_WITHDRAW_NFT
+  SWAP_WITHDRAW_SOL
+  TRANSFER
+  UNSTAKE
+  UPDATE_MINT
+}
+
+type TransactionsCursor {
+  txAt: Timestamp!
+  txKey: String!
+}
+
+input TransactionsCursorInput {
+  txAt: Timestamp!
+  txKey: String!
+}
+
+input TransactionsFilters {
+  txTypes: [TransactionType!]
+  mps: [DataSource!]
+
+  """only relevant for recentTransactions"""
+  prices: PriceFilter
+
+  """only relevant for recentTransactions"""
+  traits: [TraitFilter!]
+
+  """only relevant for recentTransactions"""
+  traitCount: TraitCountFilter
+}
+
+type TransactionsPage {
+  endCursor: TransactionsCursor
+  hasMore: Boolean!
+}
+
+type TxMetadata {
+  auctionHouse: String
+  pdaAddr: String
+  sellerRef: String
+  tokenAcc: String
+  urlId: String
+}
+
+type TxResponse {
+  """
+  For some Tensor txs eg tswapBuyNftTx, this will be populated with the price including Tensor fees and royalties
+  """
+  totalPriceNetFees: Decimal
+  txs: [OnchainTx!]!
+}
+
+type UserActiveListingsV2 {
+  page: ActiveListingsPageV2!
+  txs: [LinkedTransactionMintWithColl!]!
+}
+
+type UserDiscordPrivate {
+  accessToken: String!
+  expiresAt: Timestamp!
+  profileId: String!
+  refreshToken: String!
+  userId: String!
+}
+
+type UserProfile {
+  """null if didn't qualify for Tensor Airdrop 1"""
+  airdropOne: AirdropOne
+
+  """null if no Airdrop Three activity"""
+  airdropThree: AirdropThreeProfileStats
+
+  """null if no Airdrop Two activity"""
+  airdropTwo: AirdropTwoProfileStats
+  airdropTwoPartnerRewards: [PartnerReward!]!
+
+  """null if didn't qualify for Tensor Airdrop 2"""
+  airdropTwoRewards: AirdropTwo
+
+  """null if hasn't yet claimed"""
+  airdropTwoShards: AirdropTwoShardRewards
+  bidNotifMinPctFloor: Int!
+  claimedAirdropOneAt: Timestamp
+  claimedAirdropTwoAt: Timestamp
+  createdAt: Timestamp!
+  discord: String
+  discordJoined: Boolean!
+  discordPrivate: UserDiscordPrivate
+  email: String
+  emailConfirmed: Boolean!
+  favCollections: [CollectionFavorite!]!
+  favMints: [MintFavorite!]!
+  favWallets: [WalletFavorite!]!
+  genesisWallet: String!
+  id: String!
+  loyaltyLevel: Int!
+  madBoxes: [MadBox!]!
+  openedNftBoxesAt: Timestamp
+  ptsStaking7d: Int
+  ptsStakingTotal: Int
+  referees: [Referee!]!
+  referralCode: String
+  referrer: String
+  referrerId: String
+  stakedTensorians: StakedTensorians!
+  twitter: String
+  twitterFollowed: Boolean!
+  twitterPrivate: UserTwitterPrivate
+  updatedAt: Timestamp!
+  username: String
+  wallets: [UserWallet!]!
+}
+
+type UserProfileWithJwtV2 {
+  jwt: String!
+  profile: UserProfile!
+}
+
+type UserSentTransactionStats {
+  past24h: SentTransactionStats!
+  past30d: SentTransactionStats!
+}
+
+type UserShard {
+  attributes: JSON!
+  compressionLeafId: Float!
+  compressionTree: String!
+  mint: String!
+}
+
+type UserTransaction {
+  action: TradeAction!
+  amounts: [Decimal!]!
+  attemptedAt: Timestamp!
+  imageUris: [String]!
+  mints: [String!]!
+  mp: SupportedMarketplace!
+  poolAddresses: [String!]!
+  sig: String!
+  slugs: [String]!
+  status: UserTxStatus!
+  wallet: String!
+}
+
+type UserTwitterPrivate {
+  profileId: String!
+  userId: String!
+  v1AccessSecret: String
+  v1AccessToken: String
+  v2AccessToken: String
+  v2ExpiresAt: Timestamp
+  v2RefreshToken: String
+}
+
+input UserTxDataInput {
+  version: Int!
+  data: JSON!
+}
+
+enum UserTxStatus {
+  CONFIRMED
+  FAILED
+  FINALIZED
+  PENDING
+}
+
+type UserWallet {
+  createdAt: Timestamp!
+  profileId: String!
+  updatedAt: Timestamp!
+  wallet: String!
+}
+
+type WalletFavorite {
+  address: String!
+  favList: Int!
+  profileId: String!
+}

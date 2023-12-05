@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "tensor-trade-sdk-py"
+version = "0.1.0"
+description = ""
+authors = ["Damjan Kuznar <damjan.kuznar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+ariadne-codegen = "^0.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ariadne-codegen]
+schema_path = "resources/schema.graphql"
+queries_path = "resources/ariadne_client_configs/market_data.graphql"
+async_client = false
+plugins = ["resources.no_reimports.NoReimportsPlugin"]

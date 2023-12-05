@@ -1,0 +1,219 @@
+query CollectionsStats(
+  $slugs: [String!], # Internal ID (stable)
+  $slugsMe: [String!], # Query by ME's URL slug (not 100% up-to-date)
+	$slugsDisplay: [String!], # Query by what's displayed in the URL on tensor.trade
+  $ids: [String!], # Query by `id` of collection (stable)
+  $sortBy: String,
+  $page: Int,
+  $limit: Int,
+) {
+  allCollections(
+    slugs: $slugs,
+		slugsMe: $slugsMe,
+		slugsDisplay: $slugsDisplay,
+    ids: $ids,
+    sortBy: $sortBy,
+    page: $page,
+    limit: $limit
+  ) {
+    total
+    collections {
+			id # Used to find corresponding whitelist PDA (`uuid`) if using SDK
+      slug # internal ID for collection (UUID or human-readable)
+			slugMe # MagicEden's symbol (not 100% up-to-date)
+			slugDisplay # What's displayed in the URL on tensor.trade
+      statsV2 {
+				currency
+        buyNowPrice
+				buyNowPriceNetFees
+				sellNowPrice
+				sellNowPriceNetFees
+        numListed
+        numMints
+        floor1h
+        floor24h
+        floor7d
+        sales1h
+        sales24h
+        sales7d
+				salesAll
+        volume1h
+        volume24h
+        volume7d
+				volumeAll
+      }
+      firstListDate
+      name
+    }
+  }
+}
+query CollectionStats($slug: String!) {
+  instrumentTV2(slug: $slug) {
+    id # Used to find corresponding whitelist PDA (`uuid`) if using SDK
+    slug # internal ID for collection (UUID or human-readable)
+    slugMe # MagicEden's symbol
+    slugDisplay # What's displayed in the URL on tensor.trade
+    statsV2 {
+      currency
+      buyNowPrice
+      buyNowPriceNetFees
+      sellNowPrice
+      sellNowPriceNetFees
+      numListed
+      numMints
+      floor1h
+      floor24h
+      floor7d
+      sales1h
+      sales24h
+      sales7d
+      salesAll
+      volume1h
+      volume24h
+      volume7d
+      volumeAll
+    }
+    firstListDate
+    name
+  }
+}
+query TensorSwapActiveOrders($slug: String!) {
+  tswapOrders(slug: $slug) {
+    address
+    createdUnix
+    curveType
+    delta
+    mmCompoundFees
+    mmFeeBps
+    nftsForSale {
+      onchainId
+    }
+    nftsHeld
+    ownerAddress
+    poolType
+    solBalance
+    startingPrice
+    buyNowPrice
+    sellNowPrice
+    statsAccumulatedMmProfit
+    statsTakerBuyCount
+    statsTakerSellCount
+    takerBuyCount
+    takerSellCount
+    updatedAt
+  }
+}
+query HadeSwapActiveOrders($slug: String!) {
+  hswapOrders(slug: $slug) {
+    address
+    assetReceiver
+    baseSpotPrice
+    boxes {
+      mint {
+        onchainId
+      }
+    }
+    buyOrdersQuantity
+    createdAt
+    curveType
+    delta
+    feeBps
+    fundsSolOrTokenBalance
+    lastTransactedAt
+    mathCounter
+    pairType
+  }
+}
+#subscription TswapOrderUpdateAll {
+#  tswapOrderUpdateAll {
+#    address
+#    pool {
+#      address
+#      createdUnix
+#      curveType
+#      delta
+#      mmCompoundFees
+#      mmFeeBps
+#      nftsForSale {
+#        onchainId
+#      }
+#      nftsHeld
+#      ownerAddress
+#      poolType
+#      solBalance
+#      startingPrice
+#      buyNowPrice
+#      sellNowPrice
+#      statsAccumulatedMmProfit
+#      statsTakerBuyCount
+#      statsTakerSellCount
+#      takerBuyCount
+#      takerSellCount
+#      updatedAt
+#    }
+#    slug
+#  }
+#}
+query ActiveListingsV2(
+  $slug: String!
+  $sortBy: ActiveListingsSortBy!
+  $filters: ActiveListingsFilters
+  $limit: Int
+  $cursor: ActiveListingsCursorInputV2
+) {
+  activeListingsV2(
+    slug: $slug
+    sortBy: $sortBy
+    filters: $filters
+    limit: $limit
+    cursor: $cursor
+  ) {
+    page {
+      endCursor {
+        str
+      }
+      hasMore
+    }
+    txs {
+      mint {
+        onchainId
+      }
+      tx {
+        sellerId
+        grossAmount
+        grossAmountUnit
+      }
+    }
+  }
+}
+#subscription NewTransactionTV2($slug: String!) {
+#  newTransactionTV2(slug: $slug) {
+#    tx {
+#      grossAmount
+#      mintOnchainId
+#      txAt
+#      txId
+#      txType
+#      buyerId
+#      sellerId
+#      source
+#    }
+#  }
+#}
+query TcompBids($slug: String!) {
+  tcompBids(slug: $slug) {
+    address
+    amount
+    createdAt
+    field
+    fieldId
+    filledQuantity
+    margin
+    marginNr
+    ownerAddress
+    quantity
+    solBalance
+    target
+    targetId
+  }
+}
