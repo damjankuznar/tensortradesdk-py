@@ -124,36 +124,36 @@ query HadeSwapActiveOrders($slug: String!) {
     pairType
   }
 }
-#subscription TswapOrderUpdateAll {
-#  tswapOrderUpdateAll {
-#    address
-#    pool {
-#      address
-#      createdUnix
-#      curveType
-#      delta
-#      mmCompoundFees
-#      mmFeeBps
-#      nftsForSale {
-#        onchainId
-#      }
-#      nftsHeld
-#      ownerAddress
-#      poolType
-#      solBalance
-#      startingPrice
-#      buyNowPrice
-#      sellNowPrice
-#      statsAccumulatedMmProfit
-#      statsTakerBuyCount
-#      statsTakerSellCount
-#      takerBuyCount
-#      takerSellCount
-#      updatedAt
-#    }
-#    slug
-#  }
-#}
+subscription TswapOrderUpdateAll {
+  tswapOrderUpdateAll {
+    address
+    pool {
+      address
+      createdUnix
+      curveType
+      delta
+      mmCompoundFees
+      mmFeeBps
+      nftsForSale {
+        onchainId
+      }
+      nftsHeld
+      ownerAddress
+      poolType
+      solBalance
+      startingPrice
+      buyNowPrice
+      sellNowPrice
+      statsAccumulatedMmProfit
+      statsTakerBuyCount
+      statsTakerSellCount
+      takerBuyCount
+      takerSellCount
+      updatedAt
+    }
+    slug
+  }
+}
 query ActiveListingsV2(
   $slug: String!
   $sortBy: ActiveListingsSortBy!
@@ -186,20 +186,20 @@ query ActiveListingsV2(
     }
   }
 }
-#subscription NewTransactionTV2($slug: String!) {
-#  newTransactionTV2(slug: $slug) {
-#    tx {
-#      grossAmount
-#      mintOnchainId
-#      txAt
-#      txId
-#      txType
-#      buyerId
-#      sellerId
-#      source
-#    }
-#  }
-#}
+subscription NewTransactionTV2($slug: String!) {
+  newTransactionTV2(slug: $slug) {
+    tx {
+      grossAmount
+      mintOnchainId
+      txAt
+      txId
+      txType
+      buyerId
+      sellerId
+      source
+    }
+  }
+}
 query TcompBids($slug: String!) {
   tcompBids(slug: $slug) {
     address

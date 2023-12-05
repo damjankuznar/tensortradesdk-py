@@ -1,9 +1,13 @@
 [tool.ariadne-codegen]
+# common
 schema_path = "resources/schema.graphql"
-queries_path = "resources/ariadne_client_configs/market_data.graphql"
-async_client = false
+async_client = true
 plugins = ["resources.no_reimports.NoReimportsPlugin"]
 target_package_path = "tensortradesdk"
 target_package_name = "clients"
+base_client_name = "AsyncBaseClient"
+base_client_file_path = "resources/async_base_client.py"
+# specific
+queries_path = "resources/ariadne_client_configs/market_data.graphql"
 client_name = "MarketDataClient"
 client_file_name = "market_data_client"
