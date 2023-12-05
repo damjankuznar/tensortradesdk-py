@@ -1,0 +1,74 @@
+query UserTensorSwapOrders($owner: String!) {
+  userTswapOrders(owner: $owner) {
+    pool {
+      address
+      createdUnix
+      curveType
+      delta
+      mmCompoundFees
+      mmFeeBps
+      nftsForSale {
+        onchainId
+      }
+      nftsHeld
+      ownerAddress
+      poolType
+      solBalance
+      startingPrice
+      buyNowPrice
+      sellNowPrice
+      statsAccumulatedMmProfit
+      statsTakerBuyCount
+      statsTakerSellCount
+      takerBuyCount
+      takerSellCount
+      updatedAt
+    }
+  }
+}
+query UserActiveListingsV2(
+  $wallets: [String!]!
+  $sortBy: ActiveListingsSortBy!
+  $cursor: ActiveListingsCursorInputV2
+  $limit: Int
+  $slug: String
+) {
+  userActiveListingsV2(
+    wallets: $wallets
+    cursor: $cursor
+    limit: $limit
+    sortBy: $sortBy
+    slug: $slug
+  ) {
+    page {
+      endCursor {
+        str
+      }
+      hasMore
+    }
+    txs {
+      tx {
+        txId
+        txAt
+        source
+        mintOnchainId
+        grossAmount
+      }
+    }
+  }
+}
+query UserTcompBids($owner: String!) {
+  userTcompBids(owner: $owner) {
+    bid {
+      address
+      amount
+      field
+      fieldId
+      filledQuantity
+      quantity
+      solBalance
+      target
+      targetId
+    }
+  }
+}

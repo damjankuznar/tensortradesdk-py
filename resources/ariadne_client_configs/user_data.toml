@@ -1,0 +1,9 @@
+[tool.ariadne-codegen]
+schema_path = "resources/schema.graphql"
+queries_path = "resources/ariadne_client_configs/user_data.graphql"
+async_client = false
+plugins = ["resources.no_reimports.NoReimportsPlugin"]
+target_package_path = "tensortradesdk"
+target_package_name = "clients"
+client_name = "UserDataClient"
+client_file_name = "user_data_client"
