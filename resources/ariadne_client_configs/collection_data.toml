@@ -1,6 +1,6 @@
 [tool.ariadne-codegen]
 schema_path = "resources/schema.graphql"
-queries_path = "resources/ariadne_client_configs/market_data.graphql"
+queries_path = "resources/ariadne_client_configs/collection_data.graphql"
 async_client = false
 plugins = ["resources.no_reimports.NoReimportsPlugin"]
 target_package_path = "tensortradesdk"
