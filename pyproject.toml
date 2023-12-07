@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tensor-trade-sdk-py"
+name = "tensortradesdk"
 version = "0.1.0"
 description = ""
 authors = ["Damjan Kuznar <damjan.kuznar@gmail.com>"]
@@ -15,3 +15,6 @@ ariadne-codegen = {extras = ["subscriptions"], version = "^0.10.0"}
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+generate_gql_clients = "scripts.generate_gql_clients:run"

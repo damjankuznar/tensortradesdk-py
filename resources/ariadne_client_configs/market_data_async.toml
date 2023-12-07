@@ -6,8 +6,8 @@ target_package_path = "tensortradesdk"
 base_client_name = "AsyncBaseClient"
 base_client_file_path = "resources/async_base_client.py"
 # specific
-async_client = false
-target_package_name = "sync"
+async_client = true
+target_package_name = "async"
 queries_path = "resources/ariadne_client_configs/market_data.graphql"
-client_name = "MarketDataClient"
+client_name = "MarketDataClientAsync"
 client_file_name = "market_data_client"

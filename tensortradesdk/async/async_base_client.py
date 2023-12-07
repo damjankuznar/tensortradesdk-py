@@ -68,7 +68,7 @@ class AsyncBaseClient:
         self.headers = headers or {}
         self.headers.setdefault("X-TENSOR-API-KEY", api_key)
         self.http_client = (
-            http_client if http_client else httpx.AsyncClient(headers=headers)
+            http_client if http_client else httpx.AsyncClient(headers=self.headers)
         )
 
         self.ws_url = ws_url or "wss://api.tensor.so/graphql"

@@ -1,0 +1,275 @@
+query TcompBuyTx(
+  $buyer: String!
+  $maxPrice: Decimal!
+  $mint: String!
+  $owner: String!
+) {
+  tcompBuyTx(buyer: $buyer, maxPrice: $maxPrice, mint: $mint, owner: $owner) {
+    txs {
+      tx
+      txV0 # use this if present!
+      lastValidBlockHeight
+    }
+  }
+}
+query TcompListTx($mint: String!, $owner: String!, $price: Decimal!) {
+  tcompListTx(mint: $mint, owner: $owner, price: $price) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompTakeBidTx($minPrice: Decimal!, $mint: String!, $seller: String!) {
+  tcompTakeBidTx(minPrice: $minPrice, mint: $mint, seller: $seller) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompDelistTx($mint: String!, $owner: String!) {
+  tcompDelistTx(mint: $mint, owner: $owner) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompEditTx($mint: String!, $owner: String!, $price: Decimal!) {
+  tcompEditTx(mint: $mint, owner: $owner, price: $price) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompBidTxForCollection(
+  $owner: String!
+  $price: Decimal!
+  $quantity: Float!
+  $slug: String
+) {
+  tcompBidTx(owner: $owner, price: $price, quantity: $quantity, slug: $slug) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompEditBidTx(
+  $bidStateAddress: String!
+  $price: Decimal
+  $quantity: Float
+) {
+  tcompEditBidTx(
+    bidStateAddress: $bidStateAddress
+    price: $price
+    quantity: $quantity
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompCancelCollBidTx($bidStateAddress: String!) {
+  tcompCancelCollBidTx(bidStateAddress: $bidStateAddress) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query HswapBuyNftTx($buyer: String!, $mathCounter: Float!, $maxPriceLamports: Decimal!, $mint: String!, $pair: String!) {
+  hswapBuyNftTx(buyer: $buyer, mathCounter: $mathCounter, maxPriceLamports: $maxPriceLamports, mint: $mint, pair: $pair) {
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query HswapSellNftTx($mathCounter: Float!, $minPriceLamports: Decimal!, $mint: String!, $pair: String!, $seller: String!) {
+  hswapSellNftTx(mathCounter: $mathCounter, minPriceLamports: $minPriceLamports, mint: $mint, pair: $pair, seller: $seller) {
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapBuyNftTx(
+  $buyer: String!
+  $maxPriceLamports: Decimal!
+  $mint: String!
+  $pool: String!
+) {
+  tswapBuyNftTx(
+    buyer: $buyer
+    maxPriceLamports: $maxPriceLamports
+    mint: $mint
+    pool: $pool
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapSellNftTx(
+  $minPriceLamports: Decimal!
+  $mint: String!
+  $pool: String!
+  $seller: String!
+  $sellerTokenAccount: String
+) {
+  tswapSellNftTx(
+    minPriceLamports: $minPriceLamports
+    mint: $mint
+    pool: $pool
+    seller: $seller
+    sellerTokenAccount: $sellerTokenAccount
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapInitPoolTx($config: PoolConfig!, $owner: String!, $slug: String!) {
+  tswapInitPoolTx(config: $config, owner: $owner, slug: $slug) {
+    pool
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapDepositWithdrawNftTx($action: DepositWithdrawAction!, $mint: String!, $pool: String!) {
+  tswapDepositWithdrawNftTx(action: $action, mint: $mint, pool: $pool) {
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapDepositWithdrawSolTx($action: DepositWithdrawAction!, $lamports: Decimal!, $pool: String!) {
+  tswapDepositWithdrawSolTx(action: $action, lamports: $lamports, pool: $pool) {
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapClosePoolTx($pool: String!) {
+  tswapClosePoolTx(pool: $pool) {
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapEditPoolTx($newConfig: PoolConfig!, $pool: String!) {
+  tswapEditPoolTx(newConfig: $newConfig, pool: $pool) {
+    pool
+    txs {
+      lastValidBlockHeight
+      tx
+    }
+  }
+}
+query TswapListNftTx($mint: String!, $owner: String!, $price: Decimal!) {
+  tswapListNftTx(mint: $mint, owner: $owner, price: $price) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapDelistNftTx($mint: String!, $owner: String!) {
+  tswapDelistNftTx(mint: $mint, owner: $owner) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapEditSingleListingTx(
+  $mint: String!
+  $owner: String!
+  $price: Decimal!
+) {
+  tswapEditSingleListingTx(mint: $mint, owner: $owner, price: $price) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapBuySingleListingTx(
+  $buyer: String!
+  $maxPrice: Decimal!
+  $mint: String!
+  $owner: String!
+) {
+  tswapBuySingleListingTx(
+    buyer: $buyer
+    maxPrice: $maxPrice
+    mint: $mint
+    owner: $owner
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TswapExchangeNftTx(
+  $maxPriceLamports: Decimal!
+  $minPriceLamports: Decimal!
+  $mintToBuy: String!
+  $mintToSell: String!
+  $pool: String!
+  $taker: String!
+) {
+  tswapExchangeNftTx(
+    maxPriceLamports: $maxPriceLamports
+    minPriceLamports: $minPriceLamports
+    mintToBuy: $mintToBuy
+    mintToSell: $mintToSell
+    pool: $pool
+    taker: $taker
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TakeBidTx(
+  $bidder: String!
+  $mint: String!
+  $price: Decimal!
+  $seller: String!
+) {
+  takeBidTx(bidder: $bidder, mint: $mint, price: $price, seller: $seller) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}

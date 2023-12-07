@@ -1,13 +1,13 @@
 [tool.ariadne-codegen]
 # common
 schema_path = "resources/schema.graphql"
-async_client = false
 plugins = ["resources.no_reimports.NoReimportsPlugin"]
 target_package_path = "tensortradesdk"
-target_package_name = "clients"
 base_client_name = "BaseClient"
 base_client_file_path = "resources/base_client.py"
 # specific
+async_client = false
+target_package_name = "sync"
 queries_path = "resources/ariadne_client_configs/user_data.graphql"
 client_name = "UserDataClient"
 client_file_name = "user_data_client"

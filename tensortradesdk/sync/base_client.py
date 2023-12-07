@@ -25,9 +25,7 @@ class BaseClient:
         headers: Optional[Dict[str, str]] = None,
         http_client: Optional[httpx.Client] = None,
     ) -> None:
-        if not url:
-            url = "https://api.tensor.so/graphql"
-        self.url = url
+        self.url = url or "https://api.tensor.so/graphql"
         headers = headers or {}
         headers["X-TENSOR-API-KEY"] = api_key
         self.headers = headers
