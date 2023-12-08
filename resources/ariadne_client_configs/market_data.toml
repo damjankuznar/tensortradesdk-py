@@ -3,8 +3,8 @@
 schema_path = "resources/schema.graphql"
 plugins = ["resources.no_reimports.NoReimportsPlugin"]
 target_package_path = "tensortradesdk"
-base_client_name = "AsyncBaseClient"
-base_client_file_path = "resources/async_base_client.py"
+base_client_name = "BaseClient"
+base_client_file_path = "resources/base_client.py"
 # specific
 async_client = false
 target_package_name = "sync"

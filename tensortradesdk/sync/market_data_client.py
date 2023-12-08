@@ -4,7 +4,7 @@
 from typing import Any, Dict, List, Optional, Union
 
 from .active_listings_v_2 import ActiveListingsV2
-from .async_base_client import AsyncBaseClient
+from .base_client import BaseClient
 from .base_model import UNSET, UnsetType
 from .collection_stats import CollectionStats
 from .collections_stats import CollectionsStats
@@ -19,7 +19,7 @@ def gql(q: str) -> str:
     return q
 
 
-class MarketDataClient(AsyncBaseClient):
+class MarketDataClient(BaseClient):
     def collections_stats(
         self,
         slugs: Union[Optional[List[str]], UnsetType] = UNSET,
