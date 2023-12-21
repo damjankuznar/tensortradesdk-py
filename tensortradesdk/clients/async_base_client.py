@@ -5,8 +5,8 @@ import json
 from typing import IO, Any, AsyncIterator, Dict, List, Optional, Tuple, TypeVar, cast
 from uuid import uuid4
 
-import asyncio
 import httpx
+import tenacity
 from pydantic import BaseModel
 from pydantic_core import to_jsonable_python
 
@@ -235,6 +235,13 @@ class AsyncBaseClient:
         }
         return nulled_variables, files, files_map
 
+    @tenacity.retry(
+        retry=tenacity.retry_if_exception_type(
+            (httpx.ConnectTimeout, httpx.ReadTimeout)
+        ),
+        wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
+        stop=tenacity.stop_after_attempt(10),
+    )
     async def _execute_multipart(
         self,
         query: str,
@@ -254,6 +261,13 @@ class AsyncBaseClient:
             url=self.url, data=data, files=files, **kwargs
         )
 
+    @tenacity.retry(
+        retry=tenacity.retry_if_exception_type(
+            (httpx.ConnectTimeout, httpx.ReadTimeout)
+        ),
+        wait=tenacity.wait_exponential(multiplier=1, min=4, max=10),
+        stop=tenacity.stop_after_attempt(10),
+    )
     async def _execute_json(
         self, query: str, variables: Dict[str, Any], **kwargs: Any
     ) -> httpx.Response:
