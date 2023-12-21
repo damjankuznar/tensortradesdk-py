@@ -1,13 +1,12 @@
 [tool.poetry]
 name = "tensortradesdk"
 version = "0.1.0"
-description = ""
+description = "The Tensor.trade Python SDK is a Python toolkit for interfacing with the Tensor.trade API, offering easy access to trading and financial data through GraphQL queries for developers."
 authors = ["Damjan Kuznar <damjan.kuznar@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-python-dotenv = "^1.0.0"
 solana = "^0.30.2"
 tenacity = "^8.2.3"
 
