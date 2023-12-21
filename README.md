@@ -10,6 +10,11 @@ SDK. This approach ensures that the SDK
 remains up-to-date with the latest GraphQL schema changes and provides a robust foundation for interacting with the
 Tensor.trade API.
 
+## Installation
+```bash
+pip install tensortradesdk
+```
+
 ## Examples
 
 ### Collection Data
