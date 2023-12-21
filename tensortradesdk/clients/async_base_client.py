@@ -5,6 +5,7 @@ import json
 from typing import IO, Any, AsyncIterator, Dict, List, Optional, Tuple, TypeVar, cast
 from uuid import uuid4
 
+import asyncio
 import httpx
 from pydantic import BaseModel
 from pydantic_core import to_jsonable_python
@@ -147,6 +148,12 @@ class AsyncBaseClient:
             **merged_kwargs,
         ) as websocket:
             await self._send_connection_init(websocket)
+            # wait for connection_ack from server
+            await self._handle_ws_message(
+                await websocket.recv(),
+                websocket,
+                expected_type=GraphQLTransportWSMessageType.CONNECTION_ACK,
+            )
             await self._send_subscribe(
                 websocket,
                 operation_id=operation_id,
@@ -291,7 +298,10 @@ class AsyncBaseClient:
         await websocket.send(json.dumps(payload))
 
     async def _handle_ws_message(
-        self, message: Data, websocket: WebSocketClientProtocol
+        self,
+        message: Data,
+        websocket: WebSocketClientProtocol,
+        expected_type: GraphQLTransportWSMessageType | None = None,
     ) -> Optional[Dict[str, Any]]:
         try:
             message_dict = json.loads(message)
@@ -303,6 +313,9 @@ class AsyncBaseClient:
 
         if not type_ or type_ not in {t.value for t in GraphQLTransportWSMessageType}:
             raise GraphQLClientInvalidMessageFormat(message=message)
+
+        if expected_type and expected_type != type_:
+            raise GraphQLClientInvalidMessageFormat(f"Invalid message type - expected {expected_type.value}")
 
         if type_ == GraphQLTransportWSMessageType.NEXT:
             if "data" not in payload:
