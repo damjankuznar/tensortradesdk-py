@@ -7,8 +7,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-solana = "^0.30.2"
-tenacity = "^8.2.3"
+solana = "^0.30.0"
+tenacity = "^8.2"
+graphql-core = ">=3.2.0,<3.3"
+httpx = ">=0.23,<1.0"
+pydantic = ">=2.0.0,<3.0.0"
+websockets = ">=11.0,<12.0"
+
 
 [tool.poetry.group.dev.dependencies]
 ariadne-codegen = {extras = ["subscriptions"], version = "^0.10.0"}
