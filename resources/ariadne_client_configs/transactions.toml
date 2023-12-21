@@ -7,7 +7,7 @@ base_client_name = "BaseClient"
 base_client_file_path = "resources/base_client.py"
 # specific
 async_client = false
-target_package_name = "sync"
+target_package_name = "clients"
 queries_path = "resources/ariadne_client_configs/transactions.graphql"
 client_name = "TransactionsClient"
 client_file_name = "transactions_client"

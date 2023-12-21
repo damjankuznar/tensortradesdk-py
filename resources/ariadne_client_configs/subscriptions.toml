@@ -7,7 +7,7 @@ base_client_name = "AsyncBaseClient"
 base_client_file_path = "resources/async_base_client.py"
 # specific
 async_client = true
-target_package_name = "async"
+target_package_name = "clients"
 queries_path = "resources/ariadne_client_configs/subscriptions.graphql"
 client_name = "SubscriptionsClientAsync"
-client_file_name = "subscriptions_client"
+client_file_name = "subscriptions_client_async"
