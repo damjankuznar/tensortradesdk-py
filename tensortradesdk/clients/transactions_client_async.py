@@ -59,7 +59,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "mint": mint,
             "owner": owner,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompBuyTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompBuyTx.model_validate(data)
 
@@ -80,7 +82,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner, "price": price}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompListTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompListTx.model_validate(data)
 
@@ -105,7 +109,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "mint": mint,
             "seller": seller,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompTakeBidTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompTakeBidTx.model_validate(data)
 
@@ -126,7 +132,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompDelistTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompDelistTx.model_validate(data)
 
@@ -147,7 +155,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner, "price": price}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompEditTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompEditTx.model_validate(data)
 
@@ -178,7 +188,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             "quantity": quantity,
             "slug": slug,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TcompBidTxForCollection",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TcompBidTxForCollection.model_validate(data)
 
@@ -211,7 +226,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "price": price,
             "quantity": quantity,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TcompEditBidTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompEditBidTx.model_validate(data)
 
@@ -232,7 +249,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"bidStateAddress": bid_state_address}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TcompCancelCollBidTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TcompCancelCollBidTx.model_validate(data)
 
@@ -270,7 +292,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "mint": mint,
             "pair": pair,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="HswapBuyNftTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return HswapBuyNftTx.model_validate(data)
 
@@ -308,7 +332,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "pair": pair,
             "seller": seller,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="HswapSellNftTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return HswapSellNftTx.model_validate(data)
 
@@ -339,7 +365,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "mint": mint,
             "pool": pool,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TswapBuyNftTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TswapBuyNftTx.model_validate(data)
 
@@ -378,7 +406,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             "seller": seller,
             "sellerTokenAccount": seller_token_account,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TswapSellNftTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TswapSellNftTx.model_validate(data)
 
@@ -399,7 +429,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"config": config, "owner": owner, "slug": slug}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TswapInitPoolTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TswapInitPoolTx.model_validate(data)
 
@@ -419,7 +451,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"action": action, "mint": mint, "pool": pool}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapDepositWithdrawNftTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapDepositWithdrawNftTx.model_validate(data)
 
@@ -443,7 +480,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             "lamports": lamports,
             "pool": pool,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapDepositWithdrawSolTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapDepositWithdrawSolTx.model_validate(data)
 
@@ -461,7 +503,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"pool": pool}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapClosePoolTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapClosePoolTx.model_validate(data)
 
@@ -482,7 +529,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"newConfig": new_config, "pool": pool}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TswapEditPoolTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TswapEditPoolTx.model_validate(data)
 
@@ -503,7 +552,9 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner, "price": price}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TswapListNftTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TswapListNftTx.model_validate(data)
 
@@ -524,7 +575,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapDelistNftTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapDelistNftTx.model_validate(data)
 
@@ -545,7 +601,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "owner": owner, "price": price}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapEditSingleListingTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapEditSingleListingTx.model_validate(data)
 
@@ -576,7 +637,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             "mint": mint,
             "owner": owner,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapBuySingleListingTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapBuySingleListingTx.model_validate(data)
 
@@ -618,7 +684,12 @@ class TransactionsClientAsync(AsyncBaseClient):
             "pool": pool,
             "taker": taker,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="TswapExchangeNftTx",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TswapExchangeNftTx.model_validate(data)
 
@@ -644,6 +715,8 @@ class TransactionsClientAsync(AsyncBaseClient):
             "price": price,
             "seller": seller,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="TakeBidTx", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TakeBidTx.model_validate(data)

@@ -20,8 +20,3 @@ class TcompTakeBidTxTcompTakeBidTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TcompTakeBidTx.model_rebuild()
-TcompTakeBidTxTcompTakeBidTx.model_rebuild()
-TcompTakeBidTxTcompTakeBidTxTxs.model_rebuild()

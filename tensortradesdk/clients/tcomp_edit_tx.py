@@ -20,8 +20,3 @@ class TcompEditTxTcompEditTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TcompEditTx.model_rebuild()
-TcompEditTxTcompEditTx.model_rebuild()
-TcompEditTxTcompEditTxTxs.model_rebuild()

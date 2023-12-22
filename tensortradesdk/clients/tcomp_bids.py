@@ -27,7 +27,3 @@ class TcompBidsTcompBids(BaseModel):
     sol_balance: Any = Field(alias="solBalance")
     target: TCompTarget
     target_id: str = Field(alias="targetId")
-
-
-TcompBids.model_rebuild()
-TcompBidsTcompBids.model_rebuild()

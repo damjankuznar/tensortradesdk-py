@@ -40,8 +40,3 @@ class TensorSwapActiveOrdersTswapOrders(BaseModel):
 
 class TensorSwapActiveOrdersTswapOrdersNftsForSale(BaseModel):
     onchain_id: str = Field(alias="onchainId")
-
-
-TensorSwapActiveOrders.model_rebuild()
-TensorSwapActiveOrdersTswapOrders.model_rebuild()
-TensorSwapActiveOrdersTswapOrdersNftsForSale.model_rebuild()

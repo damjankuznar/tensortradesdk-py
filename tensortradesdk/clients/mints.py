@@ -12,7 +12,3 @@ class Mints(BaseModel):
 
 class MintsMints(BaseModel):
     slug: str
-
-
-Mints.model_rebuild()
-MintsMints.model_rebuild()

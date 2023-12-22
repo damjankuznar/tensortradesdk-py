@@ -22,8 +22,3 @@ class TswapExchangeNftTxTswapExchangeNftTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TswapExchangeNftTx.model_rebuild()
-TswapExchangeNftTxTswapExchangeNftTx.model_rebuild()
-TswapExchangeNftTxTswapExchangeNftTxTxs.model_rebuild()

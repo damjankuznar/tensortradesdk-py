@@ -41,11 +41,3 @@ class UserActiveListingsV2UserActiveListingsV2TxsTx(BaseModel):
     source: DataSource
     mint_onchain_id: str = Field(alias="mintOnchainId")
     gross_amount: Optional[Any] = Field(alias="grossAmount")
-
-
-UserActiveListingsV2.model_rebuild()
-UserActiveListingsV2UserActiveListingsV2.model_rebuild()
-UserActiveListingsV2UserActiveListingsV2Page.model_rebuild()
-UserActiveListingsV2UserActiveListingsV2PageEndCursor.model_rebuild()
-UserActiveListingsV2UserActiveListingsV2Txs.model_rebuild()
-UserActiveListingsV2UserActiveListingsV2TxsTx.model_rebuild()

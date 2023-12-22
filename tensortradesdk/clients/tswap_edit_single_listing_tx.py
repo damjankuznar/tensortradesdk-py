@@ -22,8 +22,3 @@ class TswapEditSingleListingTxTswapEditSingleListingTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TswapEditSingleListingTx.model_rebuild()
-TswapEditSingleListingTxTswapEditSingleListingTx.model_rebuild()
-TswapEditSingleListingTxTswapEditSingleListingTxTxs.model_rebuild()

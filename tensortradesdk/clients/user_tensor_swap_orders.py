@@ -46,9 +46,3 @@ class UserTensorSwapOrdersUserTswapOrdersPool(BaseModel):
 
 class UserTensorSwapOrdersUserTswapOrdersPoolNftsForSale(BaseModel):
     onchain_id: str = Field(alias="onchainId")
-
-
-UserTensorSwapOrders.model_rebuild()
-UserTensorSwapOrdersUserTswapOrders.model_rebuild()
-UserTensorSwapOrdersUserTswapOrdersPool.model_rebuild()
-UserTensorSwapOrdersUserTswapOrdersPoolNftsForSale.model_rebuild()

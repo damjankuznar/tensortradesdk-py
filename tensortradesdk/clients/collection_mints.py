@@ -32,10 +32,3 @@ class CollectionMintsCollectionMintsV2MintsMint(BaseModel):
 class CollectionMintsCollectionMintsV2Page(BaseModel):
     end_cursor: Optional[str] = Field(alias="endCursor")
     has_more: bool = Field(alias="hasMore")
-
-
-CollectionMints.model_rebuild()
-CollectionMintsCollectionMintsV2.model_rebuild()
-CollectionMintsCollectionMintsV2Mints.model_rebuild()
-CollectionMintsCollectionMintsV2MintsMint.model_rebuild()
-CollectionMintsCollectionMintsV2Page.model_rebuild()

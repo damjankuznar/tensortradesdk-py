@@ -19,8 +19,3 @@ class HswapSellNftTxHswapSellNftTx(BaseModel):
 class HswapSellNftTxHswapSellNftTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
-
-
-HswapSellNftTx.model_rebuild()
-HswapSellNftTxHswapSellNftTx.model_rebuild()
-HswapSellNftTxHswapSellNftTxTxs.model_rebuild()

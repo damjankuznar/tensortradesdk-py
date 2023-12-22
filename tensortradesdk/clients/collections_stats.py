@@ -48,9 +48,3 @@ class CollectionsStatsAllCollectionsCollectionsStatsV2(BaseModel):
     volume_24_h: Any = Field(alias="volume24h")
     volume_7_d: Any = Field(alias="volume7d")
     volume_all: Any = Field(alias="volumeAll")
-
-
-CollectionsStats.model_rebuild()
-CollectionsStatsAllCollections.model_rebuild()
-CollectionsStatsAllCollectionsCollections.model_rebuild()
-CollectionsStatsAllCollectionsCollectionsStatsV2.model_rebuild()

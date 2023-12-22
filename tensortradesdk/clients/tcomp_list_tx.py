@@ -20,8 +20,3 @@ class TcompListTxTcompListTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TcompListTx.model_rebuild()
-TcompListTxTcompListTx.model_rebuild()
-TcompListTxTcompListTxTxs.model_rebuild()

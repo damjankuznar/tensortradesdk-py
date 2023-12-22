@@ -10,6 +10,3 @@ from .base_model import BaseModel
 
 class MintList(BaseModel):
     mint_list: List[str] = Field(alias="mintList")
-
-
-MintList.model_rebuild()

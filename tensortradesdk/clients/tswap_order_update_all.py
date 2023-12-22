@@ -48,9 +48,3 @@ class TswapOrderUpdateAllTswapOrderUpdateAllPool(BaseModel):
 
 class TswapOrderUpdateAllTswapOrderUpdateAllPoolNftsForSale(BaseModel):
     onchain_id: str = Field(alias="onchainId")
-
-
-TswapOrderUpdateAll.model_rebuild()
-TswapOrderUpdateAllTswapOrderUpdateAll.model_rebuild()
-TswapOrderUpdateAllTswapOrderUpdateAllPool.model_rebuild()
-TswapOrderUpdateAllTswapOrderUpdateAllPoolNftsForSale.model_rebuild()

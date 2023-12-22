@@ -148,25 +148,3 @@ class TransactionsFilters(BaseModel):
 class UserTxDataInput(BaseModel):
     version: int
     data: Any
-
-
-ActiveListingsCursorInputV2.model_rebuild()
-ActiveListingsFilters.model_rebuild()
-AttributeInput.model_rebuild()
-BidsCursorInputV2.model_rebuild()
-CollectionMintsFilters.model_rebuild()
-HSwapModifyPairConfig.model_rebuild()
-HSwapPairConfig.model_rebuild()
-OwnerFilter.model_rebuild()
-PoolConfig.model_rebuild()
-PriceFilter.model_rebuild()
-RarityFilter.model_rebuild()
-TCompBidFieldFilter.model_rebuild()
-TCompBidsFilters.model_rebuild()
-TRollRequestedReward.model_rebuild()
-TRollRewardDetails.model_rebuild()
-TraitCountFilter.model_rebuild()
-TraitFilter.model_rebuild()
-TransactionsCursorInput.model_rebuild()
-TransactionsFilters.model_rebuild()
-UserTxDataInput.model_rebuild()

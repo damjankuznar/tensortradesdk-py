@@ -21,8 +21,3 @@ class TswapDepositWithdrawNftTxTswapDepositWithdrawNftTx(BaseModel):
 class TswapDepositWithdrawNftTxTswapDepositWithdrawNftTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
-
-
-TswapDepositWithdrawNftTx.model_rebuild()
-TswapDepositWithdrawNftTxTswapDepositWithdrawNftTx.model_rebuild()
-TswapDepositWithdrawNftTxTswapDepositWithdrawNftTxTxs.model_rebuild()

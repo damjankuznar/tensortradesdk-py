@@ -21,8 +21,3 @@ class TswapClosePoolTxTswapClosePoolTx(BaseModel):
 class TswapClosePoolTxTswapClosePoolTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
-
-
-TswapClosePoolTx.model_rebuild()
-TswapClosePoolTxTswapClosePoolTx.model_rebuild()
-TswapClosePoolTxTswapClosePoolTxTxs.model_rebuild()

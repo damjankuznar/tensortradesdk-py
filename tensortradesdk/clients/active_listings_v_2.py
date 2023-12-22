@@ -43,12 +43,3 @@ class ActiveListingsV2ActiveListingsV2TxsTx(BaseModel):
     seller_id: Optional[str] = Field(alias="sellerId")
     gross_amount: Optional[Any] = Field(alias="grossAmount")
     gross_amount_unit: Optional[str] = Field(alias="grossAmountUnit")
-
-
-ActiveListingsV2.model_rebuild()
-ActiveListingsV2ActiveListingsV2.model_rebuild()
-ActiveListingsV2ActiveListingsV2Page.model_rebuild()
-ActiveListingsV2ActiveListingsV2PageEndCursor.model_rebuild()
-ActiveListingsV2ActiveListingsV2Txs.model_rebuild()
-ActiveListingsV2ActiveListingsV2TxsMint.model_rebuild()
-ActiveListingsV2ActiveListingsV2TxsTx.model_rebuild()

@@ -33,7 +33,9 @@ class CollectionDataClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug, "limit": limit, "after": after}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="MintList", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return MintList.model_validate(data)
 
@@ -103,7 +105,9 @@ class CollectionDataClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"mint": mint, "sortBy": sort_by, "limit": limit}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="Mint", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return Mint.model_validate(data)
 
@@ -119,7 +123,9 @@ class CollectionDataClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"tokenMints": token_mints}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="Mints", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return Mints.model_validate(data)
 
@@ -164,6 +170,8 @@ class CollectionDataClientAsync(AsyncBaseClient):
             "cursor": cursor,
             "limit": limit,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="CollectionMints", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return CollectionMints.model_validate(data)

@@ -86,7 +86,12 @@ class MarketDataClient(BaseClient):
             "page": page,
             "limit": limit,
         }
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query,
+            operation_name="CollectionsStats",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return CollectionsStats.model_validate(data)
 
@@ -126,7 +131,9 @@ class MarketDataClient(BaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug}
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query, operation_name="CollectionStats", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return CollectionStats.model_validate(data)
 
@@ -164,7 +171,12 @@ class MarketDataClient(BaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug}
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query,
+            operation_name="TensorSwapActiveOrders",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return TensorSwapActiveOrders.model_validate(data)
 
@@ -195,7 +207,12 @@ class MarketDataClient(BaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug}
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query,
+            operation_name="HadeSwapActiveOrders",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return HadeSwapActiveOrders.model_validate(data)
 
@@ -245,7 +262,12 @@ class MarketDataClient(BaseClient):
             "limit": limit,
             "cursor": cursor,
         }
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query,
+            operation_name="ActiveListingsV2",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return ActiveListingsV2.model_validate(data)
 
@@ -272,6 +294,8 @@ class MarketDataClient(BaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug}
-        response = self.execute(query=query, variables=variables, **kwargs)
+        response = self.execute(
+            query=query, operation_name="TcompBids", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return TcompBids.model_validate(data)

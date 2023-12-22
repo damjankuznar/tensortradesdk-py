@@ -22,8 +22,3 @@ class TswapInitPoolTxTswapInitPoolTx(BaseModel):
 class TswapInitPoolTxTswapInitPoolTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
-
-
-TswapInitPoolTx.model_rebuild()
-TswapInitPoolTxTswapInitPoolTx.model_rebuild()
-TswapInitPoolTxTswapInitPoolTxTxs.model_rebuild()

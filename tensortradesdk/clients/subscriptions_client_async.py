@@ -51,7 +51,12 @@ class SubscriptionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {}
-        async for data in self.execute_ws(query=query, variables=variables, **kwargs):
+        async for data in self.execute_ws(
+            query=query,
+            operation_name="TswapOrderUpdateAll",
+            variables=variables,
+            **kwargs
+        ):
             yield TswapOrderUpdateAll.model_validate(data)
 
     async def new_transaction_tv_2(
@@ -76,5 +81,10 @@ class SubscriptionsClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"slug": slug}
-        async for data in self.execute_ws(query=query, variables=variables, **kwargs):
+        async for data in self.execute_ws(
+            query=query,
+            operation_name="NewTransactionTV2",
+            variables=variables,
+            **kwargs
+        ):
             yield NewTransactionTV2.model_validate(data)

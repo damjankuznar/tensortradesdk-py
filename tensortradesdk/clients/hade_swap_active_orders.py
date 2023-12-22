@@ -35,9 +35,3 @@ class HadeSwapActiveOrdersHswapOrdersBoxes(BaseModel):
 
 class HadeSwapActiveOrdersHswapOrdersBoxesMint(BaseModel):
     onchain_id: str = Field(alias="onchainId")
-
-
-HadeSwapActiveOrders.model_rebuild()
-HadeSwapActiveOrdersHswapOrders.model_rebuild()
-HadeSwapActiveOrdersHswapOrdersBoxes.model_rebuild()
-HadeSwapActiveOrdersHswapOrdersBoxesMint.model_rebuild()

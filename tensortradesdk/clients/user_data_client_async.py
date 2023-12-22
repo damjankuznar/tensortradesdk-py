@@ -53,7 +53,12 @@ class UserDataClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"owner": owner}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="UserTensorSwapOrders",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return UserTensorSwapOrders.model_validate(data)
 
@@ -102,7 +107,12 @@ class UserDataClientAsync(AsyncBaseClient):
             "limit": limit,
             "slug": slug,
         }
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query,
+            operation_name="UserActiveListingsV2",
+            variables=variables,
+            **kwargs
+        )
         data = self.get_data(response)
         return UserActiveListingsV2.model_validate(data)
 
@@ -127,6 +137,8 @@ class UserDataClientAsync(AsyncBaseClient):
             """
         )
         variables: Dict[str, object] = {"owner": owner}
-        response = await self.execute(query=query, variables=variables, **kwargs)
+        response = await self.execute(
+            query=query, operation_name="UserTcompBids", variables=variables, **kwargs
+        )
         data = self.get_data(response)
         return UserTcompBids.model_validate(data)

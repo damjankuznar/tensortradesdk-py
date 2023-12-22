@@ -83,17 +83,3 @@ class MintMintActiveListingsTx(BaseModel):
     seller_id: Optional[str] = Field(alias="sellerId")
     gross_amount: Optional[Any] = Field(alias="grossAmount")
     gross_amount_unit: Optional[str] = Field(alias="grossAmountUnit")
-
-
-Mint.model_rebuild()
-MintMint.model_rebuild()
-MintMintTswapOrders.model_rebuild()
-MintMintTswapOrdersFeeInfos.model_rebuild()
-MintMintTswapOrdersNftsForSale.model_rebuild()
-MintMintTensorBids.model_rebuild()
-MintMintHswapOrders.model_rebuild()
-MintMintHswapOrdersBoxes.model_rebuild()
-MintMintHswapOrdersBoxesMint.model_rebuild()
-MintMintActiveListings.model_rebuild()
-MintMintActiveListingsMint.model_rebuild()
-MintMintActiveListingsTx.model_rebuild()

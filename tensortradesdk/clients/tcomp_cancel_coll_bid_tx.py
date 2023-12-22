@@ -22,8 +22,3 @@ class TcompCancelCollBidTxTcompCancelCollBidTxTxs(BaseModel):
     last_valid_block_height: Optional[int] = Field(alias="lastValidBlockHeight")
     tx: Optional[Any]
     tx_v_0: Any = Field(alias="txV0")
-
-
-TcompCancelCollBidTx.model_rebuild()
-TcompCancelCollBidTxTcompCancelCollBidTx.model_rebuild()
-TcompCancelCollBidTxTcompCancelCollBidTxTxs.model_rebuild()

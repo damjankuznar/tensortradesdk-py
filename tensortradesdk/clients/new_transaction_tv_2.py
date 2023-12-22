@@ -28,8 +28,3 @@ class NewTransactionTV2NewTransactionTv2Tx(BaseModel):
     buyer_id: Optional[str] = Field(alias="buyerId")
     seller_id: Optional[str] = Field(alias="sellerId")
     source: DataSource
-
-
-NewTransactionTV2.model_rebuild()
-NewTransactionTV2NewTransactionTv2.model_rebuild()
-NewTransactionTV2NewTransactionTv2Tx.model_rebuild()
