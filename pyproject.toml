@@ -16,7 +16,10 @@ websockets = ">=11.0,<12.0"
 
 
 [tool.poetry.group.dev.dependencies]
-ariadne-codegen = {extras = ["subscriptions"], version = "^0.10.0"}
+ariadne-codegen = {version = "0.10.0", extras = ["subscriptions"]}
+pytest = "^7.4.3"
+base58 = "^2.1.1"
+pytest-mock = "^3.12.0"
 
 [build-system]
 requires = ["poetry-core"]

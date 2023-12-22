@@ -28,7 +28,7 @@ class SolanaClient:
             txs_buffer = data[root_key]["txs"]
             txs = []
             for tx_buffer in txs_buffer:
-                if versioned_tx_buffer := tx_buffer.get("txV0"):
+                if versioned_tx_buffer := tx_buffer.get("tx_v_0"):
                     tx = create_versioned_transaction(
                         self.client, self.keypair, versioned_tx_buffer.get("data")
                     )
