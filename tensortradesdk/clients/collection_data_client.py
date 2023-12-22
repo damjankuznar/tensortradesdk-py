@@ -44,6 +44,7 @@ class CollectionDataClient(BaseClient):
         limit: Union[Optional[int], UnsetType] = UNSET,
         **kwargs: Any
     ) -> Mint:
+        """returns mint with collection details (unverified and verified collections included)"""
         query = gql(
             """
             query Mint($mint: String!, $sortBy: OrderSortBy, $limit: Int) {
@@ -107,6 +108,7 @@ class CollectionDataClient(BaseClient):
         return Mint.model_validate(data)
 
     def mints(self, token_mints: List[str], **kwargs: Any) -> Mints:
+        """returns all mints with collection details (unverified and verified collections included)"""
         query = gql(
             """
             query Mints($tokenMints: [String!]!) {

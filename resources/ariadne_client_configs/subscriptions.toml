@@ -1,7 +1,7 @@
 [tool.ariadne-codegen]
 # common
 schema_path = "resources/schema.graphql"
-plugins = ["resources.no_reimports.NoReimportsPlugin"]
+plugins = ["resources.no_reimports.NoReimportsPlugin", "resources.docstrings.DocstringsPlugin"]
 target_package_path = "tensortradesdk"
 base_client_name = "AsyncBaseClient"
 base_client_file_path = "resources/async_base_client.py"

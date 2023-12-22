@@ -31,6 +31,7 @@ class MarketDataClient(BaseClient):
         limit: Union[Optional[int], UnsetType] = UNSET,
         **kwargs: Any
     ) -> CollectionsStats:
+        """Only available in API mode!"""
         query = gql(
             """
             query CollectionsStats($slugs: [String!], $slugsMe: [String!], $slugsDisplay: [String!], $ids: [String!], $sortBy: String, $page: Int, $limit: Int) {
