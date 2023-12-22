@@ -329,7 +329,9 @@ class AsyncBaseClient:
             raise GraphQLClientInvalidMessageFormat(message=message)
 
         if expected_type and expected_type != type_:
-            raise GraphQLClientInvalidMessageFormat(f"Invalid message type - expected {expected_type.value}")
+            raise GraphQLClientInvalidMessageFormat(
+                f"Invalid message type - expected {expected_type.value}"
+            )
 
         if type_ == GraphQLTransportWSMessageType.NEXT:
             if "data" not in payload:

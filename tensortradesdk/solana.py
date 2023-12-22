@@ -17,7 +17,9 @@ class SolanaClient:
         self.client = create_client(network)
         self.keypair = create_keypair(private_key)
 
-    def submit_tensor_transaction(self, payload: BaseModel) -> list[SendTransactionResp]:
+    def submit_tensor_transaction(
+        self, payload: BaseModel
+    ) -> list[SendTransactionResp]:
         data = payload.model_dump()
         if len(data) != 1:
             raise RuntimeError("Invalid payload")
@@ -28,10 +30,12 @@ class SolanaClient:
             for tx_buffer in txs_buffer:
                 if versioned_tx_buffer := tx_buffer.get("txV0"):
                     tx = create_versioned_transaction(
-                        self.client, self.keypair, versioned_tx_buffer.get('data')
+                        self.client, self.keypair, versioned_tx_buffer.get("data")
                     )
                 elif legacy_tx_buffer := tx_buffer.get("tx"):
-                    tx = create_legacy_transaction(self.keypair, legacy_tx_buffer.get('data'))
+                    tx = create_legacy_transaction(
+                        self.keypair, legacy_tx_buffer.get("data")
+                    )
                 else:
                     raise KeyError("Missing tx and txV0 keys")
                 txs.append(send_transaction(self.client, tx, self.keypair))

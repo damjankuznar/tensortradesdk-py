@@ -21,4 +21,3 @@ def run():
     sdl = print_schema(client_schema)
     with open("resources/schema.graphql", "w") as schema_file:
         schema_file.write(sdl)
-
