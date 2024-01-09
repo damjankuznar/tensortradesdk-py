@@ -8,6 +8,8 @@ class ActiveListingsSortBy(str, Enum):
     LastSaleAsc = "LastSaleAsc"
     LastSaleDesc = "LastSaleDesc"
     ListedDesc = "ListedDesc"
+    OrdinalAsc = "OrdinalAsc"
+    OrdinalDesc = "OrdinalDesc"
     PriceAsc = "PriceAsc"
     PriceDesc = "PriceDesc"
     RankHrttAsc = "RankHrttAsc"
@@ -35,12 +37,27 @@ class BidsSortBy(str, Enum):
     PriceDesc = "PriceDesc"
 
 
+class CollectionCategory(str, Enum):
+    ART = "ART"
+    DOMAIN_NAMES = "DOMAIN_NAMES"
+    GAMING = "GAMING"
+    METAVERSE = "METAVERSE"
+    MUSIC = "MUSIC"
+    OTHER = "OTHER"
+    PFPS = "PFPS"
+    PHOTOGRAPHY = "PHOTOGRAPHY"
+    SPORTS = "SPORTS"
+    UTILITY = "UTILITY"
+
+
 class CollectionMintsSortBy(str, Enum):
     LastSaleAsc = "LastSaleAsc"
     LastSaleDesc = "LastSaleDesc"
     ListedTimeDesc = "ListedTimeDesc"
     ListingPriceAsc = "ListingPriceAsc"
     ListingPriceDesc = "ListingPriceDesc"
+    OrdinalAsc = "OrdinalAsc"
+    OrdinalDesc = "OrdinalDesc"
     RankHrttAsc = "RankHrttAsc"
     RankHrttDesc = "RankHrttDesc"
     RankStatAsc = "RankStatAsc"
@@ -84,6 +101,8 @@ class DataSource(str, Enum):
     TCOMP = "TCOMP"
     TENSORBID = "TENSORBID"
     TENSORSWAP = "TENSORSWAP"
+    TGARD = "TGARD"
+    TLOCK = "TLOCK"
     TOKEN_METADATA = "TOKEN_METADATA"
     TROLL = "TROLL"
     TSTAKE = "TSTAKE"
@@ -107,6 +126,12 @@ class HSwapPairType(str, Enum):
     TokenForNFT = "TokenForNFT"
 
 
+class ImmutableStatus(str, Enum):
+    BOTH = "BOTH"
+    IMMUTABLE_ONLY = "IMMUTABLE_ONLY"
+    MUTABLE_ONLY = "MUTABLE_ONLY"
+
+
 class OrderSortBy(str, Enum):
     SellNowPriceDesc = "SellNowPriceDesc"
 
@@ -121,6 +146,22 @@ class ProfilePointsPeriod(str, Enum):
     AllTime = "AllTime"
     LastDay = "LastDay"
     LastWeek = "LastWeek"
+
+
+class RPCProvider(str, Enum):
+    Alchemy = "Alchemy"
+    Blockdaemon = "Blockdaemon"
+    Figment = "Figment"
+    GenGo = "GenGo"
+    Geyser = "Geyser"
+    Helius = "Helius"
+    NONE = "NONE"
+    NowNode = "NowNode"
+    QuickNode = "QuickNode"
+    RunNode = "RunNode"
+    Shakudo = "Shakudo"
+    Syndica = "Syndica"
+    Triton = "Triton"
 
 
 class RaritySystem(str, Enum):
@@ -168,6 +209,38 @@ class TCompField(str, Enum):
 class TCompTarget(str, Enum):
     ASSET_ID = "ASSET_ID"
     WHITELIST = "WHITELIST"
+
+
+class TLockClaimAction(str, Enum):
+    CLAIM_NFT = "CLAIM_NFT"
+    CLAIM_TOKENS = "CLAIM_TOKENS"
+
+
+class TLockCollectionsSortBy(str, Enum):
+    BEST_NFT_PRICE = "BEST_NFT_PRICE"
+    BEST_TOKEN_PRICE = "BEST_TOKEN_PRICE"
+    NFTS_DEPOSITED = "NFTS_DEPOSITED"
+    TOKENS_DEPOSITED = "TOKENS_DEPOSITED"
+
+
+class TLockOrderSortBy(str, Enum):
+    LOCKED_UNTIL_ASC = "LOCKED_UNTIL_ASC"
+    LOCKED_UNTIL_DESC = "LOCKED_UNTIL_DESC"
+    PRICE_ASC = "PRICE_ASC"
+    PRICE_DESC = "PRICE_DESC"
+
+
+class TLockOrderStatus(str, Enum):
+    EXERCISED = "EXERCISED"
+    EXPIRED = "EXPIRED"
+    LOCKED = "LOCKED"
+    OFFERED = "OFFERED"
+    PENDING = "PENDING"
+
+
+class TLockOrderType(str, Enum):
+    NFT = "NFT"
+    TOKEN = "TOKEN"
 
 
 class TRollRewardType(str, Enum):
@@ -261,6 +334,18 @@ class TransactionType(str, Enum):
     ELIXIR_SELL_PNFT = "ELIXIR_SELL_PNFT"
     FAILED = "FAILED"
     LIST = "LIST"
+    LOCK_CLAIM_NFT = "LOCK_CLAIM_NFT"
+    LOCK_CLAIM_TOKENS = "LOCK_CLAIM_TOKENS"
+    LOCK_CLOSE_ORDER = "LOCK_CLOSE_ORDER"
+    LOCK_DEPOSIT_NFT = "LOCK_DEPOSIT_NFT"
+    LOCK_LOCK_ORDER = "LOCK_LOCK_ORDER"
+    LOCK_MARKET_BUY_NFT = "LOCK_MARKET_BUY_NFT"
+    LOCK_MARKET_SELL_NFT = "LOCK_MARKET_SELL_NFT"
+    LOCK_ORDER_BUY_NFT = "LOCK_ORDER_BUY_NFT"
+    LOCK_ORDER_SELL_NFT = "LOCK_ORDER_SELL_NFT"
+    LOCK_UPSERT_ORDER = "LOCK_UPSERT_ORDER"
+    LOCK_WITHDRAW_COLLATERAL = "LOCK_WITHDRAW_COLLATERAL"
+    LOCK_WITHDRAW_NFT = "LOCK_WITHDRAW_NFT"
     MARGIN_ATTACH = "MARGIN_ATTACH"
     MARGIN_CLOSE = "MARGIN_CLOSE"
     MARGIN_DEPOSIT = "MARGIN_DEPOSIT"

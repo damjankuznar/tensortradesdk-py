@@ -11,9 +11,12 @@ from .enums import (
     DataSource,
     HSwapCurveType,
     HSwapPairType,
+    ImmutableStatus,
     PoolType,
     RaritySystem,
     TCompField,
+    TLockOrderStatus,
+    TLockOrderType,
     TransactionType,
 )
 
@@ -31,6 +34,7 @@ class ActiveListingsFilters(BaseModel):
     name_filter: Optional[str] = Field(alias="nameFilter", default=None)
     owner_filter: Optional["OwnerFilter"] = Field(alias="ownerFilter", default=None)
     mints_filter: Optional[List[str]] = Field(alias="mintsFilter", default=None)
+    currencies: Optional[List[Optional[str]]] = None
 
 
 class AttributeInput(BaseModel):
@@ -55,6 +59,13 @@ class CollectionMintsFilters(BaseModel):
     listing_prices: Optional["PriceFilter"] = Field(alias="listingPrices", default=None)
     owner_filter: Optional["OwnerFilter"] = Field(alias="ownerFilter", default=None)
     mints_filter: Optional[List[str]] = Field(alias="mintsFilter", default=None)
+    inscrip_filters: Optional["InscripFilter"] = Field(
+        alias="inscripFilters", default=None
+    )
+    inscrip_order_filters: Optional[List["InscripOrderFilter"]] = Field(
+        alias="inscripOrderFilters", default=None
+    )
+    currencies: Optional[List[Optional[str]]] = None
 
 
 class HSwapModifyPairConfig(BaseModel):
@@ -69,6 +80,18 @@ class HSwapPairConfig(BaseModel):
     fee_bps: Optional[int] = Field(alias="feeBps", default=None)
     pair_type: HSwapPairType = Field(alias="pairType")
     curve_type: HSwapCurveType = Field(alias="curveType")
+
+
+class InscripFilter(BaseModel):
+    only_inscriptions: Optional[bool] = Field(alias="onlyInscriptions", default=None)
+    immutable_status: Optional[ImmutableStatus] = Field(
+        alias="immutableStatus", default=None
+    )
+
+
+class InscripOrderFilter(BaseModel):
+    min: Optional[Any] = None
+    max: Optional[Any] = None
 
 
 class OwnerFilter(BaseModel):
@@ -104,6 +127,17 @@ class TCompBidFieldFilter(BaseModel):
 class TCompBidsFilters(BaseModel):
     fields: Optional[List["TCompBidFieldFilter"]] = None
     no_fields: Optional[bool] = Field(alias="noFields", default=None)
+
+
+class TLockCollectionsFilters(BaseModel):
+    name: Optional[str] = None
+
+
+class TLockFilters(BaseModel):
+    statuses: Optional[List[TLockOrderStatus]] = None
+    order_type: Optional[TLockOrderType] = Field(alias="orderType", default=None)
+    taker: Optional[str] = None
+    maker: Optional[str] = None
 
 
 class TRollRequestedReward(BaseModel):
@@ -143,6 +177,7 @@ class TransactionsFilters(BaseModel):
     prices: Optional["PriceFilter"] = None
     traits: Optional[List["TraitFilter"]] = None
     trait_count: Optional["TraitCountFilter"] = Field(alias="traitCount", default=None)
+    currencies: Optional[List[Optional[str]]] = None
 
 
 class UserTxDataInput(BaseModel):

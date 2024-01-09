@@ -6,11 +6,11 @@ from typing import Any, Dict, List, Optional, Union
 from .active_listings_v_2 import ActiveListingsV2
 from .base_client import BaseClient
 from .base_model import UNSET, UnsetType
-from .collection_stats import CollectionStats
 from .collections_stats import CollectionsStats
 from .enums import ActiveListingsSortBy
 from .hade_swap_active_orders import HadeSwapActiveOrders
 from .input_types import ActiveListingsCursorInputV2, ActiveListingsFilters
+from .single_collection_stats import SingleCollectionStats
 from .tcomp_bids import TcompBids
 from .tensor_swap_active_orders import TensorSwapActiveOrders
 
@@ -31,7 +31,21 @@ class MarketDataClient(BaseClient):
         limit: Union[Optional[int], UnsetType] = UNSET,
         **kwargs: Any
     ) -> CollectionsStats:
-        """Only available in API mode!"""
+        """
+        Fetch collections and their stats across all marketplaces (**paginated**: max limit 50 = per query).
+
+        This is also where you get a collection’s internal `slug`, which is used to identify a collection for
+        other queries.
+
+        To filter for collections with available NFTs (or bids) on TensorSwap, simply check that either
+        statsTSwap.buyNowPrice and statsTSwap.sellNowPrice are non-null!
+
+        Please limit # of requests to this endpoint to 3/min (per batch of collections). Note that stats update
+        on average every 30-60 seconds anyways (not realtime!)
+
+        Also while slug will never change (only deleted), we may occasionally remap mints to a different
+        slug/collection as we improve our collection indexing process.
+        """
         query = gql(
             """
             query CollectionsStats($slugs: [String!], $slugsMe: [String!], $slugsDisplay: [String!], $ids: [String!], $sortBy: String, $page: Int, $limit: Int) {
@@ -95,10 +109,23 @@ class MarketDataClient(BaseClient):
         data = self.get_data(response)
         return CollectionsStats.model_validate(data)
 
-    def collection_stats(self, slug: str, **kwargs: Any) -> CollectionStats:
+    def single_collection_stats(
+        self, slug: str, **kwargs: Any
+    ) -> SingleCollectionStats:
+        """
+        Fetch a single’s collection stats by MCC mint, first verified creator, Tensor slug, or
+        or the url slugDisplay.
+
+        Note that slug can actually be any of the following (in priority order of lookup):
+         1. URL slugDisplay
+         2. Tensor internal slug (use this for all queries)
+         3. Tensor internal collection id
+         4. MCC mint
+         5. First verified creator address
+        """
         query = gql(
             """
-            query CollectionStats($slug: String!) {
+            query SingleCollectionStats($slug: String!) {
               instrumentTV2(slug: $slug) {
                 id
                 slug
@@ -132,14 +159,22 @@ class MarketDataClient(BaseClient):
         )
         variables: Dict[str, object] = {"slug": slug}
         response = self.execute(
-            query=query, operation_name="CollectionStats", variables=variables, **kwargs
+            query=query,
+            operation_name="SingleCollectionStats",
+            variables=variables,
+            **kwargs
         )
         data = self.get_data(response)
-        return CollectionStats.model_validate(data)
+        return SingleCollectionStats.model_validate(data)
 
     def tensor_swap_active_orders(
         self, slug: str, **kwargs: Any
     ) -> TensorSwapActiveOrders:
+        """
+        Fetch all TensorSwap active orders for a collection (by slug).
+        Pools that can you can sell into will have a non-null sellNowPrice.
+        Pools that can you can buy from will have a non-null buyNowPrice.
+        """
         query = gql(
             """
             query TensorSwapActiveOrders($slug: String!) {
@@ -181,6 +216,9 @@ class MarketDataClient(BaseClient):
         return TensorSwapActiveOrders.model_validate(data)
 
     def hade_swap_active_orders(self, slug: str, **kwargs: Any) -> HadeSwapActiveOrders:
+        """
+        Fetch all HadeSwap active orders for a collection (by slug).
+        """
         query = gql(
             """
             query HadeSwapActiveOrders($slug: String!) {
@@ -225,6 +263,11 @@ class MarketDataClient(BaseClient):
         cursor: Union[Optional[ActiveListingsCursorInputV2], UnsetType] = UNSET,
         **kwargs: Any
     ) -> ActiveListingsV2:
+        """
+        Fetch all TensorSwap active (standard marketplace) listings for a collection (by slug).
+
+        This is paginated with cursor and limit.
+        """
         query = gql(
             """
             query ActiveListingsV2($slug: String!, $sortBy: ActiveListingsSortBy!, $filters: ActiveListingsFilters, $limit: Int, $cursor: ActiveListingsCursorInputV2) {
@@ -272,6 +315,13 @@ class MarketDataClient(BaseClient):
         return ActiveListingsV2.model_validate(data)
 
     def tcomp_bids(self, slug: str, **kwargs: Any) -> TcompBids:
+        """
+        If field + fieldId is present, then it is a name bid (ie field = NAME).
+
+        For bids with margin, you will need to check the balance of the account onchain.
+
+        quantity - filledQuantity is the remaining # of NFTs that can be sold.
+        """
         query = gql(
             """
             query TcompBids($slug: String!) {

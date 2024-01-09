@@ -39,5 +39,5 @@ class UserActiveListingsV2UserActiveListingsV2TxsTx(BaseModel):
     tx_id: str = Field(alias="txId")
     tx_at: Any = Field(alias="txAt")
     source: DataSource
-    mint_onchain_id: str = Field(alias="mintOnchainId")
+    mint_onchain_id: Optional[str] = Field(alias="mintOnchainId")
     gross_amount: Optional[Any] = Field(alias="grossAmount")

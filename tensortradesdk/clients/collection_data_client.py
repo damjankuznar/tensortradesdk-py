@@ -11,6 +11,8 @@ from .input_types import CollectionMintsFilters
 from .mint import Mint
 from .mint_list import MintList
 from .mints import Mints
+from .refetch_mint_metadata import RefetchMintMetadata
+from .refresh_rarities import RefreshRarities
 
 
 def gql(q: str) -> str:
@@ -25,6 +27,9 @@ class CollectionDataClient(BaseClient):
         after: Union[Optional[str], UnsetType] = UNSET,
         **kwargs: Any
     ) -> MintList:
+        """
+        Get the list of mints for a given collection (slug).
+        """
         query = gql(
             """
             query MintList($slug: String!, $limit: Int, $after: String) {
@@ -46,7 +51,15 @@ class CollectionDataClient(BaseClient):
         limit: Union[Optional[int], UnsetType] = UNSET,
         **kwargs: Any
     ) -> Mint:
-        """returns mint with collection details (unverified and verified collections included)"""
+        """
+        Fetches a mint’s slug as well as:
+         * TensorSwap/HadeSwap orders tswapOrders /hswapOrders(both bids and/or the pool
+           that is sell it)
+          * The pool with a non-empty nftsForSale array is the pool you can buy the NFT from
+          * All other pools are pools that you can SELL NOW (for the sellNowPrice)
+         * Tensor single bids tensorBids : any active bids specifically for this NFT
+         * its active listing activeListings (if it’s listed on a traditional marketplace)
+        """
         query = gql(
             """
             query Mint($mint: String!, $sortBy: OrderSortBy, $limit: Int) {
@@ -112,7 +125,9 @@ class CollectionDataClient(BaseClient):
         return Mint.model_validate(data)
 
     def mints(self, token_mints: List[str], **kwargs: Any) -> Mints:
-        """returns all mints with collection details (unverified and verified collections included)"""
+        """
+        Get the collection slug for several mint addresses.
+        """
         query = gql(
             """
             query Mints($tokenMints: [String!]!) {
@@ -138,6 +153,9 @@ class CollectionDataClient(BaseClient):
         limit: Union[Optional[int], UnsetType] = UNSET,
         **kwargs: Any
     ) -> CollectionMints:
+        """
+        Get up to 10K mints for a collection and their Tensor rarities.
+        """
         query = gql(
             """
             query CollectionMints($slug: String!, $sortBy: CollectionMintsSortBy!, $filters: CollectionMintsFilters, $cursor: String, $limit: Int) {
@@ -175,3 +193,50 @@ class CollectionDataClient(BaseClient):
         )
         data = self.get_data(response)
         return CollectionMints.model_validate(data)
+
+    def refetch_mint_metadata(self, mint: str, **kwargs: Any) -> RefetchMintMetadata:
+        """
+        Refetches the NFT’s metadata (eg traits, image).
+
+        To reduce the amount of spam, there is 1 hour cooldown for rarities. See Refresh Rarities for
+        triggering a full rarities refresh.
+        """
+        query = gql(
+            """
+            mutation RefetchMintMetadata($mint: String!) {
+              refetchMintMetadata(mint: $mint) {
+                onchainId
+                metadataFetchedAt
+              }
+            }
+            """
+        )
+        variables: Dict[str, object] = {"mint": mint}
+        response = self.execute(
+            query=query,
+            operation_name="RefetchMintMetadata",
+            variables=variables,
+            **kwargs
+        )
+        data = self.get_data(response)
+        return RefetchMintMetadata.model_validate(data)
+
+    def refresh_rarities(self, slug: str, **kwargs: Any) -> RefreshRarities:
+        """
+        Refreshes a collection’s rarity scores on Tensor.
+
+        To reduce the amount of spam, there is 1 hour cooldown for rarities.
+        """
+        query = gql(
+            """
+            mutation RefreshRarities($slug: String!) {
+              refreshRarities(slug: $slug)
+            }
+            """
+        )
+        variables: Dict[str, object] = {"slug": slug}
+        response = self.execute(
+            query=query, operation_name="RefreshRarities", variables=variables, **kwargs
+        )
+        data = self.get_data(response)
+        return RefreshRarities.model_validate(data)

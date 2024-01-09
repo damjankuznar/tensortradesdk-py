@@ -21,7 +21,7 @@ class NewTransactionTV2NewTransactionTv2(BaseModel):
 
 class NewTransactionTV2NewTransactionTv2Tx(BaseModel):
     gross_amount: Optional[Any] = Field(alias="grossAmount")
-    mint_onchain_id: str = Field(alias="mintOnchainId")
+    mint_onchain_id: Optional[str] = Field(alias="mintOnchainId")
     tx_at: Any = Field(alias="txAt")
     tx_id: str = Field(alias="txId")
     tx_type: TransactionType = Field(alias="txType")

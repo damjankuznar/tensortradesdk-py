@@ -7,6 +7,19 @@ query CollectionsStats(
   $page: Int,
   $limit: Int,
 ) {
+  # Fetch collections and their stats across all marketplaces (**paginated**: max limit 50 = per query).
+  #
+  # This is also where you get a collection’s internal `slug`, which is used to identify a collection for
+  # other queries.
+  #
+  # To filter for collections with available NFTs (or bids) on TensorSwap, simply check that either
+  # statsTSwap.buyNowPrice and statsTSwap.sellNowPrice are non-null!
+  #
+  # Please limit # of requests to this endpoint to 3/min (per batch of collections). Note that stats update
+  # on average every 30-60 seconds anyways (not realtime!)
+  #
+  # Also while slug will never change (only deleted), we may occasionally remap mints to a different
+  # slug/collection as we improve our collection indexing process.
   allCollections(
     slugs: $slugs,
 		slugsMe: $slugsMe,
@@ -47,7 +60,17 @@ query CollectionsStats(
     }
   }
 }
-query CollectionStats($slug: String!) {
+query SingleCollectionStats($slug: String!) {
+  # Fetch a single’s collection stats by MCC mint, first verified creator, Tensor slug, or
+  # or the url slugDisplay.
+  #
+  # Note that slug can actually be any of the following (in priority order of lookup):
+  #  1. URL slugDisplay
+  #  2. Tensor internal slug (use this for all queries)
+  #  3. Tensor internal collection id
+  #  4. MCC mint
+  #  5. First verified creator address
+
   instrumentTV2(slug: $slug) {
     id # Used to find corresponding whitelist PDA (`uuid`) if using SDK
     slug # internal ID for collection (UUID or human-readable)
@@ -78,6 +101,10 @@ query CollectionStats($slug: String!) {
   }
 }
 query TensorSwapActiveOrders($slug: String!) {
+  # Fetch all TensorSwap active orders for a collection (by slug).
+  # Pools that can you can sell into will have a non-null sellNowPrice.
+  # Pools that can you can buy from will have a non-null buyNowPrice.
+
   tswapOrders(slug: $slug) {
     address
     createdUnix
@@ -104,6 +131,7 @@ query TensorSwapActiveOrders($slug: String!) {
   }
 }
 query HadeSwapActiveOrders($slug: String!) {
+  # Fetch all HadeSwap active orders for a collection (by slug).
   hswapOrders(slug: $slug) {
     address
     assetReceiver
@@ -131,6 +159,9 @@ query ActiveListingsV2(
   $limit: Int
   $cursor: ActiveListingsCursorInputV2
 ) {
+  # Fetch all TensorSwap active (standard marketplace) listings for a collection (by slug).
+  #
+  # This is paginated with cursor and limit.
   activeListingsV2(
     slug: $slug
     sortBy: $sortBy
@@ -157,6 +188,11 @@ query ActiveListingsV2(
   }
 }
 query TcompBids($slug: String!) {
+  # If field + fieldId is present, then it is a name bid (ie field = NAME).
+  #
+  # For bids with margin, you will need to check the balance of the account onchain.
+  #
+  # quantity - filledQuantity is the remaining # of NFTs that can be sold.
   tcompBids(slug: $slug) {
     address
     amount

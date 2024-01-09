@@ -1,4 +1,5 @@
 query UserTensorSwapOrders($owner: String!) {
+  # Fetch all TensorSwap active orders for a wallet.
   userTswapOrders(owner: $owner) {
     pool {
       address
@@ -33,6 +34,7 @@ query UserActiveListingsV2(
   $limit: Int
   $slug: String
 ) {
+  # Fetch all marketplace mint listings (TensorSwap, TComp, HyperSpace, ME, etc.) for a wallet.
   userActiveListingsV2(
     wallets: $wallets
     cursor: $cursor
@@ -58,6 +60,7 @@ query UserActiveListingsV2(
   }
 }
 query UserTcompBids($owner: String!) {
+  # Fetch all TComp active bids for a wallet.
   userTcompBids(owner: $owner) {
     bid {
       address

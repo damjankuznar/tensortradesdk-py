@@ -16,7 +16,7 @@ input ActiveListingsCursorInputV2 {
 
 type ActiveListingsCursorV2 {
   """
-  stringified cursor. Could be object, array, number or string after parsing.gra
+  stringified cursor. Could be object, array, number or string after parsing.
   """
   str: String!
 }
@@ -30,6 +30,7 @@ input ActiveListingsFilters {
   nameFilter: String
   ownerFilter: OwnerFilter
   mintsFilter: [String!]
+  currencies: [String]
 }
 
 type ActiveListingsPageV2 {
@@ -47,6 +48,8 @@ enum ActiveListingsSortBy {
   LastSaleAsc
   LastSaleDesc
   ListedDesc
+  OrdinalAsc
+  OrdinalDesc
   PriceAsc
   PriceDesc
   RankHrttAsc
@@ -200,6 +203,19 @@ type CollInfo {
   slug: String!
 }
 
+enum CollectionCategory {
+  ART
+  DOMAIN_NAMES
+  GAMING
+  METAVERSE
+  MUSIC
+  OTHER
+  PFPS
+  PHOTOGRAPHY
+  SPORTS
+  UTILITY
+}
+
 type CollectionFavorite {
   favList: Int!
   profileId: String!
@@ -237,6 +253,15 @@ input CollectionMintsFilters {
   """TODO: doesn't work for unlisted regular NFTs"""
   ownerFilter: OwnerFilter
   mintsFilter: [String!]
+  inscripFilters: InscripFilter
+
+  """Each filter is OR'ed together"""
+  inscripOrderFilters: [InscripOrderFilter!]
+
+  """
+  For listings, filters those that are listed in the specified currencies. Non-listed NFTs show regardless of what's passed here. Null = filters SOL. Empty = filters everything.
+  """
+  currencies: [String]
 }
 
 enum CollectionMintsSortBy {
@@ -245,6 +270,8 @@ enum CollectionMintsSortBy {
   ListedTimeDesc
   ListingPriceAsc
   ListingPriceDesc
+  OrdinalAsc
+  OrdinalDesc
   RankHrttAsc
   RankHrttDesc
   RankStatAsc
@@ -317,6 +344,53 @@ type CollectionTraitsRarities {
   traitMeta: JSON!
 }
 
+type CollectionV2 {
+  categories: [CollectionCategory!]!
+  collStatsV2: CollectionStatsV2
+  compressed: Boolean!
+  createdAt: Timestamp!
+  creator: String
+  creatorPageGroup: String
+  creatorPageId: String
+  creatorPageOrdinal: Int!
+  description: String
+  discord: String
+  draftAppliedAt: Timestamp
+  estimatedMintDate: Timestamp
+  explicitContent: Boolean!
+  flagReason: String
+  freezeMetadata: Boolean!
+  freezeRoyaltyStandard: Boolean!
+  hidden: Boolean!
+  id: String!
+  ignoreVoc: Boolean!
+  imageUri: String
+  inscription: Boolean!
+  name: String
+  numMints: Int
+  secured: Boolean!
+  sellRoyaltyFeeBPS: Int
+  setterMintMe: String
+  slug: String!
+  slugDisplay: String
+  slugMe: String
+  slugOs: String
+  spl20: Boolean!
+  spl20Creator: String
+  spl20Deployment: String
+  spl20DeploymentComplete: Boolean
+  symbol: String
+  teamId: String
+  tensorVerified: Boolean!
+  tokenStandard: TokenStandard
+  tswapUnsupported: Boolean!
+  twitter: String
+  updatedAt: Timestamp!
+  validator: String
+  validatorComplete: Boolean
+  website: String
+}
+
 type ConfirmMeAuthResponse {
   exp: Float!
   id: String!
@@ -381,6 +455,8 @@ enum DataSource {
   TCOMP
   TENSORBID
   TENSORSWAP
+  TGARD
+  TLOCK
   TOKEN_METADATA
   TROLL
   TSTAKE
@@ -510,9 +586,20 @@ type HSwapPoolWithColl {
   slug: String!
 }
 
+type HeaderAnnouncement {
+  colorScheme: String
+  msg: String!
+}
+
 type HistoryPage {
   endCursor: String
   hasMore: Boolean!
+}
+
+enum ImmutableStatus {
+  BOTH
+  IMMUTABLE_ONLY
+  MUTABLE_ONLY
 }
 
 type InitEditPoolTxResponse {
@@ -526,6 +613,30 @@ type InitPairTxResponse {
   txs: [OnchainTx!]!
 }
 
+input InscripFilter {
+  onlyInscriptions: Boolean
+  immutableStatus: ImmutableStatus
+}
+
+input InscripOrderFilter {
+  min: Decimal
+  max: Decimal
+}
+
+type InscriptionData {
+  immutable: Boolean!
+  inscription: String!
+  inscriptionData: String!
+  order: Decimal!
+  spl20: InscriptionSpl20Data
+}
+
+type InscriptionSpl20Data {
+  amt: Decimal!
+  p: String!
+  tick: String!
+}
+
 type InstrumentForPortfolio {
   bidCount: Int!
   compressed: Boolean!
@@ -534,6 +645,7 @@ type InstrumentForPortfolio {
   creatorPage: CreatorPage
   description: String
   discord: String
+  explicitContent: Boolean!
   favCount: Int!
   firstListDate: Timestamp
   flagReason: String
@@ -543,6 +655,7 @@ type InstrumentForPortfolio {
   hswapWhitelisted: Boolean!
   id: String!
   imageUri: String
+  inscription: Boolean!
   listedCount: Int!
   mintCount: Int!
   name: String!
@@ -550,6 +663,7 @@ type InstrumentForPortfolio {
   slug: String!
   slugDisplay: String
   slugMe: String
+  spl20: Boolean!
   statsV2: CollectionStatsV2
   symbol: String
   teamId: String
@@ -565,6 +679,7 @@ type InstrumentForPortfolio {
   tokenStandard: TokenStandard
   traits: CollectionTraitsRarities
   twitter: String
+  updatedAt: Timestamp!
   website: String
 }
 
@@ -575,6 +690,7 @@ type InstrumentTV2 {
   creatorPage: CreatorPage
   description: String
   discord: String
+  explicitContent: Boolean!
   firstListDate: Timestamp
   flagReason: String
   hidden: Boolean!
@@ -583,11 +699,13 @@ type InstrumentTV2 {
   hswapWhitelisted: Boolean!
   id: String!
   imageUri: String
+  inscription: Boolean!
   name: String!
   sellRoyaltyFeeBPS: Int
   slug: String!
   slugDisplay: String
   slugMe: String
+  spl20: Boolean!
   statsV2: CollectionStatsV2
   symbol: String
   teamId: String
@@ -603,6 +721,7 @@ type InstrumentTV2 {
   tokenStandard: TokenStandard
   traits: CollectionTraitsRarities
   twitter: String
+  updatedAt: Timestamp!
   website: String
 }
 
@@ -613,6 +732,7 @@ type InstrumentWithMints {
   creatorPage: CreatorPage
   description: String
   discord: String
+  explicitContent: Boolean!
   firstListDate: Timestamp
   flagReason: String
   hidden: Boolean!
@@ -621,6 +741,7 @@ type InstrumentWithMints {
   hswapWhitelisted: Boolean!
   id: String!
   imageUri: String
+  inscription: Boolean!
   mintCount: Int!
   mints: [MintWithColl!]
   name: String!
@@ -628,6 +749,7 @@ type InstrumentWithMints {
   slug: String!
   slugDisplay: String
   slugMe: String
+  spl20: Boolean!
   statsV2: CollectionStatsV2
   symbol: String
   teamId: String
@@ -643,6 +765,7 @@ type InstrumentWithMints {
   tokenStandard: TokenStandard
   traits: CollectionTraitsRarities
   twitter: String
+  updatedAt: Timestamp!
   website: String
 }
 
@@ -655,6 +778,11 @@ type LastSale implements TLastSale {
   price: Decimal!
   priceUnit: Currency!
   txAt: Timestamp!
+}
+
+type LegacyNftTransferTxResponse {
+  isPnft: Boolean!
+  txs: [OnchainTx!]!
 }
 
 type LinkedTransactionMintWithColl {
@@ -674,6 +802,7 @@ type LinkedTxMintTV2 implements TLinkedTxMintTV2 {
   compressed: Boolean!
   hidden: Boolean!
   imageUri: String
+  inscription: InscriptionData
   lastSale: LastSale
   metadataFetchedAt: Timestamp
   metadataUri: String
@@ -690,6 +819,7 @@ type LinkedTxMintTV2 implements TLinkedTxMintTV2 {
   rarityRankTeam: Int
   rarityRankTn: Int
   sellRoyaltyFeeBPS: Int
+  slug: String
   staked: StakeDetails
   tokenEdition: Int
   tokenStandard: TokenStandard
@@ -735,13 +865,18 @@ type MintV2 {
   accState: String
   animationUri: String
   attributes: [Attribute!]
+  collection: CollectionV2
   compressed: Boolean!
   hidden: Boolean!
   imageUri: String
+  inscription: InscriptionData
   lastSale: LastSale
   metadataFetchedAt: Timestamp
   metadataUri: String
   name: String
+
+  """useful for figure out rarity class (eg legendary, mythic, rare)"""
+  numMints: Int
   onchainId: String!
   owner: String
   rarityRankHR: Int @deprecated(reason: "Use rarityRankHrtt")
@@ -754,6 +889,7 @@ type MintV2 {
   rarityRankTeam: Int
   rarityRankTn: Int
   sellRoyaltyFeeBPS: Int
+  slug: String
   tokenEdition: Int
   tokenStandard: TokenStandard
   verifiedCollection: String
@@ -771,6 +907,7 @@ type MintWithColl implements TLinkedTxMintTV2 {
   hidden: Boolean!
   hswapOrders: [HSwapPool!]!
   imageUri: String
+  inscription: InscriptionData
   lastSale: LastSale
   metadataFetchedAt: Timestamp
   metadataUri: String
@@ -869,7 +1006,23 @@ type Mutation {
   removeFavCollection(favList: Int, jwt: String!, slug: String!): String!
   removeFavMint(favList: Int, jwt: String!, mint: String!): String!
   removeFavWallet(favList: Int, jwt: String!, wallet: String!): String!
-  sendUserTransaction(action: String!, amounts: [Decimal!], lastValidBlockHeight: Int, mints: [String!], mp: SupportedMarketplace!, poolAddresses: [String!], serializedTx: [Int!]!, txMpMetadata: JSON, txVersion: Int, wallet: String!): String!
+  sendUserTransaction(
+    action: String!
+    amounts: [Decimal!]
+    lastValidBlockHeight: Int
+    mints: [String!]
+    mp: SupportedMarketplace!
+    poolAddresses: [String!]
+    serializedTx: [Int!]!
+    txMpMetadata: JSON
+    txVersion: Int
+    wallet: String!
+
+    """
+    Certain smart contract wallets (SquadsX) may require custom logic to map wallet <-> feePayer, hence why we pass the name through.
+    """
+    walletName: String
+  ): String!
   setBidNotifMinPctFloor(jwt: String!, minPctFloor: Int!): Int!
   setCollectionNotifThresholds(
     floorChangePct: Int
@@ -880,11 +1033,12 @@ type Mutation {
     """if not passed, then all currently favored slugs are updated"""
     slug: String
   ): String
+  tpackGeneratePackImage(address: String!, mint: String!): TPackGenImageResponse!
   twitterApiV1Authenticate(jwt: String!, oauth_token: String!, oauth_verifier: String!): UserProfile!
   twitterApiV1VerifyFollow(jwt: String!): UserProfile
   twitterApiV2Authenticate(code: String!, jwt: String!, state: String!): UserProfile!
   unlinkUserProfileV2(jwt: String!, wallet: String!): UserProfile
-  updateUserProfile(jwt: String!, username: String, wallet: String!): UserProfile!
+  updateUserProfile(jwt: String!, pfpMint: String, username: String, wallet: String!): UserProfile!
   verifyCaptcha(signatureBase58: String!, wallet: String!): CaptchaStatus!
   verifyCreateUserProfileV2(
     """goes together with the memo tx"""
@@ -941,6 +1095,11 @@ input OwnerFilter {
   exclude: [String!]
 }
 
+type PaginatedParsedTransactions {
+  page: TransactionsPage!
+  txs: [ParsedTransaction!]!
+}
+
 type PaginatedTRollHistory {
   events: [TRollHistoryEvent!]!
   page: HistoryPage!
@@ -968,7 +1127,8 @@ type ParsedTransaction {
   grossAmountUnit: String
   keyVersion: Int!
   listingEnd: Timestamp
-  mintOnchainId: String!
+  mint: MintV2
+  mintOnchainId: String
   poolOnchainId: String
   sellerId: String
   source: DataSource!
@@ -1029,8 +1189,44 @@ type Query {
 
   """Fetches all NFT transactions for wallet, listing AND swap."""
   allUserTransactionsV2(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, slug: String, wallets: [String!]!): PaginatedTransactionsWithColl!
-  bidTx(bidder: String!, expireIn: Float, marginNr: Float, mint: String!, price: Decimal!): TBidTxResponse!
-  cancelBidTx(bidder: String!, mint: String!): TBidTxResponse!
+
+  """
+  Fetches all NFT transactions for a given wallet, marketplace AND AMM txs.
+  """
+  allUserTransactionsV3(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, slug: String, wallets: [String!]!): PaginatedParsedTransactions!
+  bidTx(
+    bidder: String!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    expireIn: Float
+    marginNr: Float
+    mint: String!
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TBidTxResponse!
+  cancelBidTx(
+    bidder: String!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TBidTxResponse!
   captchaStatus(wallet: String!): CaptchaStatus
   collectionHolderStats(slug: String!): CollectionHolderStats
   collectionMintsV2(cursor: String, filters: CollectionMintsFilters, limit: Int = 250, slug: String!, sortBy: CollectionMintsSortBy!): CollectionMintsV2!
@@ -1047,54 +1243,146 @@ type Query {
   getOwnerMintReaction(jwt: String!, mint: String!, owner: String!): OfferReaction
   getRefereePointContributionsForPeriod(jwt: String!, period: ProfilePointsPeriod!): [RefereePointContribution!]!
   globalVol: String
-  hswapBuyNftTx(buyer: String!, mathCounter: Float, maxPriceLamports: Decimal!, mint: String!, pair: String!): TxResponse!
-  hswapClosePairTx(pair: String!): TxResponse!
+  headerAnnouncement: HeaderAnnouncement
+  hswapBuyNftTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    maxPriceLamports: Decimal!
+    mint: String!
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  hswapClosePairTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   hswapDepositWithdrawBalancedLiquidityTx(
     action: DepositWithdrawAction!
 
     """If not provided, will look up in index for pair."""
     authAdapter: String
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     mint: String!
     owner: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse! @deprecated(reason: "see hswapDepositWithdrawBuyOrdersTx and hswapDepositWithdrawSellOrdersTx")
   hswapDepositWithdrawBuyOrdersTx(
     action: DepositWithdrawAction!
 
     """If not provided, will look up in index for pair."""
     authAdapter: String
+    blockhash: String
     buyOrders: Int!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     owner: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
   hswapDepositWithdrawNftTx(
     action: DepositWithdrawAction!
 
     """If not provided, will look up in index for pair."""
     authAdapter: String
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     mint: String!
     owner: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
   hswapDepositWithdrawSellOrderTx(
     action: DepositWithdrawAction!
 
     """If not provided, will look up in index for pair."""
     authAdapter: String
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     mint: String!
     owner: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
   hswapDepositWithdrawSolTx(
     action: DepositWithdrawAction!
 
     """If not provided, will look up in index for pair."""
     authAdapter: String
+    blockhash: String
     buyOrdersQuantity: Int!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     owner: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
   hswapExchangeNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+
     """max price for the buy tx (should the current sell price)"""
     maxPriceLamports: Decimal!
 
@@ -1103,25 +1391,136 @@ type Query {
     mintToBuy: String!
     mintToSell: String!
     pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     taker: String!
   ): TxResponse!
-  hswapInitPairTx(authKpSecretBase64: String, config: HSwapPairConfig!, owner: String!, pairKpSecretBase64: String, slug: String!): InitPairTxResponse!
-  hswapModifyPairTx(config: HSwapModifyPairConfig!, pair: String!): TxResponse!
+  hswapInitPairTx(
+    authKpSecretBase64: String
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    config: HSwapPairConfig!
+    owner: String!
+    pairKpSecretBase64: String
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    slug: String!
+  ): InitPairTxResponse!
+  hswapModifyPairTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    config: HSwapModifyPairConfig!
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   hswapOrderTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
   hswapOrders(
     """If owner is specified, also returns the empty pools of the owner"""
     owner: String
     slug: String!
   ): [HSwapPool!]!
-  hswapSellNftTx(mathCounter: Float, minPriceLamports: Decimal!, mint: String!, pair: String!, seller: String!): TxResponse!
+  hswapSellNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mathCounter: Float
+    minPriceLamports: Decimal!
+    mint: String!
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String!
+  ): TxResponse!
 
   """This withdraws 2 buy orders worth of SOL at a time from an LP pair."""
-  hswapWithdrawBuyLiquidityTx(pair: String!): TxResponse! @deprecated(reason: "see hswapDepositWithdrawBuyOrdersTx")
-  hswapWithdrawFeesTx(pair: String!): TxResponse!
+  hswapWithdrawBuyLiquidityTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse! @deprecated(reason: "see hswapDepositWithdrawBuyOrdersTx")
+  hswapWithdrawFeesTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
 
   """This withdraws 2 NFTs at a time from an LP pair."""
-  hswapWithdrawSellLiquidityTx(mint1: String!, mint2: String!, pair: String!): TxResponse! @deprecated(reason: "see hswapDepositWithdrawSellOrdersTx")
-  hyperspaceBuyNftTx(buyer: String!, mint: String!, optionalRoyaltyBps: Int, priceLamports: Decimal!, seller: String): TxResponse!
+  hswapWithdrawSellLiquidityTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint1: String!
+    mint2: String!
+    pair: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse! @deprecated(reason: "see hswapDepositWithdrawSellOrdersTx")
+  hyperspaceBuyNftTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    optionalRoyaltyBps: Int
+    priceLamports: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String
+  ): TxResponse!
   instrumentTV2(slug: String!): InstrumentTV2
 
   """
@@ -1138,9 +1537,44 @@ type Query {
     """
     slugsToInflate: [String!]
   ): [InstrumentWithMints!]!
+
+  """See tcompTransferTx for compressed transfers"""
+  legacyNftTransferTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    from: String!
+    mint: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    to: String!
+  ): LegacyNftTransferTxResponse!
   meAuthEnabled: Boolean!
   meBids(slug: String!, wallet: String!): [MintBid!]!
-  meBuyNftTx(buyer: String!, mint: String!, optionalRoyaltyPct: Int, priceLamports: Decimal!, seller: String): TxResponse!
+  meBuyNftTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    optionalRoyaltyPct: Int
+    priceLamports: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String
+  ): TxResponse!
   meDelistNftTx(mint: String!, priceLamports: Decimal!, seller: String!): TxResponse!
 
   """
@@ -1151,6 +1585,7 @@ type Query {
   mintListTSwap(slug: String!): [String!]! @deprecated(reason: "Use mintList instead.")
   mintSingleBidTransactions(cursor: TransactionsCursorInput, limit: Int = 100, mint: String!): PaginatedTransactions!
   mintTensorBids(filterFunded: Boolean, maxCount: Float, mint: String!): [MintBid!]!
+  mintTraits(mint: String!): CollectionTraitsRarities
   mintTransactions(cursor: TransactionsCursorInput, filters: TransactionsFilters, limit: Int = 100, mint: String!): PaginatedTransactions!
 
   """
@@ -1158,13 +1593,45 @@ type Query {
   """
   mints(tokenMints: [String!]!): [MintWithColl!]!
   mpFees(owner: String): [MpFees!]!
-  otcBundledMakeOffer(expireInSec: BigInt, maker: String!, makerNfts: [String!]!, makerSol: Decimal, offerId: String, sellerFeeBasisPoints: Float!, taker: String!, takerNfts: [String!]!, takerSol: Decimal): TxResponse!
+  otcBundledMakeOffer(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    expireInSec: BigInt
+    maker: String!
+    makerNfts: [String!]!
+    makerSol: Decimal
+    offerId: String
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    sellerFeeBasisPoints: Float!
+    taker: String!
+    takerNfts: [String!]!
+    takerSol: Decimal
+  ): TxResponse!
   otcBundledMakerWithdraw(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     maker: String!
 
     """if not taken, maker withdraws their own nfts"""
     makerNfts: [String!]!
     offerId: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     taken: Boolean!
 
     """if taken, maker withdraws taker's nfts"""
@@ -1172,35 +1639,141 @@ type Query {
     takerOrMaker: String!
   ): TxResponse!
   otcBundledTakeOffer(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     creatorShares: [Float!]!
     creators: [String!]!
     maker: String!
     offerId: String!
     placedSlot: BigInt!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     taker: String!
 
     """nfts taker deposits"""
     takerNfts: [String!]!
   ): TxResponse!
-  otcBundledTakerWithdraw(makerNfts: [String!]!, offerId: String!, taker: String!): TxResponse!
+  otcBundledTakerWithdraw(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    makerNfts: [String!]!
+    offerId: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    taker: String!
+  ): TxResponse!
   otcCloseOffer(
+    blockhash: String
+
     """
     Either taker or maker can sign to close the offer. Taker can only sign if offer has been accepted.
     """
     closer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     maker: String!
     offerId: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
-  otcDepositNft(compressed: Boolean!, mint: String!, offerId: String!, owner: String!, side: SwapSide!, sourceAta: String): TxResponse!
-  otcMakeOffer(expireInSec: BigInt, maker: String!, makerNfts: [String!]!, makerSol: Decimal, offerId: String, sellerFeeBasisPoints: Float!, taker: String!, takerNfts: [String!]!, takerSol: Decimal): TxResponse!
-  otcOffers(owner: String!, side: SwapSide!): [OtcOffer!]!
-  otcTakeOffer(creatorShares: [Float!]!, creators: [String!]!, maker: String!, offerId: String!, placedSlot: BigInt!, taker: String!): TxResponse!
-  otcWithdrawNft(
+  otcDepositNft(
+    blockhash: String
     compressed: Boolean!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    offerId: String!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    side: SwapSide!
+    sourceAta: String
+  ): TxResponse!
+  otcMakeOffer(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    expireInSec: BigInt
+    maker: String!
+    makerNfts: [String!]!
+    makerSol: Decimal
+    offerId: String
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    sellerFeeBasisPoints: Float!
+    taker: String!
+    takerNfts: [String!]!
+    takerSol: Decimal
+  ): TxResponse!
+  otcOffers(owner: String!, side: SwapSide!): [OtcOffer!]!
+  otcTakeOffer(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    creatorShares: [Float!]!
+    creators: [String!]!
+    maker: String!
+    offerId: String!
+    placedSlot: BigInt!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    taker: String!
+  ): TxResponse!
+  otcWithdrawNft(
+    blockhash: String
+    compressed: Boolean!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     destAta: String
     mint: String!
     offerId: String!
     owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     side: SwapSide!
 
     """
@@ -1219,15 +1792,54 @@ type Query {
     limit: Int = 100
     slug: String!
   ): PaginatedTransactions!
-  serviceStatuses: [ServiceStatus!]!
+  referralsLeaderboard(sortBy: AirdropThreeSortBy!): [ReferralsStats!]!
+  rpcPriority: [RPCProvider!]!
   solanaTps: Int!
-  solanartBuyNftTx(buyer: String!, mint: String!, priceLamports: Decimal!, seller: String!): TxResponse!
+  solanartBuyNftTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    priceLamports: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String!
+  ): TxResponse!
   stakedTensorians(owner: String!): [MintWithColl!]!
-  takeBidTx(bidder: String!, mint: String!, optionalRoyaltyPct: Int, price: Decimal!, seller: String!): TBidTxResponse!
+  takeBidTx(
+    bidder: String!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    optionalRoyaltyPct: Int
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String!
+  ): TBidTxResponse!
   tcompBidTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
   tcompBidTx(
     attributes: [AttributeInput!]
-    computeUnits: Int
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     depositLamports: Decimal
     expireIn: Float
     field: TCompField
@@ -1235,9 +1847,18 @@ type Query {
     marginNr: Float
     owner: String!
     price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
     priorityMicroLamports: Int
     privateTaker: String
     quantity: Float!
+
+    """
+    optional: Specifies the rent payer for the bid or listing. Upon closure of the PDA, the rent is reimbursed to the rent payer. It is important to note that the 'Owner' must authorize the closure. Alternatively, an expiration period can be set, forcing the bid or listing to expire after a predetermined number of seconds.
+    """
+    rentPayer: String
 
     """
     eithr target + targetId must be passed or slug. If slug is passed, it takes precedence
@@ -1258,19 +1879,314 @@ type Query {
     owner: String
     slug: String!
   ): [TCompBid!]!
-  tcompBuyTx(buyer: String!, maxPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, owner: String!, payer: String): TxResponse!
-  tcompCancelBidTx(mint: String!, owner: String!): TCompBidTxResponse!
-  tcompCancelCollBidTx(bidStateAddress: String!): TCompBidTxResponse!
-  tcompDelistTx(mint: String!, owner: String!): TxResponse!
-  tcompEditBidTx(attachDetachMargin: AttachDetachAction, bidStateAddress: String!, expireIn: Float, marginNr: Float, price: Decimal, privateTaker: String, quantity: Float): TCompBidTxResponse!
-  tcompEditTx(expireIn: Float, mint: String!, owner: String!, price: Decimal!, privateTaker: String): TxResponse!
-  tcompListTx(delegateSigner: Boolean, expireIn: Float, mint: String!, owner: String!, payer: String, price: Decimal!, privateTaker: String): TxResponse!
-  tcompTakeBidTx(bidStateAddress: String, buyer: String, delegateSigner: Boolean, minPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, seller: String!): TCompBidTxResponse!
-  tcompTransferTx(from: String!, mint: String!, to: String!): TxResponse!
+  tcompBuyTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    currency: String
+    feePayer: String
+    maxPrice: Decimal!
+    mint: String!
+    optionalRoyaltyPct: Int
+    owner: String!
+    payer: String
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    takerBroker: String
+  ): TxResponse!
+  tcompCancelBidTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TCompBidTxResponse!
+  tcompCancelCollBidTx(
+    bidStateAddress: String!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TCompBidTxResponse!
+  tcompDelistTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    feePayer: String
+    mint: String!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tcompEditBidTx(
+    attachDetachMargin: AttachDetachAction
+    bidStateAddress: String!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    expireIn: Float
+    marginNr: Float
+    price: Decimal
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    privateTaker: String
+    quantity: Float
+  ): TCompBidTxResponse!
+  tcompEditTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    currency: String
+    expireIn: Float
+    feePayer: String
+    mint: String!
+    owner: String!
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    privateTaker: String
+  ): TxResponse!
+  tcompListTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    currency: String
+    delegateSigner: Boolean
+    expireIn: Float
+    feePayer: String
+    mint: String!
+    owner: String!
+    payer: String
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    privateTaker: String
+
+    """
+    optional: Specifies the rent payer for the bid or listing. Upon closure of the PDA, the rent is reimbursed to the rent payer. It is important to note that the 'Owner' must authorize the closure. Alternatively, an expiration period can be set, forcing the bid or listing to expire after a predetermined number of seconds.
+    """
+    rentPayer: String
+  ): TxResponse!
+  tcompTakeBidTx(
+    bidStateAddress: String
+    blockhash: String
+    buyer: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    delegateSigner: Boolean
+    minPrice: Decimal!
+    mint: String!
+    optionalRoyaltyPct: Int
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    seller: String!
+  ): TCompBidTxResponse!
+
+  """See legacyNftTransferTx for decompressed transfers"""
+  tcompTransferTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    feePayer: String
+    from: String!
+    mint: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    to: String!
+  ): TxResponse!
   tensoriansCounts: MintedTensorians!
+  tlockClaimTx(
+    action: TLockClaimAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    orderState: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tlockCloseOrderTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    orderState: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tlockCollecions(cursor: String, filters: TLockCollectionsFilters, limit: Int = 250, slugs: [String!], sortBy: TLockCollectionsSortBy!): TLockCollections!
+  tlockCollectionStats(filters: TLockFilters): [TLockCollectionStats!]
+  tlockDepositWithdrawNftTx(
+    action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    orderState: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tlockLockOrderTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    nonce: Int!
+    orderState: String!
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    taker: String!
+  ): TxResponse!
+  tlockOrders(cursor: String, filters: TLockFilters, limit: Int = 250, slug: String, sortBy: TLockOrderSortBy!): TLockOrders!
+  tlockTakeProfitBuyNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    maxPrice: Decimal!
+    mint: String!
+    orderState: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tlockTakeProfitSellNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    minPrice: Decimal!
+    mint: String!
+    orderState: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tlockUpsertOrderTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    depositMint: String
+    maker: String!
+    marginNr: Int
+
+    """32-length byte array, if not passed in we'll generate one for you"""
+    orderId: [Int!]
+    orderType: TLockOrderType!
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    slug: String!
+  ): TxResponse!
   traits(slug: String!): CollectionTraitsRarities
   trollCommitTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     optionalRoyaltyPct: Int
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     requestedRewards: [TRollRequestedReward!]!
     user: String!
 
@@ -1279,23 +2195,153 @@ type Query {
     wagerRebateAmount: Decimal = "0"
   ): TxResponse!
   trollHistory(cursor: String, limit: Int, wallet: String!): PaginatedTRollHistory!
+  trollListerStats(wallet: String!): TRollListerStats!
   trollRewardStatus(commitSig: String!): TRollRewardStatus
   trollRoller(wallet: String!): TRollRoller
   trollTensorPoints(wallet: String!): Int
-  tstakeTx(action: TStakeAction!, mints: [String!]!, owner: String!): TxResponse!
-  tswapAttachPoolMarginAccountTx(config: PoolConfig!, marginNr: Float!, owner: String!, whitelist: String!): TxResponse!
-  tswapBuyNftTx(buyer: String!, maxPriceLamports: Decimal!, mint: String!, optionalRoyaltyPct: Int, pool: String!): TxResponse!
-  tswapBuySingleListingTx(buyer: String!, maxPrice: Decimal!, mint: String!, optionalRoyaltyPct: Int, owner: String!): TxResponse!
-  tswapCloseMarginAccountTx(marginNr: Float!, owner: String!): TxResponse!
-  tswapClosePoolTx(pool: String!): TxResponse!
-  tswapDelistNftTx(mint: String!, owner: String!, payer: String): TxResponse!
-  tswapDepositWithdrawMarginAccountTx(action: DepositWithdrawAction!, lamports: Decimal!, marginNr: Float!, owner: String!): TxResponse!
+  tstakeTx(
+    action: TStakeAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mints: [String!]!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapAttachPoolMarginAccountTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    config: PoolConfig!
+    marginNr: Float!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    whitelist: String!
+  ): TxResponse!
+  tswapBuyNftTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    maxPriceLamports: Decimal!
+    mint: String!
+    optionalRoyaltyPct: Int
+    pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapBuySingleListingTx(
+    blockhash: String
+    buyer: String!
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    maxPrice: Decimal!
+    mint: String!
+    optionalRoyaltyPct: Int
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapCloseMarginAccountTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    marginNr: Float!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapClosePoolTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapDelistNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    owner: String!
+    payer: String
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapDepositWithdrawMarginAccountTx(
+    action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    lamports: Decimal!
+    marginNr: Float!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
 
   """
   This differs from the non-Raw version by not requiring our backend to have indexed the pool address
   """
   tswapDepositWithdrawNftRawTx(
     action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     config: PoolConfig!
 
     """
@@ -1304,10 +2350,21 @@ type Query {
     includeProof: Boolean = true
     mint: String!
     owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     whitelist: String!
   ): TxResponse!
   tswapDepositWithdrawNftTx(
     action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
 
     """
     A tswap deposit consists of (1) proof ix and (2) deposit ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
@@ -1315,17 +2372,109 @@ type Query {
     includeProof: Boolean = true
     mint: String!
     pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
   ): TxResponse!
 
   """
   This differs from the non-Raw version by not requiring our backend to have indexed the pool address
   """
-  tswapDepositWithdrawSolRawTx(action: DepositWithdrawAction!, config: PoolConfig!, lamports: Decimal!, owner: String!, whitelist: String!): TxResponse!
-  tswapDepositWithdrawSolTx(action: DepositWithdrawAction!, lamports: Decimal!, pool: String!): TxResponse!
-  tswapDetachPoolMarginAccountTx(config: PoolConfig!, marginNr: Float!, owner: String!, whitelist: String!): TxResponse!
-  tswapEditPoolTx(attachDetachMargin: AttachDetachAction, marginNr: Float, maxTakerSellCount: Float, newConfig: PoolConfig, pool: String!): InitEditPoolTxResponse!
-  tswapEditSingleListingTx(mint: String!, owner: String!, price: Decimal!): TxResponse!
+  tswapDepositWithdrawSolRawTx(
+    action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    config: PoolConfig!
+    lamports: Decimal!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    whitelist: String!
+  ): TxResponse!
+  tswapDepositWithdrawSolTx(
+    action: DepositWithdrawAction!
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    lamports: Decimal!
+    pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
+  tswapDetachPoolMarginAccountTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    config: PoolConfig!
+    marginNr: Float!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    whitelist: String!
+  ): TxResponse!
+  tswapEditPoolTx(
+    attachDetachMargin: AttachDetachAction
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    marginNr: Float
+    maxTakerSellCount: Float
+    newConfig: PoolConfig
+    pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): InitEditPoolTxResponse!
+  tswapEditSingleListingTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    owner: String!
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   tswapExchangeNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+
     """
     A tswap sell consists of (1) proof ix and (2) sell ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
     """
@@ -1339,10 +2488,36 @@ type Query {
     mintToBuy: String!
     mintToSell: String!
     pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     taker: String!
   ): TxResponse!
-  tswapInitMarginAccountTx(desiredNr: Float, name: String!, owner: String!): TxResponse!
+  tswapInitMarginAccountTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    desiredNr: Float
+    name: String!
+    owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   tswapInitPoolTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
     config: PoolConfig!
     depositLamports: Decimal
     marginNr: Float
@@ -1353,13 +2528,50 @@ type Query {
     """
     mintForProof: String
     owner: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     slug: String!
 
     """tops up margin with missing amount so it has enough to fill the bid"""
     topUpMarginWhenBidding: Boolean = true
   ): InitEditPoolTxResponse!
-  tswapInitUpdateProofTx(mint: String!, payer: String!, whitelist: String!): TxResponse!
-  tswapListNftTx(mint: String!, owner: String!, ownerTokenAccount: String, payer: String, price: Decimal!): TxResponse!
+  tswapInitUpdateProofTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    payer: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+    whitelist: String!
+  ): TxResponse!
+  tswapListNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    mint: String!
+    owner: String!
+    ownerTokenAccount: String
+    payer: String
+    price: Decimal!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   tswapMarginAccounts(owner: String!): [TSwapMarginAccount!]!
   tswapMintProofs(mints: [String!]!, whitelist: String!): [TSwapMintProof!]!
   tswapOrderTransactions(address: String!, cursor: TransactionsCursorInput, limit: Int = 100): PaginatedTransactions!
@@ -1369,6 +2581,13 @@ type Query {
     slug: String!
   ): [TSwapPool!]!
   tswapSellNftTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+
     """
     A tswap sell consists of (1) proof ix and (2) sell ix. Keeping this boolean as true returns (1) as well as (2), otherwise only (2) is returned.
     """
@@ -1377,6 +2596,11 @@ type Query {
     mint: String!
     optionalRoyaltyPct: Int
     pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
     seller: String!
 
     """
@@ -1385,15 +2609,29 @@ type Query {
     sellerTokenAccount: String
   ): TxResponse!
   tswapWhitelist(slug: String!): TSwapWhitelist
-  tswapWithdrawMmFeeTx(lamports: Decimal!, pool: String!): TxResponse!
+  tswapWithdrawMmFeeTx(
+    blockhash: String
+
+    """
+    Compute units prepended to the instruction. Null will use a preset recommended for the transaction type
+    """
+    compute: Int
+    lamports: Decimal!
+    pool: String!
+
+    """
+    Priority fee to pay to the blockchain. Null will use a preset recommended fee.
+    """
+    priorityMicroLamports: Int
+  ): TxResponse!
   twitterApiV1RedirectUrl(callbackUrl: String!, jwt: String!): String!
   twitterApiV2RedirectUrl(callbackUrl: String!, jwt: String!): String!
-  userActiveListingsV2(cursor: ActiveListingsCursorInputV2, includeCompressed: Boolean = true, limit: Int = 10000, slug: String, sortBy: ActiveListingsSortBy!, wallets: [String!]!): UserActiveListingsV2!
+  userActiveListingsV2(currencies: [String], cursor: ActiveListingsCursorInputV2, includeCompressed: Boolean = true, limit: Int = 10000, slug: String, sortBy: ActiveListingsSortBy!, wallets: [String!]!): UserActiveListingsV2!
   userEscrowedBidCount(wallet: String!): Float!
   userHswapOrders(owner: String!): [HSwapPoolWithColl!]!
-  userPortfolioBids(filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): [MintBid!]!
-  userPortfolioBidsCount(filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): Float!
-  userPortfolioCollections(includeCompressed: Boolean = true, includeUnverified: Boolean, wallets: [String!]!): [InstrumentForPortfolio!]!
+  userPortfolioBids(currencies: [String], filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): [MintBid!]!
+  userPortfolioBidsCount(currencies: [String], filterOutOwn: Boolean, includeCompressed: Boolean = true, includeUnverified: Boolean, slug: String, wallets: [String!]!): Float!
+  userPortfolioCollections(currencies: [String], includeCompressed: Boolean = true, includeUnverified: Boolean, wallets: [String!]!): [InstrumentForPortfolio!]!
   userProfileV2(jwt: String!, wallet: String!): UserProfile
   userSentTransactionStats(wallets: [String!]!): UserSentTransactionStats!
 
@@ -1419,6 +2657,22 @@ type Query {
   ): TensorBidsV2!
   userTswapOrders(owner: String!): [TSwapPoolWithColl!]!
   walletProfile(wallet: String!): MEWalletProfile
+}
+
+enum RPCProvider {
+  Alchemy
+  Blockdaemon
+  Figment
+  GenGo
+  Geyser
+  Helius
+  NONE
+  NowNode
+  QuickNode
+  RunNode
+  Shakudo
+  Syndica
+  Triton
 }
 
 input RarityFilter {
@@ -1451,17 +2705,15 @@ type RefereePointContribution {
   referralTakerFees: Decimal!
 }
 
+type ReferralsStats {
+  rank: Int!
+  refCode: String!
+}
+
 type SentTransactionStats {
   failed: Int!
   pending: Int!
   success: Int!
-}
-
-type ServiceStatus {
-  numConsecutive: Int!
-  service: String!
-  status: String!
-  updatedAt: Timestamp!
 }
 
 type ShardRewards {
@@ -1489,6 +2741,7 @@ type StakeDetails {
 type StakedTensorians {
   activatedLevel: Int!
   nftsForNextLevel: Int
+  overridenLevel: Int
   pfp: String
   stakedLevel: Int!
   stakedNfts: [MintWithColl!]!
@@ -1545,10 +2798,12 @@ type TCompBid {
   field: TCompField
   fieldId: String
   filledQuantity: Int!
+  makerBroker: String
   margin: String
   marginNr: Float
   ownerAddress: String!
   quantity: Int!
+  rentPayer: String!
   solBalance: Decimal!
   target: TCompTarget!
   targetId: String!
@@ -1614,6 +2869,7 @@ interface TLinkedTxMintTV2 {
   compressed: Boolean!
   hidden: Boolean!
   imageUri: String
+  inscription: InscriptionData
   lastSale: LastSale
   metadataFetchedAt: Timestamp
   metadataUri: String
@@ -1630,10 +2886,140 @@ interface TLinkedTxMintTV2 {
   rarityRankTeam: Int
   rarityRankTn: Int
   sellRoyaltyFeeBPS: Int
+  slug: String
   staked: StakeDetails
   tokenEdition: Int
   tokenStandard: TokenStandard
   verifiedCollection: String
+}
+
+enum TLockClaimAction {
+  CLAIM_NFT
+  CLAIM_TOKENS
+}
+
+type TLockCollection {
+  collection: InstrumentTV2!
+  metadata: TLockCollectionMetadata!
+}
+
+type TLockCollectionMetadata {
+  aprBps: Int!
+  bestNftPrice: Decimal
+  bestTokenPrice: Decimal
+  collectionId: String!
+  durationSec: Int!
+  lastNftPriceTaken: Decimal
+  lastTokenPriceTaken: Decimal
+  nftsDeposited: BigInt
+  numNftOrders: BigInt
+  numTokenOrders: BigInt
+  tokensDeposited: Decimal
+}
+
+type TLockCollectionStats {
+  collection: TLockCollection!
+  lockCount: Int!
+  lockProfit: Decimal!
+  lockSize: Decimal!
+}
+
+type TLockCollections {
+  collections: [TLockCollection!]!
+  page: TLockCollectionsPage!
+}
+
+input TLockCollectionsFilters {
+  name: String
+}
+
+type TLockCollectionsPage {
+  endCursor: String
+  hasMore: Boolean!
+}
+
+enum TLockCollectionsSortBy {
+  BEST_NFT_PRICE
+  BEST_TOKEN_PRICE
+  NFTS_DEPOSITED
+  TOKENS_DEPOSITED
+}
+
+input TLockFilters {
+  statuses: [TLockOrderStatus!]
+  orderType: TLockOrderType
+  taker: String
+  maker: String
+}
+
+type TLockOrder {
+  accumulatedProfit: Decimal!
+  address: String!
+  aprBps: Float!
+  closedAt: Timestamp
+  collateralReturned: Boolean!
+  collection: TLockCollection
+  currency: String
+  durationSec: Float!
+  exerciseCount: Int!
+  expiry: Timestamp!
+  lastExercisedAt: Timestamp
+  lockedAt: Timestamp
+  lockedUntil: Timestamp
+  maker: String!
+  makerBroker: String
+  margin: String
+  mints: [MintV2!]
+  nftsHeld: Int!
+  nonce: Int!
+  orderCreatedAt: Timestamp!
+  orderId: [Int!]!
+  orderStatus: TLockOrderStatus!
+  orderType: TLockOrderType!
+  orderUpdatedAt: Timestamp!
+  price: Decimal!
+  taker: String
+  takerWithdrawnFunds: Decimal!
+  takerWithdrawnNfts: Int!
+  vaultBalance: Decimal!
+  version: Float!
+  whitelist: String!
+}
+
+enum TLockOrderSortBy {
+  LOCKED_UNTIL_ASC
+  LOCKED_UNTIL_DESC
+  PRICE_ASC
+  PRICE_DESC
+}
+
+enum TLockOrderStatus {
+  EXERCISED
+  EXPIRED
+  LOCKED
+  OFFERED
+  PENDING
+}
+
+enum TLockOrderType {
+  NFT
+  TOKEN
+}
+
+type TLockOrders {
+  orders: [TLockOrder!]!
+  page: TLockOrdersPage!
+}
+
+type TLockOrdersPage {
+  endCursor: String
+  hasMore: Boolean!
+}
+
+type TPackGenImageResponse {
+  address: String!
+  image: String!
+  imageNoBackground: String!
 }
 
 type TRollHistoryEvent {
@@ -1650,6 +3036,11 @@ type TRollHistoryEvent {
   rollState: String!
   tensorPointsIfLose: Int!
   wager: Decimal!
+}
+
+type TRollListerStats {
+  totalFees: Decimal!
+  txCount: Int!
 }
 
 input TRollRequestedReward {
@@ -1999,6 +3390,18 @@ enum TransactionType {
   ELIXIR_SELL_PNFT
   FAILED
   LIST
+  LOCK_CLAIM_NFT
+  LOCK_CLAIM_TOKENS
+  LOCK_CLOSE_ORDER
+  LOCK_DEPOSIT_NFT
+  LOCK_LOCK_ORDER
+  LOCK_MARKET_BUY_NFT
+  LOCK_MARKET_SELL_NFT
+  LOCK_ORDER_BUY_NFT
+  LOCK_ORDER_SELL_NFT
+  LOCK_UPSERT_ORDER
+  LOCK_WITHDRAW_COLLATERAL
+  LOCK_WITHDRAW_NFT
   MARGIN_ATTACH
   MARGIN_CLOSE
   MARGIN_DEPOSIT
@@ -2061,6 +3464,9 @@ input TransactionsFilters {
 
   """only relevant for recentTransactions"""
   traitCount: TraitCountFilter
+
+  """only relevant for recentTransactions"""
+  currencies: [String]
 }
 
 type TransactionsPage {
@@ -2130,6 +3536,7 @@ type UserProfile {
   loyaltyLevel: Int!
   madBoxes: [MadBox!]!
   openedNftBoxesAt: Timestamp
+  pfp: String
   ptsStaking7d: Int
   ptsStakingTotal: Int
   referees: [Referee!]!

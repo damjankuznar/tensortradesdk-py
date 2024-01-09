@@ -1,7 +1,9 @@
 import ast
+import re
+from textwrap import dedent
 
 from ariadne_codegen.plugins.base import Plugin
-from graphql import OperationDefinitionNode, ExecutableDefinitionNode
+from graphql import OperationDefinitionNode
 
 
 class DocstringsPlugin(Plugin):
@@ -10,10 +12,24 @@ class DocstringsPlugin(Plugin):
         method_def: ast.FunctionDef | ast.AsyncFunctionDef,
         operation_definition: OperationDefinitionNode,
     ) -> ast.FunctionDef | ast.AsyncFunctionDef:
-        root_resolver_name = operation_definition.selection_set.selections[0].name.value
-        root_resolver_info = self.schema.query_type.fields.get(
-            root_resolver_name
-        ) or self.schema.subscription_type.fields.get(root_resolver_name)
-        if root_resolver_info and (docstring := root_resolver_info.description):
+        if docstring := self._extract_gql_query_docstring(
+            operation_definition.name.value, operation_definition.loc.source.body
+        ):
             method_def.body.insert(0, ast.Expr(value=ast.Str(docstring)))
         return method_def
+
+    def _extract_gql_query_docstring(
+        self, query_name: str, query_body: str
+    ) -> str | None:
+        pattern = re.compile(
+            r"^(?:query|mutation) " + query_name + r"\s*\([^{]*{\s*$((?:\s*#.*$)+)(?!#)",
+            flags=re.MULTILINE,
+        )
+        matches = pattern.search(query_body)
+        if matches:
+            comment = matches.group(1)
+            comment = dedent(comment)
+            comment = re.sub("^# ?", "", comment, flags=re.MULTILINE).strip()
+            return f"\n{comment}\n\n"
+        else:
+            return None

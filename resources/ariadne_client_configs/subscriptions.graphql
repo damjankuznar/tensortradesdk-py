@@ -1,4 +1,8 @@
 subscription TswapOrderUpdateAll {
+  # Listen to pool updates every time a pool’s buy/sell now price is changed, NFTs are
+  # deposited/withdrawn, or a pool is opened/closed/edited.
+  #
+  # If pool = null then it means the pool has been closed.
   tswapOrderUpdateAll {
     address
     pool {
@@ -29,6 +33,7 @@ subscription TswapOrderUpdateAll {
   }
 }
 subscription NewTransactionTV2($slug: String!) {
+  # Listen to new transactions for a given slug.
   newTransactionTV2(slug: $slug) {
     tx {
       grossAmount

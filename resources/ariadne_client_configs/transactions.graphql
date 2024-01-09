@@ -4,6 +4,7 @@ query TcompBuyTx(
   $mint: String!
   $owner: String!
 ) {
+  # Buy NFT from Listing
   tcompBuyTx(buyer: $buyer, maxPrice: $maxPrice, mint: $mint, owner: $owner) {
     txs {
       tx
@@ -13,6 +14,7 @@ query TcompBuyTx(
   }
 }
 query TcompListTx($mint: String!, $owner: String!, $price: Decimal!) {
+  # List single NFT
   tcompListTx(mint: $mint, owner: $owner, price: $price) {
     txs {
       lastValidBlockHeight
@@ -22,6 +24,7 @@ query TcompListTx($mint: String!, $owner: String!, $price: Decimal!) {
   }
 }
 query TcompTakeBidTx($minPrice: Decimal!, $mint: String!, $seller: String!) {
+  # Sell NFT into Bid
   tcompTakeBidTx(minPrice: $minPrice, mint: $mint, seller: $seller) {
     txs {
       lastValidBlockHeight
@@ -31,6 +34,7 @@ query TcompTakeBidTx($minPrice: Decimal!, $mint: String!, $seller: String!) {
   }
 }
 query TcompDelistTx($mint: String!, $owner: String!) {
+  # Delist single NFT
   tcompDelistTx(mint: $mint, owner: $owner) {
     txs {
       lastValidBlockHeight
@@ -40,7 +44,46 @@ query TcompDelistTx($mint: String!, $owner: String!) {
   }
 }
 query TcompEditTx($mint: String!, $owner: String!, $price: Decimal!) {
+  # Edit single NFT
   tcompEditTx(mint: $mint, owner: $owner, price: $price) {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompBidTx(
+	$quantity: Float!, # Set this to 1
+	$price: Decimal!,
+	$owner: String!,
+	$targetId: String, # Set this to the mint you're bidding on
+	$target: TCompTarget # Set this to TCompTarget.ASSET_ID
+  $rentPayer: String,
+) {
+  # Place Single Bid
+  tcompBidTx(quantity: $quantity, price: $price, owner: $owner, targetId: $targetId, target: $target, rentPayer: $rentPayer)
+  {
+    txs {
+      lastValidBlockHeight
+      tx
+      txV0 # If this is present, use this!
+    }
+  }
+}
+query TcompTraitBidTx(
+  $owner: String!
+  $price: Decimal!
+  $quantity: Float!
+  $slug: String
+  $attributes: [AttributeInput!]
+) {
+  # Place Trait Bid
+  #
+  # TComp is used to place trait bids for both compressed and non-compressed collections. This is also
+  # the ONLY endpoint used for trait biddding. If you see a trait bid on Tensor, even on a non-compressed
+  # collection, it’s actually placed via TComp.
+  tcompBidTx(owner: $owner, price: $price, quantity: $quantity, slug: $slug, attributes: $attributes) {
     txs {
       lastValidBlockHeight
       tx
@@ -54,6 +97,7 @@ query TcompBidTxForCollection(
   $quantity: Float!
   $slug: String
 ) {
+  # Place Collection Bid
   tcompBidTx(owner: $owner, price: $price, quantity: $quantity, slug: $slug) {
     txs {
       lastValidBlockHeight
@@ -67,6 +111,7 @@ query TcompEditBidTx(
   $price: Decimal
   $quantity: Float
 ) {
+  # Edit Bid
   tcompEditBidTx(
     bidStateAddress: $bidStateAddress
     price: $price
@@ -80,6 +125,7 @@ query TcompEditBidTx(
   }
 }
 query TcompCancelCollBidTx($bidStateAddress: String!) {
+  # Cancel Collection Bid
   tcompCancelCollBidTx(bidStateAddress: $bidStateAddress) {
     txs {
       lastValidBlockHeight
@@ -88,8 +134,14 @@ query TcompCancelCollBidTx($bidStateAddress: String!) {
     }
   }
 }
-query HswapBuyNftTx($buyer: String!, $mathCounter: Float!, $maxPriceLamports: Decimal!, $mint: String!, $pair: String!) {
-  hswapBuyNftTx(buyer: $buyer, mathCounter: $mathCounter, maxPriceLamports: $maxPriceLamports, mint: $mint, pair: $pair) {
+query HswapBuyNftTx($buyer: String!, $maxPriceLamports: Decimal!, $mint: String!, $pair: String!) {
+  # Buy an NFT from a HadeSwap order (pair, see address in HadeSwap Active Orders).
+  #
+  # Specify maxPriceLamports as the maximum price you’re willing to pay (you can specify a higher
+  # price than the current price to account for slippage).
+  #
+  # Usually this is set to the current buy price of the target order/pool.
+  hswapBuyNftTx(buyer: $buyer, maxPriceLamports: $maxPriceLamports, mint: $mint, pair: $pair) {
     txs {
       lastValidBlockHeight
       tx
@@ -97,6 +149,11 @@ query HswapBuyNftTx($buyer: String!, $mathCounter: Float!, $maxPriceLamports: De
   }
 }
 query HswapSellNftTx($mathCounter: Float!, $minPriceLamports: Decimal!, $mint: String!, $pair: String!, $seller: String!) {
+  # Sell an NFT to a HadeSwap order (pair).
+  #
+  # Specify minPriceLamports as the minimum price you’re willing to receive.
+  #
+  # Usually this is set to the current sell price of the target order/pool.
   hswapSellNftTx(mathCounter: $mathCounter, minPriceLamports: $minPriceLamports, mint: $mint, pair: $pair, seller: $seller) {
     txs {
       lastValidBlockHeight
@@ -110,6 +167,14 @@ query TswapBuyNftTx(
   $mint: String!
   $pool: String!
 ) {
+  # Buy (now) NFT from Order
+  #
+  # Buy an NFT from a TensorSwap order (pool see address in TensorSwap Active Orders).
+  #
+  # Specify maxPriceLamports as the maximum price you’re willing to pay (you can specify a higher
+  # price than the current price to account for slippage).
+  #
+  # Usually this is set to buyNowPrice of the target order/pool.
   tswapBuyNftTx(
     buyer: $buyer
     maxPriceLamports: $maxPriceLamports
@@ -130,6 +195,15 @@ query TswapSellNftTx(
   $seller: String!
   $sellerTokenAccount: String
 ) {
+  # Sell (now) NFT to Order
+  #
+  # Sell an NFT to a TensorSwap order (pool).
+  #
+  # Specify minPriceLamports as the minimum price you’re willing to receive, after accounting for
+  # the MM fee but before Tensor fee & royalties (you can specify a lower price than the current
+  # price to account for slippage).
+  #
+  # Usually this is set to sellNowPrice of the target order/pool.
   tswapSellNftTx(
     minPriceLamports: $minPriceLamports
     mint: $mint
@@ -145,6 +219,10 @@ query TswapSellNftTx(
   }
 }
 query TswapInitPoolTx($config: PoolConfig!, $owner: String!, $slug: String!) {
+  # Creating an order allows you do the following (determined by the poolType):
+  #  * NFT : list NFT(s) for sale
+  #  * Token : collection-wide bids to buy NFT(s)
+  #  * Trade: market-making order (buy/sell NFT(s) at the same time)
   tswapInitPoolTx(config: $config, owner: $owner, slug: $slug) {
     pool
     txs {
@@ -154,6 +232,7 @@ query TswapInitPoolTx($config: PoolConfig!, $owner: String!, $slug: String!) {
   }
 }
 query TswapDepositWithdrawNftTx($action: DepositWithdrawAction!, $mint: String!, $pool: String!) {
+  # Deposit (or withdraw) NFTs into (or out of) an order/pool to sell.
   tswapDepositWithdrawNftTx(action: $action, mint: $mint, pool: $pool) {
     txs {
       lastValidBlockHeight
@@ -162,6 +241,7 @@ query TswapDepositWithdrawNftTx($action: DepositWithdrawAction!, $mint: String!,
   }
 }
 query TswapDepositWithdrawSolTx($action: DepositWithdrawAction!, $lamports: Decimal!, $pool: String!) {
+  # Deposit (or withdraw) SOL into (or out of) an order/pool to buy NFTs.
   tswapDepositWithdrawSolTx(action: $action, lamports: $lamports, pool: $pool) {
     txs {
       lastValidBlockHeight
@@ -169,7 +249,31 @@ query TswapDepositWithdrawSolTx($action: DepositWithdrawAction!, $lamports: Deci
     }
   }
 }
+query TswapDepositWithdrawMarginAccountTx(
+  $marginNr: Float!
+  $lamports: Decimal!
+  $owner: String!
+  $action: DepositWithdrawAction!
+) {
+  # Deposit/Withdraw from Shared Escrow
+  tswapDepositWithdrawMarginAccountTx(
+    marginNr: $marginNr
+    lamports: $lamports
+    owner: $owner
+    action: $action
+  ) {
+    txs {
+      lastValidBlockHeight
+      tx
+			txV0 # If this is present, use this!
+    }
+  }
+}
 query TswapClosePoolTx($pool: String!) {
+  # This will close an order/pool (and withdraws any remaining SOL/rent to the owner).
+  #
+  # This transaction will fail if there are NFTs still in the order/pool (nftsHeld in the Orders response).
+  # You must withdraw all NFTs before you can close the order.
   tswapClosePoolTx(pool: $pool) {
     txs {
       lastValidBlockHeight
@@ -178,6 +282,7 @@ query TswapClosePoolTx($pool: String!) {
   }
 }
 query TswapEditPoolTx($newConfig: PoolConfig!, $pool: String!) {
+  # Edit parameters of an order/pool.
   tswapEditPoolTx(newConfig: $newConfig, pool: $pool) {
     pool
     txs {
@@ -187,6 +292,7 @@ query TswapEditPoolTx($newConfig: PoolConfig!, $pool: String!) {
   }
 }
 query TswapListNftTx($mint: String!, $owner: String!, $price: Decimal!) {
+  # Lists an NFT at a given price (standard marketplace listing).
   tswapListNftTx(mint: $mint, owner: $owner, price: $price) {
     txs {
       lastValidBlockHeight
@@ -196,6 +302,7 @@ query TswapListNftTx($mint: String!, $owner: String!, $price: Decimal!) {
   }
 }
 query TswapDelistNftTx($mint: String!, $owner: String!) {
+  # Delists/cancels a single marketplace listing.
   tswapDelistNftTx(mint: $mint, owner: $owner) {
     txs {
       lastValidBlockHeight
@@ -209,6 +316,7 @@ query TswapEditSingleListingTx(
   $owner: String!
   $price: Decimal!
 ) {
+  # Edit a single marketplace listing price.
   tswapEditSingleListingTx(mint: $mint, owner: $owner, price: $price) {
     txs {
       lastValidBlockHeight
@@ -223,6 +331,12 @@ query TswapBuySingleListingTx(
   $mint: String!
   $owner: String!
 ) {
+  # Buy NFT from Listing
+  #
+  # Buy an NFT that is listed on TensorSwap via a standard marketplace listing.
+  #
+  # For most cases, just pass in maxPrice = grossAmount, owner = sellerId from
+  # “TensorSwap Active Listings” query.
   tswapBuySingleListingTx(
     buyer: $buyer
     maxPrice: $maxPrice
@@ -244,6 +358,20 @@ query TswapExchangeNftTx(
   $pool: String!
   $taker: String!
 ) {
+  # Swap NFT from Order
+  #
+  # Swap an NFT from the same collection with a TRADE pool only (pool see address in
+  # TensorSwap Active Orders).
+  #  * Swap an NFT from the same collection with a TRADE pool only (pool see address in
+  #    TensorSwap Active Orders).
+  #  * minPriceLamports - buyNowPrice * (1 - mmFee)
+  #   * eg if meFeeBps = 1000 (10%) then mmFee = 0.1
+  #  * pool - address of the TRADE (must be TRADE) order
+  #  * mintToBuy - NFT in pool that is in nftsForSale
+  #  * mintToSell - NFT to trade-in (must be from same collection)
+  #  * taker - wallet who owns mintToSell
+  #
+  # The fee for the swap is equal to  (2 * takerFee + mmFee) * buyNowPrice.
   tswapExchangeNftTx(
     maxPriceLamports: $maxPriceLamports
     minPriceLamports: $minPriceLamports
@@ -265,6 +393,7 @@ query TakeBidTx(
   $price: Decimal!
   $seller: String!
 ) {
+  # Sells the NFT into the open single NFT bid (see tensorBids from Mint endpoint).
   takeBidTx(bidder: $bidder, mint: $mint, price: $price, seller: $seller) {
     txs {
       lastValidBlockHeight

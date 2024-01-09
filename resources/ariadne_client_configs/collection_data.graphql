@@ -1,7 +1,15 @@
 query MintList($slug: String!, $limit: Int, $after: String) {
+  # Get the list of mints for a given collection (slug).
   mintList(slug: $slug, limit: $limit, after: $after)
 }
 query Mint($mint: String!, $sortBy: OrderSortBy, $limit: Int) {
+  # Fetches a mint’s slug as well as:
+  #  * TensorSwap/HadeSwap orders tswapOrders /hswapOrders(both bids and/or the pool
+  #    that is sell it)
+  #   * The pool with a non-empty nftsForSale array is the pool you can buy the NFT from
+  #   * All other pools are pools that you can SELL NOW (for the sellNowPrice)
+  #  * Tensor single bids tensorBids : any active bids specifically for this NFT
+  #  * its active listing activeListings (if it’s listed on a traditional marketplace)
   mint(mint: $mint) {
     slug
     tswapOrders(sortBy: $sortBy, limit: $limit) {
@@ -55,6 +63,7 @@ query Mint($mint: String!, $sortBy: OrderSortBy, $limit: Int) {
   }
 }
 query Mints($tokenMints: [String!]!) {
+  # Get the collection slug for several mint addresses.
   mints(tokenMints: $tokenMints) {
     slug
   }
@@ -66,6 +75,7 @@ query CollectionMints(
   $cursor: String
   $limit: Int
 ) {
+  # Get up to 10K mints for a collection and their Tensor rarities.
   collectionMintsV2(
     slug: $slug
     sortBy: $sortBy
@@ -85,4 +95,24 @@ query CollectionMints(
       hasMore
     }
   }
+}
+mutation RefetchMintMetadata(
+  $mint: String!
+) {
+  # Refetches the NFT’s metadata (eg traits, image).
+  #
+  # To reduce the amount of spam, there is 1 hour cooldown for rarities. See Refresh Rarities for
+  # triggering a full rarities refresh.
+  refetchMintMetadata(
+    mint: $mint
+  ) {
+    onchainId
+		metadataFetchedAt
+  }
+}
+mutation RefreshRarities($slug: String!) {
+  # Refreshes a collection’s rarity scores on Tensor.
+  #
+  # To reduce the amount of spam, there is 1 hour cooldown for rarities.
+  refreshRarities(slug: $slug)
 }

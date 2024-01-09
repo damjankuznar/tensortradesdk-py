@@ -20,6 +20,9 @@ class UserDataClient(BaseClient):
     def user_tensor_swap_orders(
         self, owner: str, **kwargs: Any
     ) -> UserTensorSwapOrders:
+        """
+        Fetch all TensorSwap active orders for a wallet.
+        """
         query = gql(
             """
             query UserTensorSwapOrders($owner: String!) {
@@ -71,6 +74,9 @@ class UserDataClient(BaseClient):
         slug: Union[Optional[str], UnsetType] = UNSET,
         **kwargs: Any
     ) -> UserActiveListingsV2:
+        """
+        Fetch all marketplace mint listings (TensorSwap, TComp, HyperSpace, ME, etc.) for a wallet.
+        """
         query = gql(
             """
             query UserActiveListingsV2($wallets: [String!]!, $sortBy: ActiveListingsSortBy!, $cursor: ActiveListingsCursorInputV2, $limit: Int, $slug: String) {
@@ -117,6 +123,9 @@ class UserDataClient(BaseClient):
         return UserActiveListingsV2.model_validate(data)
 
     def user_tcomp_bids(self, owner: str, **kwargs: Any) -> UserTcompBids:
+        """
+        Fetch all TComp active bids for a wallet.
+        """
         query = gql(
             """
             query UserTcompBids($owner: String!) {
