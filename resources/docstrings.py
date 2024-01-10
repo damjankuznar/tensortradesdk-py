@@ -12,10 +12,14 @@ class DocstringsPlugin(Plugin):
         method_def: ast.FunctionDef | ast.AsyncFunctionDef,
         operation_definition: OperationDefinitionNode,
     ) -> ast.FunctionDef | ast.AsyncFunctionDef:
-        if docstring := self._extract_gql_query_docstring(
+        docstring = self._extract_gql_query_docstring(
             operation_definition.name.value, operation_definition.loc.source.body
-        ):
-            method_def.body.insert(0, ast.Expr(value=ast.Str(docstring)))
+        ) or ""
+
+        docstring += self._generate_arguments_docstring(method_def)
+        docstring += "\n"
+        method_def.body.insert(0, ast.Expr(value=ast.Str(docstring)))
+
         return method_def
 
     def _extract_gql_query_docstring(
@@ -30,6 +34,20 @@ class DocstringsPlugin(Plugin):
             comment = matches.group(1)
             comment = dedent(comment)
             comment = re.sub("^# ?", "", comment, flags=re.MULTILINE).strip()
-            return f"\n{comment}\n\n"
+            return f"\n{comment}\n"
         else:
             return None
+
+    def _generate_arguments_docstring(self, method_def: ast.FunctionDef | ast.AsyncFunctionDef):
+        args = []
+        for arg in method_def.args.args:
+            if arg.arg == 'self':
+                continue
+            args.append(arg.arg)
+        output = ""
+        if args:
+            output += "Args:\n"
+            output += "\n".join(f"    {arg}:" for arg in args)
+        if output:
+            output = f"\n{output}\n"
+        return output

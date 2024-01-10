@@ -45,6 +45,15 @@ class MarketDataClient(BaseClient):
 
         Also while slug will never change (only deleted), we may occasionally remap mints to a different
         slug/collection as we improve our collection indexing process.
+
+        Args:
+            slugs:
+            slugs_me:
+            slugs_display:
+            ids:
+            sort_by:
+            page:
+            limit:
         """
         query = gql(
             """
@@ -122,6 +131,9 @@ class MarketDataClient(BaseClient):
          3. Tensor internal collection id
          4. MCC mint
          5. First verified creator address
+
+        Args:
+            slug:
         """
         query = gql(
             """
@@ -174,6 +186,9 @@ class MarketDataClient(BaseClient):
         Fetch all TensorSwap active orders for a collection (by slug).
         Pools that can you can sell into will have a non-null sellNowPrice.
         Pools that can you can buy from will have a non-null buyNowPrice.
+
+        Args:
+            slug:
         """
         query = gql(
             """
@@ -218,6 +233,9 @@ class MarketDataClient(BaseClient):
     def hade_swap_active_orders(self, slug: str, **kwargs: Any) -> HadeSwapActiveOrders:
         """
         Fetch all HadeSwap active orders for a collection (by slug).
+
+        Args:
+            slug:
         """
         query = gql(
             """
@@ -267,6 +285,13 @@ class MarketDataClient(BaseClient):
         Fetch all TensorSwap active (standard marketplace) listings for a collection (by slug).
 
         This is paginated with cursor and limit.
+
+        Args:
+            slug:
+            sort_by:
+            filters:
+            limit:
+            cursor:
         """
         query = gql(
             """
@@ -321,6 +346,9 @@ class MarketDataClient(BaseClient):
         For bids with margin, you will need to check the balance of the account onchain.
 
         quantity - filledQuantity is the remaining # of NFTs that can be sold.
+
+        Args:
+            slug:
         """
         query = gql(
             """

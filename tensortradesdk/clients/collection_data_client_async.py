@@ -29,6 +29,11 @@ class CollectionDataClientAsync(AsyncBaseClient):
     ) -> MintList:
         """
         Get the list of mints for a given collection (slug).
+
+        Args:
+            slug:
+            limit:
+            after:
         """
         query = gql(
             """
@@ -53,12 +58,18 @@ class CollectionDataClientAsync(AsyncBaseClient):
     ) -> Mint:
         """
         Fetches a mint’s slug as well as:
+
          * TensorSwap/HadeSwap orders tswapOrders /hswapOrders(both bids and/or the pool
            that is sell it)
-          * The pool with a non-empty nftsForSale array is the pool you can buy the NFT from
-          * All other pools are pools that you can SELL NOW (for the sellNowPrice)
+            * The pool with a non-empty nftsForSale array is the pool you can buy the NFT from
+            * All other pools are pools that you can SELL NOW (for the sellNowPrice)
          * Tensor single bids tensorBids : any active bids specifically for this NFT
          * its active listing activeListings (if it’s listed on a traditional marketplace)
+
+        Args:
+            mint:
+            sort_by:
+            limit:
         """
         query = gql(
             """
@@ -127,6 +138,9 @@ class CollectionDataClientAsync(AsyncBaseClient):
     async def mints(self, token_mints: List[str], **kwargs: Any) -> Mints:
         """
         Get the collection slug for several mint addresses.
+
+        Args:
+            token_mints:
         """
         query = gql(
             """
@@ -155,6 +169,13 @@ class CollectionDataClientAsync(AsyncBaseClient):
     ) -> CollectionMints:
         """
         Get up to 10K mints for a collection and their Tensor rarities.
+
+        Args:
+            slug:
+            sort_by:
+            filters:
+            cursor:
+            limit:
         """
         query = gql(
             """
@@ -200,8 +221,12 @@ class CollectionDataClientAsync(AsyncBaseClient):
         """
         Refetches the NFT’s metadata (eg traits, image).
 
-        To reduce the amount of spam, there is 1 hour cooldown for rarities. See Refresh Rarities for
-        triggering a full rarities refresh.
+        Note:
+            To reduce the amount of spam, there is 1 hour cooldown for rarities. See Refresh Rarities for
+            triggering a full rarities refresh.
+
+        Args:
+            mint:
         """
         query = gql(
             """
@@ -227,7 +252,11 @@ class CollectionDataClientAsync(AsyncBaseClient):
         """
         Refreshes a collection’s rarity scores on Tensor.
 
-        To reduce the amount of spam, there is 1 hour cooldown for rarities.
+        Note:
+            To reduce the amount of spam, there is 1 hour cooldown for rarities.
+
+        Args:
+            slug:
         """
         query = gql(
             """

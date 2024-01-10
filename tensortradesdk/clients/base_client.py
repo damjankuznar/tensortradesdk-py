@@ -22,10 +22,19 @@ class BaseClient:
     def __init__(
         self,
         api_key: str,
-        url: str = "",
+        url: str | None = None,
         headers: Optional[Dict[str, str]] = None,
         http_client: Optional[httpx.Client] = None,
     ) -> None:
+        """
+        Base client class for connecting to Tensor.trade GraphQL API.
+
+        Args:
+            api_key: GraphQL API key to use for authentication.
+            url: Optional GraphQL API URL. Defaults to https://api.tensor.so/graphql.
+            headers: Optional additional headers to be used in all requests.
+            http_client: Optional alternative http_client class.
+        """
         self.url = url or "https://api.tensor.so/graphql"
         headers = headers or {}
         headers["X-TENSOR-API-KEY"] = api_key

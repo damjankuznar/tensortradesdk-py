@@ -47,6 +47,12 @@ class TransactionsClient(BaseClient):
     ) -> TcompBuyTx:
         """
         Buy NFT from Listing
+
+        Args:
+            buyer:
+            max_price:
+            mint:
+            owner:
         """
         query = gql(
             """
@@ -78,6 +84,11 @@ class TransactionsClient(BaseClient):
     ) -> TcompListTx:
         """
         List single NFT
+
+        Args:
+            mint:
+            owner:
+            price:
         """
         query = gql(
             """
@@ -104,6 +115,11 @@ class TransactionsClient(BaseClient):
     ) -> TcompTakeBidTx:
         """
         Sell NFT into Bid
+
+        Args:
+            min_price:
+            mint:
+            seller:
         """
         query = gql(
             """
@@ -132,6 +148,10 @@ class TransactionsClient(BaseClient):
     def tcomp_delist_tx(self, mint: str, owner: str, **kwargs: Any) -> TcompDelistTx:
         """
         Delist single NFT
+
+        Args:
+            mint:
+            owner:
         """
         query = gql(
             """
@@ -158,6 +178,11 @@ class TransactionsClient(BaseClient):
     ) -> TcompEditTx:
         """
         Edit single NFT
+
+        Args:
+            mint:
+            owner:
+            price:
         """
         query = gql(
             """
@@ -191,6 +216,14 @@ class TransactionsClient(BaseClient):
     ) -> TcompBidTx:
         """
         Place Single Bid
+
+        Args:
+            quantity:
+            price:
+            owner:
+            target_id:
+            target:
+            rent_payer:
         """
         query = gql(
             """
@@ -241,6 +274,13 @@ class TransactionsClient(BaseClient):
         TComp is used to place trait bids for both compressed and non-compressed collections. This is also
         the ONLY endpoint used for trait biddding. If you see a trait bid on Tensor, even on a non-compressed
         collection, it’s actually placed via TComp.
+
+        Args:
+            owner:
+            price:
+            quantity:
+            slug:
+            attributes:
         """
         query = gql(
             """
@@ -284,6 +324,12 @@ class TransactionsClient(BaseClient):
     ) -> TcompBidTxForCollection:
         """
         Place Collection Bid
+
+        Args:
+            owner:
+            price:
+            quantity:
+            slug:
         """
         query = gql(
             """
@@ -322,6 +368,11 @@ class TransactionsClient(BaseClient):
     ) -> TcompEditBidTx:
         """
         Edit Bid
+
+        Args:
+            bid_state_address:
+            price:
+            quantity:
         """
         query = gql(
             """
@@ -356,6 +407,9 @@ class TransactionsClient(BaseClient):
     ) -> TcompCancelCollBidTx:
         """
         Cancel Collection Bid
+
+        Args:
+            bid_state_address:
         """
         query = gql(
             """
@@ -390,6 +444,12 @@ class TransactionsClient(BaseClient):
         price than the current price to account for slippage).
 
         Usually this is set to the current buy price of the target order/pool.
+
+        Args:
+            buyer:
+            max_price_lamports:
+            mint:
+            pair:
         """
         query = gql(
             """
@@ -435,6 +495,13 @@ class TransactionsClient(BaseClient):
         Specify minPriceLamports as the minimum price you’re willing to receive.
 
         Usually this is set to the current sell price of the target order/pool.
+
+        Args:
+            math_counter:
+            min_price_lamports:
+            mint:
+            pair:
+            seller:
         """
         query = gql(
             """
@@ -479,6 +546,12 @@ class TransactionsClient(BaseClient):
         price than the current price to account for slippage).
 
         Usually this is set to buyNowPrice of the target order/pool.
+
+        Args:
+            buyer:
+            max_price_lamports:
+            mint:
+            pool:
         """
         query = gql(
             """
@@ -529,6 +602,13 @@ class TransactionsClient(BaseClient):
         price to account for slippage).
 
         Usually this is set to sellNowPrice of the target order/pool.
+
+        Args:
+            min_price_lamports:
+            mint:
+            pool:
+            seller:
+            seller_token_account:
         """
         query = gql(
             """
@@ -567,9 +647,15 @@ class TransactionsClient(BaseClient):
     ) -> TswapInitPoolTx:
         """
         Creating an order allows you do the following (determined by the poolType):
+
          * NFT : list NFT(s) for sale
          * Token : collection-wide bids to buy NFT(s)
          * Trade: market-making order (buy/sell NFT(s) at the same time)
+
+        Args:
+            config:
+            owner:
+            slug:
         """
         query = gql(
             """
@@ -596,6 +682,11 @@ class TransactionsClient(BaseClient):
     ) -> TswapDepositWithdrawNftTx:
         """
         Deposit (or withdraw) NFTs into (or out of) an order/pool to sell.
+
+        Args:
+            action:
+            mint:
+            pool:
         """
         query = gql(
             """
@@ -624,6 +715,11 @@ class TransactionsClient(BaseClient):
     ) -> TswapDepositWithdrawSolTx:
         """
         Deposit (or withdraw) SOL into (or out of) an order/pool to buy NFTs.
+
+        Args:
+            action:
+            lamports:
+            pool:
         """
         query = gql(
             """
@@ -661,6 +757,12 @@ class TransactionsClient(BaseClient):
     ) -> TswapDepositWithdrawMarginAccountTx:
         """
         Deposit/Withdraw from Shared Escrow
+
+        Args:
+            margin_nr:
+            lamports:
+            owner:
+            action:
         """
         query = gql(
             """
@@ -701,6 +803,9 @@ class TransactionsClient(BaseClient):
 
         This transaction will fail if there are NFTs still in the order/pool (nftsHeld in the Orders response).
         You must withdraw all NFTs before you can close the order.
+
+        Args:
+            pool:
         """
         query = gql(
             """
@@ -729,6 +834,10 @@ class TransactionsClient(BaseClient):
     ) -> TswapEditPoolTx:
         """
         Edit parameters of an order/pool.
+
+        Args:
+            new_config:
+            pool:
         """
         query = gql(
             """
@@ -755,6 +864,11 @@ class TransactionsClient(BaseClient):
     ) -> TswapListNftTx:
         """
         Lists an NFT at a given price (standard marketplace listing).
+
+        Args:
+            mint:
+            owner:
+            price:
         """
         query = gql(
             """
@@ -781,6 +895,10 @@ class TransactionsClient(BaseClient):
     ) -> TswapDelistNftTx:
         """
         Delists/cancels a single marketplace listing.
+
+        Args:
+            mint:
+            owner:
         """
         query = gql(
             """
@@ -810,6 +928,11 @@ class TransactionsClient(BaseClient):
     ) -> TswapEditSingleListingTx:
         """
         Edit a single marketplace listing price.
+
+        Args:
+            mint:
+            owner:
+            price:
         """
         query = gql(
             """
@@ -844,6 +967,12 @@ class TransactionsClient(BaseClient):
 
         For most cases, just pass in maxPrice = grossAmount, owner = sellerId from
         “TensorSwap Active Listings” query.
+
+        Args:
+            buyer:
+            max_price:
+            mint:
+            owner:
         """
         query = gql(
             """
@@ -893,16 +1022,26 @@ class TransactionsClient(BaseClient):
 
         Swap an NFT from the same collection with a TRADE pool only (pool see address in
         TensorSwap Active Orders).
+
          * Swap an NFT from the same collection with a TRADE pool only (pool see address in
            TensorSwap Active Orders).
          * minPriceLamports - buyNowPrice * (1 - mmFee)
-          * eg if meFeeBps = 1000 (10%) then mmFee = 0.1
+            * eg if meFeeBps = 1000 (10%) then mmFee = 0.1
          * pool - address of the TRADE (must be TRADE) order
          * mintToBuy - NFT in pool that is in nftsForSale
          * mintToSell - NFT to trade-in (must be from same collection)
          * taker - wallet who owns mintToSell
 
-        The fee for the swap is equal to  (2 * takerFee + mmFee) * buyNowPrice.
+        Info:
+            The fee for the swap is equal to  (2 * takerFee + mmFee) * buyNowPrice.
+
+        Args:
+            max_price_lamports:
+            min_price_lamports:
+            mint_to_buy:
+            mint_to_sell:
+            pool:
+            taker:
         """
         query = gql(
             """
@@ -946,6 +1085,12 @@ class TransactionsClient(BaseClient):
     ) -> TakeBidTx:
         """
         Sells the NFT into the open single NFT bid (see tensorBids from Mint endpoint).
+
+        Args:
+            bidder:
+            mint:
+            price:
+            seller:
         """
         query = gql(
             """

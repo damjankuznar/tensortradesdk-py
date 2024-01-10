@@ -22,6 +22,9 @@ class UserDataClientAsync(AsyncBaseClient):
     ) -> UserTensorSwapOrders:
         """
         Fetch all TensorSwap active orders for a wallet.
+
+        Args:
+            owner:
         """
         query = gql(
             """
@@ -76,6 +79,13 @@ class UserDataClientAsync(AsyncBaseClient):
     ) -> UserActiveListingsV2:
         """
         Fetch all marketplace mint listings (TensorSwap, TComp, HyperSpace, ME, etc.) for a wallet.
+
+        Args:
+            wallets:
+            sort_by:
+            cursor:
+            limit:
+            slug:
         """
         query = gql(
             """
@@ -125,6 +135,9 @@ class UserDataClientAsync(AsyncBaseClient):
     async def user_tcomp_bids(self, owner: str, **kwargs: Any) -> UserTcompBids:
         """
         Fetch all TComp active bids for a wallet.
+
+        Args:
+            owner:
         """
         query = gql(
             """

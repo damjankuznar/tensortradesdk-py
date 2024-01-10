@@ -13,7 +13,15 @@ Network = Literal["devnet", "mainnet"]
 
 
 class SolanaClient:
+    """
+    Client for interacting with Solana blockchain.
+    """
     def __init__(self, network: Network, private_key: str):
+        """
+        Args:
+            network: Network type to connect to. One of 'devnet' or 'mainnet'.
+            private_key: Private key to use when when submitting transactions.
+        """
         self.client = create_client(network)
         self.keypair = create_keypair(private_key)
 

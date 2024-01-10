@@ -62,6 +62,10 @@ class SubscriptionsClientAsync(AsyncBaseClient):
     async def new_transaction_tv_2(
         self, slug: str, **kwargs: Any
     ) -> AsyncIterator[NewTransactionTV2]:
+        """
+        Args:
+            slug:
+        """
         query = gql(
             """
             subscription NewTransactionTV2($slug: String!) {

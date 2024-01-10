@@ -220,6 +220,7 @@ query TswapSellNftTx(
 }
 query TswapInitPoolTx($config: PoolConfig!, $owner: String!, $slug: String!) {
   # Creating an order allows you do the following (determined by the poolType):
+  #
   #  * NFT : list NFT(s) for sale
   #  * Token : collection-wide bids to buy NFT(s)
   #  * Trade: market-making order (buy/sell NFT(s) at the same time)
@@ -362,16 +363,18 @@ query TswapExchangeNftTx(
   #
   # Swap an NFT from the same collection with a TRADE pool only (pool see address in
   # TensorSwap Active Orders).
+  #
   #  * Swap an NFT from the same collection with a TRADE pool only (pool see address in
   #    TensorSwap Active Orders).
   #  * minPriceLamports - buyNowPrice * (1 - mmFee)
-  #   * eg if meFeeBps = 1000 (10%) then mmFee = 0.1
+  #     * eg if meFeeBps = 1000 (10%) then mmFee = 0.1
   #  * pool - address of the TRADE (must be TRADE) order
   #  * mintToBuy - NFT in pool that is in nftsForSale
   #  * mintToSell - NFT to trade-in (must be from same collection)
   #  * taker - wallet who owns mintToSell
   #
-  # The fee for the swap is equal to  (2 * takerFee + mmFee) * buyNowPrice.
+  # Info:
+  #     The fee for the swap is equal to  (2 * takerFee + mmFee) * buyNowPrice.
   tswapExchangeNftTx(
     maxPriceLamports: $maxPriceLamports
     minPriceLamports: $minPriceLamports
