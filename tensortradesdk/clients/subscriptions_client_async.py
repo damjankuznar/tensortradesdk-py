@@ -16,6 +16,7 @@ class SubscriptionsClientAsync(AsyncBaseClient):
     async def tswap_order_update_all(
         self, **kwargs: Any
     ) -> AsyncIterator[TswapOrderUpdateAll]:
+        """ """
         query = gql(
             """
             subscription TswapOrderUpdateAll {

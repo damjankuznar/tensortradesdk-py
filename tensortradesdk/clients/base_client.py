@@ -12,7 +12,7 @@ from .base_model import UNSET, Upload
 from .exceptions import (
     GraphQLClientGraphQLMultiError,
     GraphQLClientHttpError,
-    GraphQlClientInvalidResponseError,
+    GraphQLClientInvalidResponseError,
 )
 
 Self = TypeVar("Self", bound="BaseClient")
@@ -54,22 +54,32 @@ class BaseClient:
         self.http_client.close()
 
     def execute(
-        self, query: str, variables: Optional[Dict[str, Any]] = None, **kwargs: Any
+        self,
+        query: str,
+        operation_name: Optional[str] = None,
+        variables: Optional[Dict[str, Any]] = None,
+        **kwargs: Any,
     ) -> httpx.Response:
         processed_variables, files, files_map = self._process_variables(variables)
 
         if files and files_map:
             return self._execute_multipart(
                 query=query,
+                operation_name=operation_name,
                 variables=processed_variables,
                 files=files,
                 files_map=files_map,
                 **kwargs,
             )
 
-        return self._execute_json(query=query, variables=processed_variables, **kwargs)
+        return self._execute_json(
+            query=query,
+            operation_name=operation_name,
+            variables=processed_variables,
+            **kwargs,
+        )
 
-    def get_data(self, response: httpx.Response) -> dict[str, Any]:
+    def get_data(self, response: httpx.Response) -> Dict[str, Any]:
         if not response.is_success:
             raise GraphQLClientHttpError(
                 status_code=response.status_code, response=response
@@ -78,12 +88,14 @@ class BaseClient:
         try:
             response_json = response.json()
         except ValueError as exc:
-            raise GraphQlClientInvalidResponseError(response=response) from exc
+            raise GraphQLClientInvalidResponseError(response=response) from exc
 
-        if (not isinstance(response_json, dict)) or ("data" not in response_json):
-            raise GraphQlClientInvalidResponseError(response=response)
+        if (not isinstance(response_json, dict)) or (
+            "data" not in response_json and "errors" not in response_json
+        ):
+            raise GraphQLClientInvalidResponseError(response=response)
 
-        data = response_json["data"]
+        data = response_json.get("data")
         errors = response_json.get("errors")
 
         if errors:
@@ -91,7 +103,7 @@ class BaseClient:
                 errors_dicts=errors, data=data
             )
 
-        return cast(dict[str, Any], data)
+        return cast(Dict[str, Any], data)
 
     def _process_variables(
         self, variables: Optional[Dict[str, Any]]
@@ -172,6 +184,7 @@ class BaseClient:
     def _execute_multipart(
         self,
         query: str,
+        operation_name: Optional[str],
         variables: Dict[str, Any],
         files: Dict[str, Tuple[str, IO[bytes], str]],
         files_map: Dict[str, List[str]],
@@ -179,7 +192,12 @@ class BaseClient:
     ) -> httpx.Response:
         data = {
             "operations": json.dumps(
-                {"query": query, "variables": variables}, default=to_jsonable_python
+                {
+                    "query": query,
+                    "operationName": operation_name,
+                    "variables": variables,
+                },
+                default=to_jsonable_python,
             ),
             "map": json.dumps(files_map, default=to_jsonable_python),
         }
@@ -194,7 +212,11 @@ class BaseClient:
         stop=tenacity.stop_after_attempt(10),
     )
     def _execute_json(
-        self, query: str, variables: Dict[str, Any], **kwargs: Any
+        self,
+        query: str,
+        operation_name: Optional[str],
+        variables: Dict[str, Any],
+        **kwargs: Any,
     ) -> httpx.Response:
         headers: Dict[str, str] = {"Content-Type": "application/json"}
         headers.update(kwargs.get("headers", {}))
@@ -205,7 +227,12 @@ class BaseClient:
         return self.http_client.post(
             url=self.url,
             content=json.dumps(
-                {"query": query, "variables": variables}, default=to_jsonable_python
+                {
+                    "query": query,
+                    "operationName": operation_name,
+                    "variables": variables,
+                },
+                default=to_jsonable_python,
             ),
             **merged_kwargs,
         )
