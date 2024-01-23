@@ -13,6 +13,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     environment: build
+    outputs:
+      SCHEMA_CHANGED: ${{ steps.schema-changes.outputs.SCHEMA_CHANGED }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -45,5 +47,17 @@ jobs:
         TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
       run: |
         poetry run pytest tests/integration
-        
-        
+
+  schema_changes:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: build
+    steps:
+      - name: Fail if schema changed
+        env:
+          SCHEMA_CHANGED: ${{ needs.test.outputs.SCHEMA_CHANGED }}
+        run: |
+          if [ "$SCHEMA_CHANGED" == "true" ]; then
+            echo "Tensor GraphQL schema has changed. Update the SDK!"
+            exit 1
+          fi
