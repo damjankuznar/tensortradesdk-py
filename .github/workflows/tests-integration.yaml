@@ -11,9 +11,8 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-
+    environment: build
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -32,7 +31,7 @@ jobs:
     - name: Run tests
       run: |
         poetry run update_gql_schema
-    - name: Check GrapqhQL schema changes
+    - name: Check GrapqhQL API for schema changes
       id: schema-changes
       run: |
         if git diff --name-only | grep -q 'resources/schema.graphql'; then
@@ -40,13 +39,11 @@ jobs:
         else
           echo "SCHEMA_CHANGED=false" >> "$GITHUB_OUTPUT"
         fi
-        echo "SCHEMA_CHANGED=true" >> "$GITHUB_OUTPUT"
     - name: Run integration tests on schema changes
       if: ${{ steps.schema-changes.outputs.SCHEMA_CHANGED == 'true' }}
       env:
         TENSOR_API_KEY: ${{ secrets.TENSOR_API_KEY }}
       run: |
-        echo $TENSOR_API_KEY
         poetry run pytest tests/integration
         
         
