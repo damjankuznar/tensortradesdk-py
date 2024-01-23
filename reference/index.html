@@ -1,0 +1,1335 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.4">
+    
+    
+      
+        <title>Reference - Tensor.trade Python SDK</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50c56a3b.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Tensor.trade Python SDK" class="md-header__button md-logo" aria-label="Tensor.trade Python SDK" data-md-component="logo">
+      
+  <img src="../logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tensor.trade Python SDK
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Tensor.trade Python SDK" class="md-nav__button md-logo" aria-label="Tensor.trade Python SDK" data-md-component="logo">
+      
+  <img src="../logo.svg" alt="logo">
+
+    </a>
+    Tensor.trade Python SDK
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Quick start
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tensortradesdk.solana.SolanaClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      SolanaClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SolanaClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.solana.SolanaClient.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clients-for-interacting-with-tensortrade-graphql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clients for interacting with Tensor.trade GraphQL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Clients for interacting with Tensor.trade GraphQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.base_client.BaseClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.base_client.BaseClient.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      CollectionDataClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CollectionDataClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.collection_mints" class="md-nav__link">
+    <span class="md-ellipsis">
+      collection_mints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mint" class="md-nav__link">
+    <span class="md-ellipsis">
+      mint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mint_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      mint_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mints" class="md-nav__link">
+    <span class="md-ellipsis">
+      mints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.refetch_mint_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      refetch_mint_metadata
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.refresh_rarities" class="md-nav__link">
+    <span class="md-ellipsis">
+      refresh_rarities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tensortradesdk.solana.SolanaClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      SolanaClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SolanaClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.solana.SolanaClient.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clients-for-interacting-with-tensortrade-graphql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clients for interacting with Tensor.trade GraphQL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Clients for interacting with Tensor.trade GraphQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.base_client.BaseClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BaseClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.base_client.BaseClient.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient" class="md-nav__link">
+    <span class="md-ellipsis">
+      CollectionDataClient
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CollectionDataClient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.collection_mints" class="md-nav__link">
+    <span class="md-ellipsis">
+      collection_mints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mint" class="md-nav__link">
+    <span class="md-ellipsis">
+      mint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mint_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      mint_list
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.mints" class="md-nav__link">
+    <span class="md-ellipsis">
+      mints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.refetch_mint_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      refetch_mint_metadata
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tensortradesdk.clients.collection_data_client.CollectionDataClient.refresh_rarities" class="md-nav__link">
+    <span class="md-ellipsis">
+      refresh_rarities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="reference">Reference</h1>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tensortradesdk.solana.SolanaClient" class="doc doc-heading">
+          <code>tensortradesdk.solana.SolanaClient</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+
+  
+      <p>Client for interacting with Solana blockchain.</p>
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.solana.SolanaClient.__init__" class="doc doc-heading">
+          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">private_key</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>network</code></td>
+          <td>
+                <code><span title="tensortradesdk.solana.Network">Network</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Network type to connect to. One of 'devnet' or 'mainnet'.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>private_key</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Private key to use when when submitting transactions.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+
+</div><h2 id="clients-for-interacting-with-tensortrade-graphql">Clients for interacting with Tensor.trade GraphQL</h2>
+<p>All clients extend <code>tensortradesdk.clients.base_client.BaseClient</code> and require Tensor.trade GraphQL api key to be 
+passed in.</p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tensortradesdk.clients.base_client.BaseClient" class="doc doc-heading">
+          <code>tensortradesdk.clients.base_client.BaseClient</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.base_client.BaseClient.__init__" class="doc doc-heading">
+          <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">http_client</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Base client class for connecting to Tensor.trade GraphQL API.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>api_key</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>GraphQL API key to use for authentication.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>url</code></td>
+          <td>
+                <code>str | None</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Optional GraphQL API URL. Defaults to https://api.tensor.so/graphql.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>headers</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, str]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Optional additional headers to be used in all requests.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>http_client</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="httpx.Client">Client</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Optional alternative http_client class.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+
+</div><p>Example:
+<div class="language-py highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">tensortradesdk.clients.collection_data_client</span> <span class="kn">import</span> <span class="n">CollectionDataClient</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">api_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TENSOR_API_KEY&quot;</span><span class="p">]</span> 
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">client</span> <span class="o">=</span> <span class="n">CollectionDataClient</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">client</span><span class="o">.</span><span class="n">collection_mints</span><span class="p">(</span><span class="s2">&quot;collection_slug&quot;</span><span class="p">)</span>
+</span></code></pre></div></p>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="tensortradesdk.clients.collection_data_client.CollectionDataClient" class="doc doc-heading">
+          <code>tensortradesdk.clients.collection_data_client.CollectionDataClient</code>
+
+
+</h3>
+
+
+  <div class="doc doc-contents first">
+
+
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.collection_mints" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">collection_mints</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="n">sort_by</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get up to 10K mints for a collection and their Tensor rarities.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>slug</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sort_by</code></td>
+          <td>
+                <code><span title="tensortradesdk.clients.enums.CollectionMintsSortBy">CollectionMintsSortBy</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>filters</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[<span title="tensortradesdk.clients.input_types.CollectionMintsFilters">CollectionMintsFilters</span>], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>cursor</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[str], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[int], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.mint" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">mint</span><span class="p">(</span><span class="n">mint</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Fetches a mint’s slug as well as:</p>
+<ul>
+<li>TensorSwap/HadeSwap orders tswapOrders /hswapOrders(both bids and/or the pool
+   that is sell it)<ul>
+<li>The pool with a non-empty nftsForSale array is the pool you can buy the NFT from</li>
+<li>All other pools are pools that you can SELL NOW (for the sellNowPrice)</li>
+</ul>
+</li>
+<li>Tensor single bids tensorBids : any active bids specifically for this NFT</li>
+<li>its active listing activeListings (if it’s listed on a traditional marketplace)</li>
+</ul>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>mint</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sort_by</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[<span title="tensortradesdk.clients.enums.OrderSortBy">OrderSortBy</span>], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[int], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.mint_list" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">mint_list</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="n">after</span><span class="o">=</span><span class="n">UNSET</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the list of mints for a given collection (slug).</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>slug</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>limit</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[int], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>after</code></td>
+          <td>
+                <code><span title="typing.Union">Union</span>[<span title="typing.Optional">Optional</span>[str], <span title="tensortradesdk.clients.base_model.UnsetType">UnsetType</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+                <code><span title="tensortradesdk.clients.base_model.UNSET">UNSET</span></code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.mints" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">mints</span><span class="p">(</span><span class="n">token_mints</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Get the collection slug for several mint addresses.</p>
+
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>token_mints</code></td>
+          <td>
+                <code><span title="typing.List">List</span>[str]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.refetch_mint_metadata" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">refetch_mint_metadata</span><span class="p">(</span><span class="n">mint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Refetches the NFT’s metadata (eg traits, image).</p>
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>To reduce the amount of spam, there is 1 hour cooldown for rarities. See Refresh Rarities for
+triggering a full rarities refresh.</p>
+</details>
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>mint</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="tensortradesdk.clients.collection_data_client.CollectionDataClient.refresh_rarities" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">refresh_rarities</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Refreshes a collection’s rarity scores on Tensor.</p>
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>To reduce the amount of spam, there is 1 hour cooldown for rarities.</p>
+</details>
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>slug</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.c011b7c0.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.7389ff0e.min.js"></script>
+      
+    
+  </body>
+</html>
